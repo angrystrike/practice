@@ -1,4 +1,7 @@
 import Image from 'next/image'
+import dynamic from 'next/dynamic'
+
+const CarItem = dynamic(() => import('../components/CarItem'))
 
 export default function Home() {
   return (
@@ -15,12 +18,12 @@ export default function Home() {
 
         <div className="mt-6 px-6 flex items-center justify-content-center">
           <input className="block w-full mr-4 focus:outline-none focus:white text-white rounded-lg pl-5 pr-3 py-2" placeholder="Search by model" />
-          <button className="px-4 py-2 block text-white bg-blue-400 font-semibold rounded-lg">Find</button>
+          <button className="px-4 py-2 block text-white bg-blue-500 font-semibold rounded-lg">Find</button>
         </div>
 
       </header>
 
-      <section className="mt-5 px-3">
+      <section className="mt-5 px-3 pb-4 border-b border-gray-400">
         <div className="flex flex-col justify-content-center">
           <h2 className="text-center text-gray-800 text-3xl">Featured categories</h2>
           <p className="mt-2 text-gray-600 text-center">Categories can help you find the best car</p>
@@ -29,22 +32,40 @@ export default function Home() {
         <div className="mt-4 flex flex-col">
           <div>
             <Image className="rounded-md" width="500" height="220" src="/images/lamborghini.jpg" />
-            <div className="font-semibold text-center">Lamborghini</div>  
+            <div className="font-semibold text-center">Lamborghini</div>
           </div>
           <div className="mt-3">
             <Image className="rounded-md" width="500" height="200" src="/images/car.jpg" />
-            <div className="font-semibold text-center">Casual</div>   
+            <div className="font-semibold text-center">Casual</div>
           </div>
           <div className="mt-3">
             <Image className="rounded-md" width="500" height="200" src="/images/range-rover.jpg" />
-            <div className="font-semibold text-center">Range-rover</div>   
+            <div className="font-semibold text-center">Range-rover</div>
           </div>
           <div className="mt-3">
             <Image className="rounded-md" width="500" height="200" src="/images/transport.jpg" />
-            <div className="font-semibold text-center">Transporting</div>   
+            <div className="font-semibold text-center">Transporting</div>
           </div>
         </div>
       </section>
+
+      <section className="mt-5">
+        <CarItem />
+        <div className="mt-7">
+          <CarItem />
+        </div>
+        <div className="mt-7">
+          <CarItem />
+        </div>
+        <div className="mt-7">
+          <CarItem />
+        </div>
+      </section>
+
+      <footer className="mt-3 flex justify-center bg-gray-200">
+        <div className="my-3 text-sm">Copyright 2021</div>
+      </footer>
+
     </div>
   )
 }
