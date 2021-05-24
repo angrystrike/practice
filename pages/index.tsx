@@ -2,8 +2,8 @@ import Link from 'next/link'
 
 export default function Home() {
   return (
-    <ul>
-      <li>
+    <ul className="bg-gray-600">
+      <li className="bg-gray-600">
         <Link href="/b" as="/a">
           <a>a</a>
         </Link>
