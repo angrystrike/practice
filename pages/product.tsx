@@ -1,9 +1,6 @@
 import Image from 'next/image'
-import dynamic from 'next/dynamic'
 
-const CarItem = dynamic(() => import('../components/CarItem'))
-
-export default function Home() {
+export default function Product() {
   return (
     <div className="max-w-5xl mx-auto">
       <header className="bg-gray-200 pb-6">
@@ -13,46 +10,46 @@ export default function Home() {
             <button type="button" className="mt-4 mr-4 px-4 py-3 text-white bg-blue-500 rounded-md">Login</button>
           </div>
         </div>
-        <h1 className="text-center text-gray-500 text-4xl">Find your dream car!</h1>
-
-        <div className="mt-6 px-6 flex items-center justify-content-center">
-          <input className="block w-full mr-4 focus:outline-none focus:white text-white rounded-lg pl-5 pr-3 py-2" placeholder="Search by model" />
-          <button className="px-4 py-2 block text-white bg-blue-500 font-semibold rounded-lg">Find</button>
-        </div>
-
       </header>
 
-      <section className="mt-5 px-3 pb-4 border-b border-gray-400">
-        <div className="flex flex-col justify-content-center">
-          <h2 className="text-center text-gray-800 text-3xl">Featured categories</h2>
-          <p className="mt-2 text-gray-600 text-center">Categories can help you find the best car</p>
+      <section className="mt-8 px-5 flex flex-col items-center">
+        <div className="mx-auto">
+          <img className="rounded-lg shadow-md" width="400" height="200" src="/images/car.jpg" />
         </div>
-
-        <div className="mt-4 flex flex-col items-center">
+        <div className="mt-5 w-3/5">
           <div>
-            <Image className="rounded-md" width="500" height="220" src="/images/lamborghini.jpg" />
-            <div className="font-semibold text-center">Lamborghini</div>
-          </div>
-          <div className="mt-3">
-            <Image className="rounded-md" width="500" height="200" src="/images/car.jpg" />
-            <div className="font-semibold text-center">Casual</div>
-          </div>
-          <div className="mt-3">
-            <Image className="rounded-md" width="500" height="200" src="/images/range-rover.jpg" />
-            <div className="font-semibold text-center">Range-rover</div>
-          </div>
-          <div className="mt-3">
-            <Image className="rounded-md" width="500" height="200" src="/images/transport.jpg" />
-            <div className="font-semibold text-center">Transporting</div>
+            <h1 className="text-3xl">Product title</h1>
+            <div className="text-sm text-gray-600 mt-2 flex items-center">
+              <svg className="h-4 w-4 fill-current text-green-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 .288l2.833 8.718h9.167l-7.417 5.389 2.833 8.718-7.416-5.388-7.417 5.388 2.833-8.718-7.416-5.389h9.167z" /></svg>
+              <svg className="h-4 w-4 fill-current text-green-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 .288l2.833 8.718h9.167l-7.417 5.389 2.833 8.718-7.416-5.388-7.417 5.388 2.833-8.718-7.416-5.389h9.167z" /></svg>
+              <svg className="h-4 w-4 fill-current text-green-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 .288l2.833 8.718h9.167l-7.417 5.389 2.833 8.718-7.416-5.388-7.417 5.388 2.833-8.718-7.416-5.389h9.167z" /></svg>
+              <svg className="h-4 w-4 fill-current text-green-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 .288l2.833 8.718h9.167l-7.417 5.389 2.833 8.718-7.416-5.388-7.417 5.388 2.833-8.718-7.416-5.389h9.167z" /></svg>
+              <svg className="h-4 w-4 fill-current text-gray-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 .288l2.833 8.718h9.167l-7.417 5.389 2.833 8.718-7.416-5.388-7.417 5.388 2.833-8.718-7.416-5.389h9.167z" /></svg>
+              <span className="ml-2">34 reviews</span>
+            </div>
+            <div className="mt-2 pt-2 pb-4 border-b border-t border-solid border-gray-500 flex flex-row items-center">
+              <div className="mt-2 text-gray-900 font-semibold text-xl">$3.400</div>
+              <div className="ml-2 w-full">
+                <label>
+                  <span className="text-sm font-semibold text-gray-500">Select color:</span>
+                  <select className="form-select bg-gray-500 text-white shadow block w-full focus:bg-gray-600">
+                    <option>Blue</option>
+                    <option>Black</option>
+                    <option>White</option>
+                  </select>
+                </label>
+              </div>
+            </div>
+
+            <div className="my-4">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+              Duis non felis volutpat, pellentesque tellus vel, iaculis odio.
+            </div>
+            <div className="flex justify-center">
+              <button className="px-4 py-2 w-20 block text-white bg-blue-500 font-semibold rounded-lg">Buy</button>
+            </div>
           </div>
         </div>
-      </section>
-
-      <section className="mt-6 flex justify-center flex-wrap px-3">
-        <CarItem />
-        <CarItem />
-        <CarItem />
-        <CarItem />
       </section>
 
       <footer className="mt-3 flex justify-center bg-gray-200">
