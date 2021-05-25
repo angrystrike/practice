@@ -7,7 +7,7 @@ const Footer = dynamic(() => import('../components/Footer'))
 
 export default function Home() {
   return (
-    <div className="max-w-5xl bg-gray-200 mx-auto">
+    <div className="pb-3 max-w-5xl bg-gray-200 mx-auto">
       <Header />
       <section className="mt-5 px-3 pb-4 border-b border-gray-400">
         <div className="flex flex-col">
@@ -16,19 +16,19 @@ export default function Home() {
         </div>
 
         <div className="mt-4 sm:w-full flex flex-col sm:flex-wrap sm:flex-row items-center px-4">
-          <div className="mt-2 sm:w-1/2 bg-white sm:bg-gray-200 rounded-lg px-4 pt-4 pb-2">
+          <div className="mt-2 sm:w-1/2 bg-white sm:bg-gray-200 rounded-lg px-4 pt-4 pb-2 shadow-lg">
             <Image className="rounded-md" width="500" height="200" src="/images/lamborghini.jpg" />
             <div className="font-semibold text-center">Lamborghini</div>
           </div>
-          <div className="mt-3 sm:w-1/2 bg-white sm:bg-gray-200  rounded-lg px-4 pt-4 pb-2">
+          <div className="mt-3 sm:w-1/2 bg-white sm:bg-gray-200  rounded-lg px-4 pt-4 pb-2 shadow-lg">
             <Image className="rounded-md" width="500" height="200" src="/images/car.jpg" />
             <div className="font-semibold text-center">Casual</div>
           </div>
-          <div className="mt-3 sm:w-1/2 bg-white sm:bg-gray-200  rounded-lg px-4 pt-4 pb-2">
+          <div className="mt-3 sm:w-1/2 bg-white sm:bg-gray-200  rounded-lg px-4 pt-4 pb-2 shadow-lg">
             <Image className="rounded-md" width="500" height="200" src="/images/range-rover.jpg" />
             <div className="font-semibold text-center">Range-rover</div>
           </div>
-          <div className="mt-3 sm:w-1/2 bg-white sm:bg-gray-200  rounded-lg px-4 pt-4 pb-2">
+          <div className="mt-3 sm:w-1/2 bg-white sm:bg-gray-200  rounded-lg px-4 pt-4 pb-2 shadow-lg">
             <Image className="rounded-md" width="500" height="200" src="/images/transport.jpg" />
             <div className="font-semibold text-center">Transporting</div>
           </div>

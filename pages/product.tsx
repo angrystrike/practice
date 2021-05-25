@@ -7,11 +7,11 @@ const Footer = dynamic(() => import('../components/Footer'))
 
 export default function Product() {
   return (
-    <div className="bg-gray-200 px-3 max-w-5xl mx-auto">
+    <div className="pb-2 bg-gray-200 px-3 max-w-5xl mx-auto">
       <Header />
       
       <h1 className="mt-4 text-3xl text-center">Product title</h1>
-      <section className="mt-3 mx-4 p-3 rounded-lg bg-white flex flex-col sm:flex-row items-center">
+      <section className="mt-3 mx-4 p-3 rounded-lg bg-white flex flex-col sm:flex-row items-center shadow-lg">
 
         <div className="mx-auto sm:mx-0 sm:self-start lg:px-5">
           <img className="mt-3 rounded-lg shadow-md" width="400" height="200" src="/images/car.jpg" />
@@ -30,8 +30,8 @@ export default function Product() {
             <div className="mt-2 text-gray-900 font-semibold text-xl">$3.400</div>
             <div className="ml-2 w-full sm:w-1/2">
               <label>
-                <span className="text-sm font-semibold text-gray-500">Select color:</span>
-                <select className="form-select bg-gray-500 text-white shadow block w-full focus:bg-gray-600">
+                <span className="text-sm font-semibold">Select color:</span>
+                <select className="form-select bg-gray-500 text-white block w-full focus:bg-gray-600 rounded-md shadow-lg">
                   <option>Blue</option>
                   <option>Black</option>
                   <option>White</option>
@@ -50,7 +50,7 @@ export default function Product() {
         </div>
       </section>
 
-      <section className="mt-3 p-3 rounded-lg justify-center">
+      <section className="mt-3 ml-0 mr-4 py-3 rounded-lg justify-center">
         <h2 className="mt-2 text-4xl text-center">Similar Cars</h2>
         <div className="sm:flex sm:flex-row sm:flex-nowrap">
           <SimilarItem />

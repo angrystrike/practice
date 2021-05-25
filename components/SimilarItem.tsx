@@ -2,7 +2,7 @@ import Image from 'next/image'
 
 export default function SimilarItem() {
     return (
-        <div className="mt-5 sm:ml-4 bg-white rounded-lg pt-2 pb-4 flex flex-row sm:flex-col items-center justify-center">
+        <div className="mt-5 sm:ml-4 bg-white rounded-lg pt-2 pb-4 flex flex-row sm:flex-col items-center justify-center shadow-lg">
             <img className="mt-3 self-center w-3/5 rounded-lg shadow-md" width="150" height="250" src="/images/car.jpg" />
             <div className="ml-2 -mt-2 sm:mt-2">
                 <h5 className="text-xl sm:text-sm font-semibold">CAR NAME</h5>
