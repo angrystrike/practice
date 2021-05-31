@@ -17,12 +17,12 @@ const options = {
 }
 
 const startDatabase = () => {
-  connectToMongoDb
+  connectToMongoDb(process.env.MONGODB_URI, options)
   startup
 }
 
 app.prepare().then(() => {
-  startDatabase
+  startDatabase()
   const server = express()
 
   server.all('*', (req, res) => {
