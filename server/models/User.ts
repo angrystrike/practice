@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import { prop, modelOptions, getModelForClass, DocumentType, Ref } from '@typegoose/typegoose';
-import { Product } from './Product';
+// import { Product } from './Product';
 
 class UserRole {
     @prop()
@@ -12,26 +12,26 @@ class UserRole {
 
 @modelOptions({ schemaOptions: { collection: 'users' } })
 export class User {
-    @prop({ ref: () => Product })
-    public products?: Ref<Product>[];
+    // @prop({ ref: () => Product })
+    // public products?: Ref<Product>[];
 
-    @prop()
-    public email: string;  
+    // @prop()
+    // public email: string;  
 
-    @prop()
-    public firstName: string;
+    // @prop()
+    // public firstName: string;
 
-    @prop()
-    public lastName: string;
+    // @prop()
+    // public lastName: string;
 
-    @prop()
-    public role: UserRole;
+    // @prop()
+    // public role: UserRole;
 
-    @prop()
-    public password: string;
+    // @prop()
+    // public password: string;
     
-    @prop()
-    public image: string;
+    // @prop()
+    // public image: string;
 }
 
 export type UserType = mongoose.Model<DocumentType<User>, {}> & User;

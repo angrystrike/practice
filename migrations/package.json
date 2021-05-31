@@ -1,0 +1,16 @@
+{
+  "name": "migrations",
+  "version": "1.0.0",
+  "description": "",
+  "main": "20210531075154-init_users.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "faker": "^5.5.3"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

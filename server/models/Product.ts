@@ -23,7 +23,7 @@ class ProductEngine {
 
 class Review {
     @prop({ ref: () => User })
-    public user?: Ref<User>;
+    public user: Ref<User>;
 
     @prop()
     public mark: number;
@@ -34,8 +34,8 @@ class Review {
 
 @modelOptions({ schemaOptions: { collection: 'products' } })
 export class Product {
-    @prop({ ref: () => User })
-    public user?: Ref<User>;
+    // @prop({ ref: () => User })
+    // public user: Ref<User>;
 
     @prop({ type: () => Review })
     public reviews: Review[];

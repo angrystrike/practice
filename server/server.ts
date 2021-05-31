@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import Test from './models/Test'
 
 
 const express = require('express')
@@ -16,7 +17,7 @@ const options = {
   bufferMaxEntries: 0
 }
 
-const startDatabase = () => {
+const startDatabase = async () => {
   connectToMongoDb(process.env.MONGODB_URI, options)
   startup
 }
@@ -58,9 +59,15 @@ const startup = () => {
   try {
       console.info('Initializing database ...');
       connectionString = connectToMongoDb(process.env.MONGODB_URI, options);
+      // console.log(populate())
+      
   } catch (e) {
-      console.log('ERROR') 
+    console.log(console.log('ERROR') )
   }
 }
+
+// const populate = async () => {
+//   await Test.findOne({"_id": "8752"})
+// }
 
 export default {}
