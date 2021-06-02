@@ -24,6 +24,29 @@ productRouter.get('/:id', (req, res) => {
         .catch((err) => errorResult(res, err, "Cant fetch featured products"))
 })
 
+productRouter.get('/', (req, res) => {
+    const result = Product.find({})
+        .then((data) => successResult(res, data, ""))
+        .catch((err) => errorResult(res, err, "Cant fetch categproductsories"))
+})
+
+productRouter.post('/', (req, res) => {
+    const result = Product.create(req.body)
+        .then((data) => successResult(res, data, ""))
+        .catch((err) => errorResult(res, err, "Cant fetch products"))
+})
+
+productRouter.delete('/:id', (req, res) => {
+    const result = Product.findByIdAndRemove(req.params.id)
+        .then((data) => successResult(res, data, ""))
+        .catch((err) => errorResult(res, err, "Cant fetch products"))
+})
+
+productRouter.put('/:id', (req, res) => {
+    const result = Product.findByIdAndUpdate(req.params.id, req.body)
+        .then((data) => successResult(res, data, ""))
+        .catch((err) => errorResult(res, err, "Cant fetch products"))
+})
 
 
 module.exports = productRouter
