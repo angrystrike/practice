@@ -1,64 +1,61 @@
 import mongoose from 'mongoose';
 import { prop, modelOptions, getModelForClass, DocumentType, Ref } from '@typegoose/typegoose';
-import { User } from './User';
+import { User, UserType } from './User';
+import { Category } from './Category';
+import { WhatIsIt } from '@typegoose/typegoose/lib/internal/constants'
 
-class ProductTransmission {
-    @prop()
-    public automat: string;
-
-    @prop()
-    public manual: string;
+export enum ProductTransmission {
+    automat = 'automat',
+    manual = 'manual'
 }
 
-class ProductEngine {
-    @prop()
-    public fuel: string;
-
-    @prop()
-    public gas: string;
-
-    @prop()
-    public electricity: string;
+export enum ProductEngine {
+    fuel = 'fuel',
+    gas = 'gas',
+    electricity = 'electricity'
 }
 
 class Review {
-    @prop({ ref: () => User })
-    public user: Ref<User>;
+    @prop({ ref: User })
+    public user: User;
 
-    @prop()
+    @prop({ type: Number })
     public mark: number;
 
-    @prop()
+    @prop({ type: String })
     public text: string;
 }
 
 @modelOptions({ schemaOptions: { collection: 'products' } })
 export class Product {
-    // @prop({ ref: () => User })
-    // public user: Ref<User>;
+    @prop({ ref: Category }, WhatIsIt.ARRAY)
+    public categories: mongoose.Types.Array<Category>
+
+    @prop({ ref: User })
+    public user: User
 
     @prop({ type: () => Review })
     public reviews: Review[];
 
-    @prop()
+    @prop({ type: String })
     public name: string;  
 
-    @prop()
+    @prop({ type: Number })
     public price: number;
 
-    @prop()
+    @prop({ type: String })
     public color: string;
 
-    @prop()
+    @prop({ type: ()=> String, enum: Object.values(ProductTransmission) })
     public transmission: ProductTransmission; 
 
-    @prop()
+    @prop({ type: ()=> String, enum: Object.values(ProductEngine) })
     public engine: ProductEngine; 
 
-    @prop()
+    @prop({ type: String })
     public description: string;
 
-    @prop()
+    @prop({ type: String })
     public image: string;
 }
 

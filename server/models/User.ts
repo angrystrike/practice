@@ -1,37 +1,35 @@
 import mongoose from 'mongoose';
 import { prop, modelOptions, getModelForClass, DocumentType, Ref } from '@typegoose/typegoose';
-// import { Product } from './Product';
+import { Product, ProductType } from './Product'
+import { WhatIsIt } from '@typegoose/typegoose/lib/internal/constants';
 
-class UserRole {
-    @prop()
-    public admin: string;
-
-    @prop()
-    public user: string;
+export enum UserRole {
+    admin = 'admin',
+    user = 'user'
 }
 
 @modelOptions({ schemaOptions: { collection: 'users' } })
 export class User {
-    // @prop({ ref: () => Product })
-    // public products?: Ref<Product>[];
+    @prop({ ref : Product }, WhatIsIt.ARRAY)
+    public products: mongoose.Types.Array<Product>
 
-    // @prop()
-    // public email: string;  
+    @prop({ type : String})
+    public email: string;  
 
-    // @prop()
-    // public firstName: string;
+    @prop({ type : String})
+    public firstName: string;
 
-    // @prop()
-    // public lastName: string;
+    @prop({ type : String})
+    public lastName: string;
 
-    // @prop()
-    // public role: UserRole;
+    @prop({ type: ()=> String, enum: Object.values(UserRole) })
+    public role: UserRole;
 
-    // @prop()
-    // public password: string;
+    @prop({ type : String})
+    public password: string;
     
-    // @prop()
-    // public image: string;
+    @prop({ type : String})
+    public image: string;
 }
 
 export type UserType = mongoose.Model<DocumentType<User>, {}> & User;

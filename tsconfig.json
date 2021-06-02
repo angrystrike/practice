@@ -33,7 +33,7 @@
         "resolveJsonModule": true,
         "strictNullChecks": false,
         "experimentalDecorators": true,
-        "emitDecoratorMetadata": true
+        "emitDecoratorMetadata": false
     },
     "exclude": [
         "dist",

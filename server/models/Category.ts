@@ -1,16 +1,12 @@
 import mongoose from 'mongoose';
 import { prop, modelOptions, getModelForClass, DocumentType, Ref } from '@typegoose/typegoose';
-import { Product } from './Product';
 
 @modelOptions({ schemaOptions: { collection: 'categories' } })
 export class Category {
-    @prop({ ref: () => Product })
-    public products?: Ref<Product>[];
-
-    @prop()
+    @prop({ type: String })
     public name: string;
 
-    @prop()
+    @prop({ type: String })
     public description: string;
 }
 
