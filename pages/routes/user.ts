@@ -5,7 +5,12 @@ import { successResult, errorResult } from '../../server/server'
 
 const userRouter = require('express').Router()
 
-//userRouter.param('id', /^\d+$/)
+
+userRouter.post('/create', (req, res) => {
+    const result = User.create(req.body)
+        .then((data) => successResult(res, data, ""))
+        .catch((err) => errorResult(res, err, "Cant fetch users"))
+})
 
 userRouter.get('/', (req, res) => {
     const result = User.find({})

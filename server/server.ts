@@ -1,6 +1,7 @@
 import mongoose from 'mongoose'
 
 const express = require('express')
+const bodyParser = require('body-parser')
 const next = require('next')
 
 const port = parseInt(process.env.PORT, 10) || 3000
@@ -11,6 +12,7 @@ const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://max:max@cluster0.f
 
 const users = require('../pages/routes/user')
 const categories = require('../pages/routes/category')
+const products = require('../pages/routes/product')
 
 const options = {
   useNewUrlParser: true,
@@ -28,8 +30,12 @@ app.prepare().then(() => {
   startDatabase()
   const server = express()
 
+  // server.use(bodyParser.json())
+  // var jsonParser = bodyParser.json()
+  server.use(bodyParser.json())
   server.use('/users', users)
   server.use('/categories', categories)
+  server.use('/products', products)
 
   server.all('*', (req, res) => {
     return handle(req, res)
