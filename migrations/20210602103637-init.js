@@ -35,12 +35,12 @@ module.exports = {
       description : "Electro description"
     })
 
-    for (let i = 1; i < 100; i++) {
+    for (let i = 0; i < 100; i++) {
       const productID = mongoose.Types.ObjectId()
       const userID = mongoose.Types.ObjectId()
 
       users.push({
-        "_id": mongoose.Types.ObjectId(),
+        "_id": userID,
         "products": [productID],
         "email": faker.internet.email(),
         "firstName": faker.name.firstName(),
@@ -65,7 +65,7 @@ module.exports = {
       products.push({
         "_id": productID,
         "user": userID,
-        category: [categories[faker.datatype.number({'min': 0, 'max' : 3})]._id, categories[faker.datatype.number({'min': 0, 'max' : 3})]._id],
+        "categories": [categories[faker.datatype.number({'min': 0, 'max' : 3})]._id, categories[faker.datatype.number({'min': 0, 'max' : 3})]._id],
         "reviews": reviews,
         "name": faker.vehicle.model(),
         "price": faker.commerce.price(),
@@ -73,7 +73,8 @@ module.exports = {
         "description": faker.lorem.sentence(),
         "transmission": transmission[faker.datatype.number({ 'min': 0, 'max': 1 })],
         "engine": engine[faker.datatype.number({ 'min': 0, 'max': 2 })],
-        "image": "https://robohash.org/".concat(faker.vehicle.model())
+        "image": "https://robohash.org/".concat(faker.vehicle.model()),
+        "featured": faker.datatype.boolean()
       })
     }
 

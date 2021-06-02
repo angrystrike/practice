@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import { prop, modelOptions, getModelForClass, DocumentType, Ref } from '@typegoose/typegoose';
 import { User, UserType } from './User';
-import { Category } from './Category';
+import { Category, CategoryType } from './Category';
 import { WhatIsIt } from '@typegoose/typegoose/lib/internal/constants'
 
 export enum ProductTransmission {
@@ -57,6 +57,9 @@ export class Product {
 
     @prop({ type: String })
     public image: string;
+
+    @prop({ type: Boolean })
+    public featured: boolean;
 }
 
 export type ProductType = mongoose.Model<DocumentType<Product>, {}> & Product;
