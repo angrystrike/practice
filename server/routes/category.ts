@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
-import User from '../../server/models/User'
-import Category from '../../server/models/Category'
-import { successResult, errorResult } from '../../server/server'
+import User from '../models/User'
+import Category from '../models/Category'
+import { successResult, errorResult } from '../server'
 
 const categoryRouter = require('express').Router()
 

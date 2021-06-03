@@ -1,9 +1,15 @@
 import mongoose from 'mongoose'
-import User from '../../server/models/User'
-import Product from '../../server/models/Product'
-import { successResult, errorResult } from '../../server/server'
+import User from '../models/User'
+import Product from '../models/Product'
+import { successResult, errorResult } from '../server'
 
 const productRouter = require('express').Router()
+
+productRouter.post('/', (req, res) => {
+    const result = Product.create(req.body)
+        .then((data) => successResult(res, data, ""))
+        .catch((err) => errorResult(res, err, "Cant add product"))
+})
 
 productRouter.get('/search/:model', (req, res) => {
     console.log(req.params.model)
@@ -13,25 +19,19 @@ productRouter.get('/search/:model', (req, res) => {
 })
 
 productRouter.get('/featured', (req, res) => {
-    const result = Product.find().where('featured', true).sort('price').limit(4)
+    const result = Product.find().where('featured', true).sort({"price": -1}).limit(4)
         .then((data) => successResult(res, data, ""))
-        .catch((err) => errorResult(res, err, "Cant fetch featured products"))
+        .catch((err) => errorResult(res, err, "Cant fetch products"))
 })
 
 productRouter.get('/:id', (req, res) => {
     const result = Product.findById(req.params.id)
         .then((data) => successResult(res, data, ""))
-        .catch((err) => errorResult(res, err, "Cant fetch featured products"))
+        .catch((err) => errorResult(res, err, "Cant fetch product"))
 })
 
 productRouter.get('/', (req, res) => {
     const result = Product.find({})
-        .then((data) => successResult(res, data, ""))
-        .catch((err) => errorResult(res, err, "Cant fetch categproductsories"))
-})
-
-productRouter.post('/', (req, res) => {
-    const result = Product.create(req.body)
         .then((data) => successResult(res, data, ""))
         .catch((err) => errorResult(res, err, "Cant fetch products"))
 })

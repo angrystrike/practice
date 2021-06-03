@@ -10,9 +10,9 @@ const app = next({ dev })
 const handle = app.getRequestHandler()
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://max:max@cluster0.fedrw.mongodb.net/mydb'
 
-const users = require('../pages/routes/user')
-const categories = require('../pages/routes/category')
-const products = require('../pages/routes/product')
+const users = require('./routes/user')
+const categories = require('./routes/category')
+const products = require('./routes/product')
 
 const options = {
   useNewUrlParser: true,

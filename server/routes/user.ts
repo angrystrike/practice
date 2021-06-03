@@ -1,10 +1,9 @@
 import mongoose from 'mongoose'
-import User from '../../server/models/User'
-import Product from '../../server/models/Product'
-import { successResult, errorResult } from '../../server/server'
+import User from '../models/User'
+import Product from '../models/Product'
+import { successResult, errorResult } from '../server'
 
 const userRouter = require('express').Router()
-
 
 userRouter.post('/', (req, res) => {
     const result = User.create(req.body)
