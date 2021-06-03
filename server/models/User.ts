@@ -10,9 +10,7 @@ export enum UserRole {
 
 @modelOptions({ schemaOptions: { collection: 'users' } })
 export class User {
-    // @prop({ ref : Product }, WhatIsIt.ARRAY)
-    // public products: mongoose.Types.Array<Product>
-
+    
     @prop({ type : String })
     public email: string;  
 

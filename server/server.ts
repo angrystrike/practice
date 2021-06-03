@@ -4,6 +4,10 @@ import { AwilixContainer } from 'awilix';
 import { loadControllers, scopePerRequest } from 'awilix-express';
 import container, { IContextContainer } from './container';
 
+import { Request, Response, NextFunction } from 'express';
+import BaseContext from './BaseContext';
+import httpStatus from '../http-status';
+
 const config = require('../config');
 const express = require('express')
 const bodyParser = require('body-parser')
@@ -14,11 +18,6 @@ const dev = process.env.NODE_ENV !== 'production'
 const app = next({ dev })
 const handle = app.getRequestHandler()
 
-// const users = require('./routes/user')
-// const categories = require('./routes/category')
-// const products = require('./routes/product')
-
-
 const startDatabase = async () => {
   connectToMongoDb(config.db.uri, config.db.options)
   startup()
@@ -28,15 +27,13 @@ app.prepare().then(() => {
   startDatabase()
   const server = express()
 
+  server.use(responses);
   server.use(bodyParser.json())
   server.use(scopePerRequest(container));
-  const files = 'controllers/**/*.' + (config.dev ? 'ts' : 'js');
+  // const files = 'controllers/**/*.' + (config.dev ? 'ts' : 'js');
+  const files = 'controllers/**/*.ts';
   server.use(loadControllers(files, { cwd: __dirname }));
 
-  
-  // server.use('/users', users)
-  // server.use('/categories', categories)
-  // server.use('/products', products)
 
   server.all('*', (req, res) => {
     return handle(req, res)
@@ -47,6 +44,21 @@ app.prepare().then(() => {
     console.log(`> Ready on http://localhost:${port}`)
   })
 })
+
+const responses = (req: Request, res: Response, next: NextFunction) => {
+  res.answer = (
+    data: any,
+    message: any = null,
+    status: number = httpStatus.OK,
+  ) => {
+    console.log('return responses')
+    return res.status(status).json({
+      data,
+      message
+    });
+  };
+  next()
+}
 
 const connectToMongoDb = (uri: string, options: mongoose.ConnectionOptions) => {
   mongoose.connect(uri, options)

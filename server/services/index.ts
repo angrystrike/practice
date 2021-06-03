@@ -13,5 +13,5 @@ export interface IServicesContainer {
 export default {
     CategoryService: asClass(CategoryService).singleton(),
     ProductService: asClass(ProductService).singleton(), 
-    UserService: asClass(CategoryService).singleton(),
+    UserService: asClass(UserService).singleton(),
 }

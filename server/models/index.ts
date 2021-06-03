@@ -1,16 +1,16 @@
-import Category, { CategoryType } from './Category';
-import Product, { ProductType } from './Product';
-import User, { UserType } from './User';
+import CategoryModel, { CategoryType } from './Category';
+import ProductModel, { ProductType } from './Product';
+import UserModel, { UserType } from './User';
 import { asValue } from 'awilix';
 
 export interface IModelContainer {
-    Category: CategoryType;
-    Product: ProductType;
-    User: UserType;
+    CategoryModel: CategoryType;
+    ProductModel: ProductType;
+    UserModel: UserType;
 }
 
 export default {
-    Category: asValue(Category),
-    Product: asValue(Product),
-    User: asValue(User),
+    CategoryModel: asValue(CategoryModel),
+    ProductModel: asValue(ProductModel),
+    UserModel: asValue(UserModel),
 }
