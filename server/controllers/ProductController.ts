@@ -11,9 +11,8 @@ productRouter.post('/', (req, res) => {
         .catch((err) => errorResult(res, err, "Cant add product"))
 })
 
-productRouter.get('/search/:model', (req, res) => {
-    console.log(req.params.model)
-    const result = Product.find({ name: {$regex: req.params.model, $options: 'i'}} )
+productRouter.get('/search/:text', (req, res) => {
+    const result = Product.find({ $or:[{ name: { $regex: req.params.text, $options: 'i' } }, { description : { $regex: req.params.text, $options: 'i' } }]} )
         .then((data) => successResult(res, data, ""))
         .catch((err) => errorResult(res, err, "Cant fetch products"))
 })

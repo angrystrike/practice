@@ -1,5 +1,10 @@
 import mongoose from 'mongoose'
 
+import { AwilixContainer } from 'awilix';
+import { loadControllers, scopePerRequest } from 'awilix-express';
+import container, { IContextContainer } from './container';
+
+const config = require('../config');
 const express = require('express')
 const bodyParser = require('body-parser')
 const next = require('next')
@@ -8,21 +13,14 @@ const port = parseInt(process.env.PORT, 10) || 3000
 const dev = process.env.NODE_ENV !== 'production'
 const app = next({ dev })
 const handle = app.getRequestHandler()
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://max:max@cluster0.fedrw.mongodb.net/mydb'
 
-const users = require('./routes/user')
-const categories = require('./routes/category')
-const products = require('./routes/product')
+// const users = require('./routes/user')
+// const categories = require('./routes/category')
+// const products = require('./routes/product')
 
-const options = {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  poolSize: 10,
-  bufferMaxEntries: 0
-}
 
 const startDatabase = async () => {
-  connectToMongoDb(MONGODB_URI, options)
+  connectToMongoDb(config.db.uri, config.db.options)
   startup()
 }
 
@@ -30,12 +28,15 @@ app.prepare().then(() => {
   startDatabase()
   const server = express()
 
-  // server.use(bodyParser.json())
-  // var jsonParser = bodyParser.json()
   server.use(bodyParser.json())
-  server.use('/users', users)
-  server.use('/categories', categories)
-  server.use('/products', products)
+  server.use(scopePerRequest(container));
+  const files = 'controllers/**/*.' + (config.dev ? 'ts' : 'js');
+  server.use(loadControllers(files, { cwd: __dirname }));
+
+  
+  // server.use('/users', users)
+  // server.use('/categories', categories)
+  // server.use('/products', products)
 
   server.all('*', (req, res) => {
     return handle(req, res)
@@ -68,30 +69,30 @@ const startup = () => {
   let connectionString: mongoose.Connection = null
   try {
     console.info('Initializing database ...');
-    connectionString = connectToMongoDb(MONGODB_URI, options);
+    connectionString = connectToMongoDb(config.db.uri, config.db.options);
 
   } catch (e) {
     console.log('ERROR')
   }
 }
 
-export const successResult = (res, result, message) =>{
-  const resObj: any ={
-      success : true,
-      message : message,
-      data : result
+export const successResult = (res, result, message) => {
+  const resObj: any = {
+    success: true,
+    message: message,
+    data: result
   }
-  
-  if(message && message !== "")
-      resObj['message'] = message
+
+  if (message && message !== "")
+    resObj['message'] = message
 
   return res.status(200).json(resObj)
 }
 
 export const errorResult = (res, error, message, status = 404) => {
   return res.status(status).json({
-      success: false,
-      message,
+    success: false,
+    message,
   });
 }
 
