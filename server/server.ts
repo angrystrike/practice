@@ -7,6 +7,7 @@ import container, { IContextContainer } from './container';
 import { Request, Response, NextFunction } from 'express';
 import BaseContext from './BaseContext';
 import httpStatus from '../http-status';
+import cookieSession from 'cookie-session';
 
 const config = require('../config');
 const express = require('express')
@@ -30,8 +31,14 @@ app.prepare().then(() => {
 
   server.use(passport.initialize());
   server.use(passport.session());
-  server.use(responses);
+
   server.use(bodyParser.json())
+  server.use(cookieSession({
+    name: 'session',
+    keys: [config.jwtSecret],
+    maxAge: 31, 
+  }));
+  server.use(responses);
   server.use(scopePerRequest(container));
   // const files = 'controllers/**/*.' + (config.dev ? 'ts' : 'js');
   const files = 'controllers/**/*.ts';

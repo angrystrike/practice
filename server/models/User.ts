@@ -3,11 +3,7 @@ import { prop, modelOptions, getModelForClass, DocumentType, Ref, pre } from '@t
 import { Product, ProductType } from './Product'
 import { WhatIsIt } from '@typegoose/typegoose/lib/internal/constants';
 import bcrypt from 'bcrypt';
-
-export enum UserRole {
-    admin = 'admin',
-    user = 'user'
-}
+import { ROLE } from '../common';
 
 @pre<User>('save', function (next) { // or @pre(this: Car, 'save', ...
     if (!this.isModified('password')) {
@@ -37,8 +33,8 @@ export class User {
     @prop({ type : String })
     public lastName: string;
 
-    @prop({ type: ()=> String, enum: Object.values(UserRole) })
-    public role: UserRole;
+    @prop({ type: ()=> String, enum: Object.values(ROLE) })
+    public role: ROLE;
 
     @prop({ type : String })
     public password: string;

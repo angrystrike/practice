@@ -4,14 +4,14 @@ import { Request, Response, NextFunction } from 'express';
 import { route, GET, POST, DELETE, PUT, before } from 'awilix-express';
 import statusCode from '../../http-status'
 import passport from 'passport-local';
+import { IIdentity } from 'server/common';
 
 @route('/auth')
 export default class AuthController extends BaseContext {
 
     @POST()
-    @route('/signup')
+    @route('/register')
     public register(req: Request, res: Response, next: NextFunction) {
-        console.log('auth signup')
         // tslint:disable-next-line: no-shadowed-variable
         return this.di.passport.authenticate('local-signup', (errors, identity) => {
             if (errors) {
@@ -23,6 +23,28 @@ export default class AuthController extends BaseContext {
                 console.log('register__catch__errors=', errors);
                 res.answer(null, 'Could not process the form.', statusCode.BAD_REQUEST);
             }
+        })(req, res, next);
+    }
+
+    @GET()
+    @route('/login')
+    public login(req: Request, res: Response, next: NextFunction) {
+        const { passport } = this.di;
+        const JST_EXPIRE = 3;
+        const REMEMBER_ME_EXPIRE = 30;
+
+        // tslint:disable-next-line: no-shadowed-variable
+        return passport.authenticate('local-login', (err, identity: IIdentity) => {
+            if (err) {
+                return res.answer(null, err, statusCode.BAD_REQUEST);
+            }
+
+            // let expire = JST_EXPIRE;
+            // if (req.body.rememberMe) {
+            //     expire = REMEMBER_ME_EXPIRE;
+            // }
+            res.cookie('token', identity.token, { maxAge: 1000 });
+            return res.answer(identity);
         })(req, res, next);
     }
 }

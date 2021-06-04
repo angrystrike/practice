@@ -14,7 +14,6 @@ export default class SignUpStrategy extends BaseContext {
     constructor(opts: IContextContainer) {
         super(opts);
 
-        console.log('jwt: initialization Local-SignUp strategy');
         this.verifyRequestUser = this.verifyRequestUser.bind(this);
 
         this.strategyUser = new passportLocal.Strategy({
@@ -27,7 +26,6 @@ export default class SignUpStrategy extends BaseContext {
     }
 
     public async verifyRequestUser(req: Request, email: string, password: string, done: any) {
-        console.log('auth verify')
         const { UserModel } = this.di;
         const user = await UserModel.findOne({ email: email });
         if (user) {
