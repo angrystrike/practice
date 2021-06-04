@@ -7,15 +7,15 @@ import passport, { PassportStatic } from 'passport';
 import passportLocal from 'passport-local';
 import SignUpStrategy from './passports/SignUpStrategy';
 import { asClass } from 'awilix';
-import strategies, {IStrategyContainer} from './passports/index'
 
 
 const container = awilix.createContainer({
     injectionMode: awilix.InjectionMode.PROXY,
 });
-export interface IContextContainer extends IStrategyContainer, IModelContainer, IServicesContainer {
+export interface IContextContainer extends IModelContainer, IServicesContainer {
     config: any;
     passport: PassportStatic;
+    SignUpStrategy: SignUpStrategy;
 }
 
 const passportFunc = (ctx: IContextContainer)  => {
@@ -28,7 +28,7 @@ const passportFunc = (ctx: IContextContainer)  => {
 container.register({
     config: awilix.asValue(config),
     passport: awilix.asFunction(passportFunc).singleton(),
-    ...strategies,
+    SignUpStrategy: asClass(SignUpStrategy).singleton(),
     ...models,
     ...services,
 })
