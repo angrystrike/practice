@@ -1,51 +1,71 @@
 import mongoose from 'mongoose'
-import User from '../models/User'
 import Product from '../models/Product'
-import { successResult, errorResult } from '../server'
+import BaseContext from '../BaseContext';
 
-const productRouter = require('express').Router()
+import { Request, Response } from 'express';
+import { route, GET, POST, DELETE, PUT, before } from 'awilix-express';
+import statusCode from '../../http-status'
 
-productRouter.post('/', (req, res) => {
-    const result = Product.create(req.body)
-        .then((data) => successResult(res, data, ""))
-        .catch((err) => errorResult(res, err, "Cant add product"))
-})
+@route('/products')
+export default class ProductController extends BaseContext {
 
-productRouter.get('/search/:text', (req, res) => {
-    const result = Product.find({ $or:[{ name: { $regex: req.params.text, $options: 'i' } }, { description : { $regex: req.params.text, $options: 'i' } }]} )
-        .then((data) => successResult(res, data, ""))
-        .catch((err) => errorResult(res, err, "Cant fetch products"))
-})
+    @GET()
+    @route('/featured')
+    getFeatured(req: Request, res: Response) {
+        const { ProductService } = this.di;
 
-productRouter.get('/featured', (req, res) => {
-    const result = Product.find().where('featured', true).sort({"price": -1}).limit(4)
-        .then((data) => successResult(res, data, ""))
-        .catch((err) => errorResult(res, err, "Cant fetch products"))
-})
+        const result = ProductService.findFeatured()
+            .then((data) => res.answer(data, "Success", statusCode.OK))
+            .catch((err) => res.answer(null, err, statusCode.BAD_REQUEST)) 
+    }
 
-productRouter.get('/:id', (req, res) => {
-    const result = Product.findById(req.params.id)
-        .then((data) => successResult(res, data, ""))
-        .catch((err) => errorResult(res, err, "Cant fetch product"))
-})
+    @GET()
+    @route('/search/:text')
+    search(req: Request, res: Response) {
+        const { ProductService } = this.di;
 
-productRouter.get('/', (req, res) => {
-    const result = Product.find({})
-        .then((data) => successResult(res, data, ""))
-        .catch((err) => errorResult(res, err, "Cant fetch products"))
-})
+        const result = ProductService.findByNameOrDescription(req.params.text)
+            .then((data) => res.answer(data, "Success", statusCode.OK))
+            .catch((err) => res.answer(null, err, statusCode.BAD_REQUEST)) 
+    }
 
-productRouter.delete('/:id', (req, res) => {
-    const result = Product.findByIdAndRemove(req.params.id)
-        .then((data) => successResult(res, data, ""))
-        .catch((err) => errorResult(res, err, "Cant fetch products"))
-})
+    @GET()
+    @route('/')
+    getAll(req: Request, res: Response) {
+        const { ProductService } = this.di;
 
-productRouter.put('/:id', (req, res) => {
-    const result = Product.findByIdAndUpdate(req.params.id, req.body)
-        .then((data) => successResult(res, data, ""))
-        .catch((err) => errorResult(res, err, "Cant fetch products"))
-})
+        const result = ProductService.findAll()
+            .then((data) => res.answer(data, "Success", statusCode.OK))
+            .catch((err) => res.answer(null, err, statusCode.BAD_REQUEST))
+    }
 
+    @POST()
+    @route('/save/:id')
+    save(req: Request, res: Response) {
+        const { ProductService } = this.di;
 
-module.exports = productRouter
+        const result = ProductService.save(req.body, req.params.id)
+            .then((data) => res.answer(data, "Success", statusCode.OK))
+            .catch((err) => res.answer(null, err, statusCode.BAD_REQUEST))
+    }
+
+    @GET()
+    @route('/:id')
+    getByID(req: Request, res: Response) {
+        const { ProductService } = this.di;
+        
+        const result = ProductService.findOneByID(req.params.id)
+            .then((data) => res.answer(data, "Success", statusCode.OK))
+            .catch((err) => res.answer(null, err, statusCode.BAD_REQUEST))
+    }
+
+    @DELETE()
+    @route('/:id')
+    delete(req: Request, res: Response) {
+        const { ProductService } = this.di;
+
+        const result = ProductService.deleteByID(req.params.id)
+            .then((data) => res.answer(data, "Success", statusCode.OK))
+            .catch((err) => res.answer(null, err, statusCode.BAD_REQUEST))
+    }
+}

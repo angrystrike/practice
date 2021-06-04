@@ -1,32 +1,51 @@
 import mongoose from 'mongoose'
-import User from '../models/User'
 import Category from '../models/Category'
-import { successResult, errorResult } from '../server'
+import BaseContext from '../BaseContext';
 
-const categoryRouter = require('express').Router()
+import { Request, Response } from 'express';
+import { route, GET, POST, DELETE, PUT, before } from 'awilix-express';
+import statusCode from '../../http-status'
 
-categoryRouter.get('/', (req, res) => {
-    const result = Category.find({})
-        .then((data) => successResult(res, data, ""))
-        .catch((err) => errorResult(res, err, "Cant fetch categories"))
-})
+@route('/categories')
+export default class CategoryController extends BaseContext {
 
-categoryRouter.post('/', (req, res) => {
-    const result = Category.create(req.body)
-        .then((data) => successResult(res, data, ""))
-        .catch((err) => errorResult(res, err, "Cant fetch categories"))
-})
+    @GET()
+    @route('/')
+    getAll(req: Request, res: Response) {
+        const { CategoryService } = this.di;
 
-categoryRouter.delete('/:id', (req, res) => {
-    const result = Category.findByIdAndRemove(req.params.id)
-        .then((data) => successResult(res, data, ""))
-        .catch((err) => errorResult(res, err, "Cant fetch categories"))
-})
+        const result = CategoryService.findAll()
+            .then((data) => res.answer(data, "Success", statusCode.OK))
+            .catch((err) => res.answer(null, err, statusCode.BAD_REQUEST))
+    }
 
-categoryRouter.put('/:id', (req, res) => {
-    const result = Category.findByIdAndUpdate(req.params.id, req.body)
-        .then((data) => successResult(res, data, ""))
-        .catch((err) => errorResult(res, err, "Cant fetch categories"))
-})
+    @POST()
+    @route('/save/:id')
+    save(req: Request, res: Response) {
+        const { CategoryService } = this.di;
 
-module.exports = categoryRouter
+        const result = CategoryService.save(req.body, req.params.id)
+            .then((data) => res.answer(data, "Success", statusCode.OK))
+            .catch((err) => res.answer(null, err, statusCode.BAD_REQUEST))
+    }
+
+    @GET()
+    @route('/:id')
+    getByID(req: Request, res: Response) {
+        const { CategoryService } = this.di;
+
+        const result = CategoryService.findOneByID(req.params.id)
+            .then((data) => res.answer(data, "Success", statusCode.OK))
+            .catch((err) => res.answer(null, err, statusCode.BAD_REQUEST))
+    }
+
+    @DELETE()
+    @route('/:id')
+    delete(req: Request, res: Response) {
+        const { CategoryService } = this.di;
+
+        const result = CategoryService.deleteByID(req.params.id)
+            .then((data) => res.answer(data, "Success", statusCode.OK))
+            .catch((err) => res.answer(null, err, statusCode.BAD_REQUEST))
+    }
+}

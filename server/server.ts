@@ -51,7 +51,6 @@ const responses = (req: Request, res: Response, next: NextFunction) => {
     message: any = null,
     status: number = httpStatus.OK,
   ) => {
-    console.log('return responses')
     return res.status(status).json({
       data,
       message
@@ -86,26 +85,6 @@ const startup = () => {
   } catch (e) {
     console.log('ERROR')
   }
-}
-
-export const successResult = (res, result, message) => {
-  const resObj: any = {
-    success: true,
-    message: message,
-    data: result
-  }
-
-  if (message && message !== "")
-    resObj['message'] = message
-
-  return res.status(200).json(resObj)
-}
-
-export const errorResult = (res, error, message, status = 404) => {
-  return res.status(status).json({
-    success: false,
-    message,
-  });
 }
 
 export default {}
