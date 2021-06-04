@@ -12,6 +12,7 @@ const config = require('../config');
 const express = require('express')
 const bodyParser = require('body-parser')
 const next = require('next')
+const passport = require('passport');
 
 const port = parseInt(process.env.PORT, 10) || 3000
 const dev = process.env.NODE_ENV !== 'production'
@@ -27,6 +28,8 @@ app.prepare().then(() => {
   startDatabase()
   const server = express()
 
+  server.use(passport.initialize());
+  server.use(passport.session());
   server.use(responses);
   server.use(bodyParser.json())
   server.use(scopePerRequest(container));

@@ -1,5 +1,3 @@
-import mongoose from 'mongoose'
-import Category from '../models/Category'
 import BaseContext from '../BaseContext';
 
 import { Request, Response } from 'express';
