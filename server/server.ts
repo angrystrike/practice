@@ -3,12 +3,16 @@ import mongoose from 'mongoose'
 import { AwilixContainer } from 'awilix';
 import { loadControllers, scopePerRequest } from 'awilix-express';
 import container, { IContextContainer } from './container';
+import { PassportStatic } from 'passport';
 
 import { Request, Response, NextFunction } from 'express';
-import BaseContext from './BaseContext';
 import httpStatus from '../http-status';
 import cookieSession from 'cookie-session';
+import { IIdentity, ROLE } from './common';
+import statusCode from '../http-status'
 
+
+const path = require('path')
 const config = require('../config');
 const express = require('express')
 const bodyParser = require('body-parser')
@@ -19,6 +23,7 @@ const port = parseInt(process.env.PORT, 10) || 3000
 const dev = process.env.NODE_ENV !== 'production'
 const app = next({ dev })
 const handle = app.getRequestHandler()
+
 
 const startDatabase = async () => {
   connectToMongoDb(config.db.uri, config.db.options)
@@ -32,13 +37,17 @@ app.prepare().then(() => {
   server.use(passport.initialize());
   server.use(passport.session());
 
+  server.use(bodyParser.json({ limit: '10mb' }));
+  server.use(bodyParser.urlencoded({ extended: true }));
   server.use(bodyParser.json())
   server.use(cookieSession({
     name: 'session',
     keys: [config.jwtSecret],
-    maxAge: 31, 
+    maxAge: 312460601000,
   }));
   server.use(responses);
+  server.use(acl);
+
   server.use(scopePerRequest(container));
   // const files = 'controllers/**/*.' + (config.dev ? 'ts' : 'js');
   const files = 'controllers/**/*.ts';
@@ -54,6 +63,48 @@ app.prepare().then(() => {
     console.log(`> Ready on http://localhost:${port}`)
   })
 })
+
+const acl = (req: Request, res: Response, next: NextFunction) => {
+  const passport = container.resolve<PassportStatic>("passport")
+
+  let useAcl = true
+  const url = req.url
+  for (const item of IGNORS) {
+    if (url.startsWith(item)) {
+      useAcl = false
+    }
+  }
+
+  if (useAcl) {
+    passport.authenticate('jwt', (err, identity: IIdentity) => {
+      const isLogged = identity && identity.id && identity.role !== ROLE.GUEST
+
+      if (!isLogged) {
+        //identity = clearIdentity()
+        req.session.identity = identity
+      }
+
+      const isAllow = undefined
+
+      if (!isAllow) {
+        return res.answer(null, statusCode['404_MESSAGE'], statusCode.NOT_FOUND)
+      }
+    })
+  }
+  next()
+}
+
+export const IGNORS = [
+  '/favicon.ico',
+  '/_next',
+  '/static',
+  '/sitemap.xml',
+  '/robots.txt',
+  '/service-worker.js',
+  '/manifest.json',
+  '/styles.chunk.css.map',
+  '/__nextjs',
+];
 
 const responses = (req: Request, res: Response, next: NextFunction) => {
   res.answer = (

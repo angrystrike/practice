@@ -32,7 +32,7 @@ export default class SignUpStrategy extends BaseContext {
             return done({ email: 'That e-mail already taken!' });
         }
 
-        const { firstName, lastName } = req.body;
+        const { firstName, lastName, image } = req.body;
 
         const userData = {
             email: email && email.trim().toLowerCase(),
@@ -40,7 +40,7 @@ export default class SignUpStrategy extends BaseContext {
             lastName: lastName && lastName.trim(),
             password: password && password.trim(),
             role: "user",
-            image: "https://robohash.org/test"
+            image: image && image.trim()
         };
 
         const newUser = new UserModel(userData);

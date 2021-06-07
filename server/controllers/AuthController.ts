@@ -43,7 +43,7 @@ export default class AuthController extends BaseContext {
             // if (req.body.rememberMe) {
             //     expire = REMEMBER_ME_EXPIRE;
             // }
-            res.cookie('token', identity.token, { maxAge: 1000 });
+            res.cookie('token', identity.token, { maxAge: 1000606024 });
             return res.answer(identity);
         })(req, res, next);
     }

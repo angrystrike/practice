@@ -18,4 +18,8 @@ export default class BaseContext {
     constructor(opts: IContextContainer) {
         this.di = opts;
     }
+
+    // public get container() {
+    //     return this.di;
+    // }
 }
