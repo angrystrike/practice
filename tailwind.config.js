@@ -30,6 +30,8 @@ module.exports = {
       indigo: colors.indigo,
       purple: colors.violet,
       pink: colors.pink,
+      login: '#F2C98A',
+      darkYellow: '#986923',
     },
     spacing: {
       px: '1px',
@@ -88,6 +90,7 @@ module.exports = {
     backgroundImage: {
       none: 'none',
       'header': "url('/images/header-bg.jpg')",
+      'login-svg': "url('/images/login-bg.svg')",
       'gradient-to-t': 'linear-gradient(to top, var(--tw-gradient-stops))',
       'gradient-to-tr': 'linear-gradient(to top right, var(--tw-gradient-stops))',
       'gradient-to-r': 'linear-gradient(to right, var(--tw-gradient-stops))',
@@ -113,6 +116,7 @@ module.exports = {
       auto: 'auto',
       cover: 'cover',
       contain: 'contain',
+      25: '400px',
     },
     blur: {
       0: '0',
@@ -538,6 +542,7 @@ module.exports = {
     }),
     minHeight: {
       0: '0px',
+      19: '300px',
       full: '100%',
       screen: '100vh',
     },

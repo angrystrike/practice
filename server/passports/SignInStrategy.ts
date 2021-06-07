@@ -38,7 +38,6 @@ export default class SignInStrategy extends BaseContext {
             return done('Incorrect email or password');
         }
 
-        // Load hash from your password DB.
         const match = bcrypt.compareSync(password, user.password);
         if (match) {
             const token = jwt.sign(user.toJSON(), config.jwtSecret);
