@@ -1,9 +1,9 @@
 import Image from 'next/image'
 import dynamic from 'next/dynamic'
 
-const CarItem = dynamic(() => import('../components/CarItem'))
-const Header = dynamic(() => import('../components/Header'))
-const Footer = dynamic(() => import('../components/Footer'))
+const CarItem = dynamic(() => import('../partials/CarItem'))
+const Header = dynamic(() => import('../partials/Header'))
+const Footer = dynamic(() => import('../partials/Footer'))
 
 export default function Home() {
   return (

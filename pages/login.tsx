@@ -2,7 +2,7 @@ import Image from 'next/image'
 import dynamic from 'next/dynamic'
 import React from 'react'
 import Link from 'next/link'
-
+import { LoginForm } from '../components/auth/LoginForm'
 
 export default function Home() {
     return (
@@ -30,15 +30,7 @@ export default function Home() {
                             </Link>
                         </h4>
                     </div>
-                    <form className="mt-6 flex flex-col font-lg">
-                        <label className="text-left">Email:</label>
-                        <input className="py-3 focus:shadow-none bg-gray-100 border-none rounded-md focus:border-none focus:outline-none focus:bg-gray-200" type="text" />
-
-                        <label className="mt-5 text-left">Password:</label>
-                        <input className="py-3 focus:shadow-none bg-gray-100 border-none rounded-md focus:border-none focus:outline-none focus:bg-gray-200" type="text" />
-
-                        <button className="mt-8 self-start bg-blue-500 text-white rounded-md py-2 md:w-24">Sign In</button>
-                    </form>
+                    <LoginForm />           
                 </div>
             </div>
         </div>

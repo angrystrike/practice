@@ -34,6 +34,8 @@
     "passport-strategy": "^1.0.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-router": "^5.2.0",
+    "react-router-dom": "^5.2.0",
     "swr": "^0.5.6",
     "tailwindcss": "^2.1.2"
   },

@@ -26,7 +26,7 @@ export default class AuthController extends BaseContext {
         })(req, res, next);
     }
 
-    @GET()
+    @POST()
     @route('/login')
     public login(req: Request, res: Response, next: NextFunction) {
         const { passport } = this.di;

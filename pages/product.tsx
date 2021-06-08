@@ -1,9 +1,9 @@
 import dynamic from 'next/dynamic'
 
-const SimilarItem = dynamic(() => import('../components/SimilarItem'))
-const Review = dynamic(() => import('../components/Review'))
-const Header = dynamic(() => import('../components/Header'))
-const Footer = dynamic(() => import('../components/Footer'))
+const SimilarItem = dynamic(() => import('../partials/SimilarItem'))
+const Review = dynamic(() => import('../partials/Review'))
+const Header = dynamic(() => import('../partials/Header'))
+const Footer = dynamic(() => import('../partials/Footer'))
 
 export default function Product() {
   return (
