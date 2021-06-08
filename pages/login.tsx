@@ -15,14 +15,13 @@ export default function Home() {
                     <h2 className="text-darkYellow text-2xl font-semibold">Discover best offers here</h2>
                 </div>
                 
-                <div className="mt-10 lg:mt-40 bg-login-svg bg-no-repeat min-h-19 bg-25 lg:min-h-full lg:bg-auto"></div>
-                
+                <div className="sm:mt-10 lg:-mt-20 bg-login-svg bg-no-repeat min-h-19 bg-contain lg:min-h-full lg:bg-auto bg-center"></div>            
             </div>
 
             <div className="flex lg:w-8/12">
-                <div className="lg:flex lg:flex-col lg:w-full lg:max-w-6xl lg:items-center lg:justify-center lg:mx-auto">
-                    <div className="-ml-10">
-                        <h2 className="font-bold lg:text-2xl">Login</h2>
+                <div className="lg:flex lg:flex-col lg:w-full lg:max-w-6xl items-center lg:justify-center mx-auto">
+                    <div className="mt-10 lg:-ml-10">
+                        <h2 className="font-bold text-2xl">Login</h2>
                         <h4 className="text-gray-400 font-medium">
                             New Here? &nbsp;
                             <Link href="/">

@@ -15,14 +15,13 @@ export default function Home() {
                     <h2 className="text-darkYellow text-2xl font-semibold">Discover best offers here</h2>
                 </div>
                 
-                <div className="mt-10 lg:mt-40 bg-login-svg bg-no-repeat min-h-19 bg-25 lg:min-h-full lg:bg-auto"></div>
-                
+                <div className="sm:mt-10 lg:-mt-20 bg-login-svg bg-no-repeat min-h-19 bg-contain lg:min-h-full lg:bg-auto bg-center"></div>            
             </div>
 
             <div className="flex lg:w-8/12">
-                <div className="lg:flex lg:flex-col lg:w-full lg:max-w-6xl lg:items-center lg:justify-center lg:mx-auto">
-                    <div className="-ml-20">
-                        <h2 className="font-bold lg:text-2xl">Register</h2>
+                <div className="lg:flex lg:flex-col lg:w-full lg:max-w-6xl items-center lg:justify-center mx-auto">
+                    <div className="mt-10 lg:-ml-10">
+                        <h2 className="font-bold text-2xl">Register</h2>
                         <h4 className="text-gray-400 font-medium">
                             Already registered? &nbsp;
                             <Link href="/">
@@ -30,25 +29,7 @@ export default function Home() {
                             </Link>
                         </h4>
                     </div>
-                    <RegisterForm />
-                    {/* <form className="mt-6 flex flex-col font-lg">
-                        <label className="text-left">First Name:</label>
-                        <input className="py-3 focus:shadow-none bg-gray-100 border-none rounded-md focus:border-none focus:outline-none focus:bg-gray-200" type="text" />
-
-                        <label className="mt-5 text-left">Last Name:</label>
-                        <input className="py-3 focus:shadow-none bg-gray-100 border-none rounded-md focus:border-none focus:outline-none focus:bg-gray-200" type="text" />
-
-                        <label className="mt-5 text-left">Email:</label>
-                        <input className="py-3 focus:shadow-none bg-gray-100 border-none rounded-md focus:border-none focus:outline-none focus:bg-gray-200" type="text" />
-
-                        <label className="mt-5 text-left">Password:</label>
-                        <input className="py-3 focus:shadow-none bg-gray-100 border-none rounded-md focus:border-none focus:outline-none focus:bg-gray-200" type="text" />
-
-                        <label className="mt-5 text-left">Repeat Password:</label>
-                        <input className="py-3 focus:shadow-none bg-gray-100 border-none rounded-md focus:border-none focus:outline-none focus:bg-gray-200" type="text" />
-
-                        <button className="mt-8 self-start bg-blue-500 text-white rounded-md py-2 md:w-24">Sign Up</button>
-                    </form> */}
+                    <RegisterForm />          
                 </div>
             </div>
         </div>
