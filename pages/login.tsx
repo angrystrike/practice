@@ -7,7 +7,7 @@ import { LoginForm } from '../components/auth/LoginForm'
 export default function Home() {
     return (
         <div className="overflow-y-hidden flex flex-col lg:flex-row">
-            <div className="flex flex-col justify-center lg:justify-start bg-login lg:w-4/12 lg:h-screen px-20">
+            <div className="flex flex-col justify-center lg:justify-start bg-login lg:w-5/12 lg:h-screen px-20">
                 <div className="my-10 lg:mt-40">
                     <img className="mx-auto" width="100" height="70" src="/images/logo-login.png" />
                 </div>
@@ -18,7 +18,7 @@ export default function Home() {
                 <div className="sm:mt-10 lg:-mt-20 bg-login-svg bg-no-repeat min-h-19 bg-contain lg:min-h-full lg:bg-auto bg-center"></div>            
             </div>
 
-            <div className="flex lg:w-8/12">
+            <div className="flex lg:w-7/12">
                 <div className="lg:flex lg:flex-col lg:w-full lg:max-w-6xl items-center lg:justify-center mx-auto">
                     <div className="mt-10 lg:-ml-10">
                         <h2 className="font-bold text-2xl">Login</h2>

@@ -30,21 +30,12 @@ export class SearchForm extends React.Component<MyProps, MyState> {
 
     handleSubmit(event) {
         console.log('Your favorite flavor is: ' + JSON.stringify(this.state));
-        event.preventDefault();
-        // const requestOptions = {
-        //     method: 'GET',
-        //     headers: { 'Content-Type': 'application/json' },
-        //     body: JSON.stringify(this.state)
-        // };
+        event.preventDefault();     
         fetch('/products/search/' + this.state.search, { method: 'GET' })
             .then(response => response.json())
             .then(
-                (result) => {
-                    // var Router = require('react-router');
-                    // Router.browserHistory.push('/');          
-                    console.log(result);
-                    // window.location.href = '/';
-                    // return (<Redirect to="/" />);                   
+                (result) => {                       
+                    console.log(result);                                   
                 },
                 (error) => {
                     console.log(error);

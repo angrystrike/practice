@@ -1,3 +1,4 @@
+import { User } from '../models/User';
 import BaseContext from '../BaseContext';
 
 export default class ProductService extends BaseContext {
@@ -15,7 +16,7 @@ export default class ProductService extends BaseContext {
 
     public findFeatured() {
         const { ProductModel } = this.di;
-        return ProductModel.find().where('featured', true).sort({"price": -1}).limit(4);
+        return ProductModel.find({}).where('featured', true).sort({"price": -1}).limit(4).populate('reviews');
     }
 
     public findAll() {
@@ -23,9 +24,9 @@ export default class ProductService extends BaseContext {
         return ProductModel.find({});
     }
 
-    public async save(body, id) {
+    public async save(body, id) {       
         const { ProductModel } = this.di;
-        let product = await ProductModel.findById(id);
+        let product = await ProductModel.findById(id);  
         if (product) {
             product.set(body);
         } else {

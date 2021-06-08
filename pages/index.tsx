@@ -1,5 +1,7 @@
 import Image from 'next/image'
 import dynamic from 'next/dynamic'
+import React from 'react'
+import { ProductList } from 'components/ProductList'
 
 const CarItem = dynamic(() => import('../partials/CarItem'))
 const Header = dynamic(() => import('../partials/Header'))
@@ -36,12 +38,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="mt-6 flex justify-center flex-wrap px-3">
-          <CarItem />
-          <CarItem />
-          <CarItem />
-          <CarItem />
-        </section>
+        <ProductList />     
 
         <Footer />
       </div>
