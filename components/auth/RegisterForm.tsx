@@ -89,7 +89,7 @@ export class RegisterForm extends React.Component<MyProps, MyState> {
                     <input name="repeatPassword" onChange={this.handleChange} className="py-3 focus:shadow-none bg-gray-100 border-none rounded-md focus:border-none focus:outline-none focus:bg-gray-200" type="text" />
                 </label>
 
-                <button type="submit" className="mt-8 self-start bg-blue-500 text-white rounded-md py-2 md:w-24">Sign Up</button>
+                <button type="submit" className="mt-8 self-start bg-blue-500 text-white rounded-md py-2 w-full md:w-24">Sign Up</button>
             </form>
         );
     }

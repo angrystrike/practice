@@ -20,7 +20,7 @@ export default function Home() {
 
             <div className="flex lg:w-8/12">
                 <div className="lg:flex lg:flex-col lg:w-full lg:max-w-6xl items-center lg:justify-center mx-auto">
-                    <div className="mt-10 lg:-ml-10">
+                    <div className="mt-10 lg:-ml-20">
                         <h2 className="font-bold text-2xl">Register</h2>
                         <h4 className="text-gray-400 font-medium">
                             Already registered? &nbsp;

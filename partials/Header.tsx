@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { SearchForm } from 'components/SearchForm'
 
 export default function Header() {
     return (
@@ -25,19 +26,17 @@ export default function Header() {
                                     <a className="ml-5 sm:ml-10 hidden sm:inline hover:text-gray-200">Product</a>
                                 </Link>
                             </nav>
-                            <button type="button" className="sm:ml-5 px-7 font-medium py-1 text-white bg-pink-600 focus:outline-none focus:bg-pink-800 rounded-md focus:rounded-xl shadow-lg">Login</button>
+                            <Link href="/login">
+                                <a className="sm:ml-5 px-7 font-medium py-1 text-white bg-pink-600 focus:outline-none focus:bg-pink-800 rounded-md focus:rounded-xl shadow-lg">Login</a>
+                            </Link>
                         </div>
                     </div>
                 </div>
 
                 <div className="max-w-5xl mx-auto pt-3">
                     <h1 className="mt-14 text-center text-4xl text-white">Find your dream car!</h1>
-
-                    <div className="mt-6 px-6 flex items-center justify-center">
-                        <svg className="relative left-9 sm:left-12 h-6 w-9 fill-current text-gray-500" xmlns="http://www.w3.org/2000/svg" fillRule="evenodd" clipRule="evenodd"><path d="M15.853 16.56c-1.683 1.517-3.911 2.44-6.353 2.44-5.243 0-9.5-4.257-9.5-9.5s4.257-9.5 9.5-9.5 9.5 4.257 9.5 9.5c0 2.442-.923 4.67-2.44 6.353l7.44 7.44-.707.707-7.44-7.44zm-6.353-15.56c4.691 0 8.5 3.809 8.5 8.5s-3.809 8.5-8.5 8.5-8.5-3.809-8.5-8.5 3.809-8.5 8.5-8.5z" /></svg>
-                        <input className="block w-full sm:w-1/2 mr-4 focus:outline-none focus:bg-gray-200 text-white rounded-lg pl-10 pr-3 py-2 shadow-lg" placeholder="Search by model" />
-                        <button className="px-4 py-2 block text-white bg-pink-600 focus:outline-none focus:bg-pink-800 rounded-lg focus:rounded-xl font-semibold shadow-lg">Find</button>
-                    </div>
+                    
+                    <SearchForm />                  
                 </div>
             </div>
             <div className="border-solid border-gray-200 fill-current text-gray-200" >
