@@ -1,17 +1,19 @@
 import { useRouter } from 'next/router'
 import dynamic from 'next/dynamic'
 import React from 'react'
-import { Product } from "server/models/Product";
+import Product from 'src/Product';
 import nextConfig from 'next.config'
 import Layout from 'components/partials/Layout';
 
 interface MyProps {
     id: string,
-    product: Product
+    product: Product,
+    similarProducts: Array<Product>
 }
 
 interface MyState {
     product: Product,
+    similarProducts: Array<Product>
 }
 
 class ProductPage extends React.Component<MyProps, MyState> {
@@ -19,20 +21,44 @@ class ProductPage extends React.Component<MyProps, MyState> {
         super(props)
         this.state = {
             product: this.props.product,
+            similarProducts: this.props.similarProducts
         };
     }
 
     static async getInitialProps(ctx) {
-        const res = await fetch(nextConfig.public.BASE_URL + '/products/' + ctx.query.id, { method: 'GET' })
-        const json = await res.json()
-
-        return { product: json.data }
+        const [item, similarItems] = await Promise.all([
+            fetch(nextConfig.public.BASE_URL + '/products/' + ctx.query.id).then(r => r.json()),
+            fetch(nextConfig.public.BASE_URL + '/products/similar/' + ctx.query.id).then(r => r.json())
+        ]);
+        
+        return {
+            product: item.data,
+            similarProducts: similarItems.data
+        };
     }
 
 
     render() {
+        const items = this.state.similarProducts.map(
+            (item) => 
+                
+                <div className="mt-5 sm:ml-4 bg-white rounded-lg pt-2 pb-4 flex flex-row sm:flex-col items-center justify-center shadow-lg">
+                    <img className="mt-3 self-center w-3/5 rounded-lg shadow-md" width="150" height="250" src={item.image} />
+                    <div className="ml-2 -mt-2 sm:mt-2">
+                        <h5 className="text-xl sm:text-sm font-semibold">{item.name}</h5>
+                        <div className="mt-2 text-sm text-gray-600 flex justify-center items-center">
+                            <svg className="h-4 w-4 fill-current text-green-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 .288l2.833 8.718h9.167l-7.417 5.389 2.833 8.718-7.416-5.388-7.417 5.388 2.833-8.718-7.416-5.389h9.167z" /></svg>
+                            <svg className="h-4 w-4 fill-current text-green-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 .288l2.833 8.718h9.167l-7.417 5.389 2.833 8.718-7.416-5.388-7.417 5.388 2.833-8.718-7.416-5.389h9.167z" /></svg>
+                            <svg className="h-4 w-4 fill-current text-green-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 .288l2.833 8.718h9.167l-7.417 5.389 2.833 8.718-7.416-5.388-7.417 5.388 2.833-8.718-7.416-5.389h9.167z" /></svg>
+                            <svg className="h-4 w-4 fill-current text-green-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 .288l2.833 8.718h9.167l-7.417 5.389 2.833 8.718-7.416-5.388-7.417 5.388 2.833-8.718-7.416-5.389h9.167z" /></svg>
+                            <svg className="h-4 w-4 fill-current text-gray-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 .288l2.833 8.718h9.167l-7.417 5.389 2.833 8.718-7.416-5.388-7.417 5.388 2.833-8.718-7.416-5.389h9.167z" /></svg>
+                        </div>
+                        <div className="mt-2 text-gray-900 font-semibold text-xl text-center ">${item.price}</div>
+                    </div>
+                </div>          
+        );
         return (
-            <Layout>               
+            <Layout>
                 <div className="mt-8 pb-3 max-w-5xl mx-auto">
                     <div className="mx-6 flex flex-col sm:flex-row py-3 px-4 bg-white rounded-lg shadow-lg">
                         <div className="mx-2 sm:w-3/5 sm:mx-0 sm:self-start sm:px-5">
@@ -82,13 +108,16 @@ class ProductPage extends React.Component<MyProps, MyState> {
                             <div className="mt-5"> {this.state.product.description} </div>
                             <button type="button" className="mt-3 sm:mt-9 px-7 font-medium py-1 text-white bg-blue-600 rounded-md shadow-lg">Order</button>
                         </div>
-
-                    
                     </div>
-                    
+
+                    <section className="mt-3 mx-6 py-3 rounded-lg justify-center">
+                        <h2 className="mt-2 text-4xl text-center">Similar Cars</h2>
+                        <div className="sm:flex sm:flex-row sm:flex-nowrap">
+                            {items}
+                        </div>
+                    </section>
                 </div>
             </Layout>
-
         );
     }
 }

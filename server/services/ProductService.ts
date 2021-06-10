@@ -8,6 +8,17 @@ export default class ProductService extends BaseContext {
         return ProductModel.find({}).populate('categories').where('categories._id', id);
     }
 
+    public async findSimilar(id) {
+        const { ProductModel } = this.di;
+        const product = await ProductModel.findById(id); 
+        console.log('PRICE: ' + product.price)
+        return ProductModel.find({})
+            .where('engine', product.engine)
+            .where('transmission', product.transmission)
+            // .where('price').gt(150).lt(product.price)
+            .limit(3);
+    }
+
     public findByNameOrDescription(text) {
         const { ProductModel } = this.di;
         return ProductModel.find({

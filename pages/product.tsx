@@ -1,14 +1,14 @@
+import Layout from 'components/partials/Layout'
 import dynamic from 'next/dynamic'
+import React from 'react'
 
 const SimilarItem = dynamic(() => import('../partials/SimilarItem'))
 const Review = dynamic(() => import('../partials/Review'))
-const Header = dynamic(() => import('../partials/Header'))
-const Footer = dynamic(() => import('../partials/Footer'))
+
 
 export default function Product() {
   return (
-    <div className="bg-gray-200">
-      <Header />
+    <Layout>
 
       <div className="mt-8 pb-3 max-w-5xl mx-auto">
         <div className="mx-6 flex flex-col sm:flex-row py-3 px-4 bg-white rounded-lg shadow-lg">
@@ -81,8 +81,8 @@ export default function Product() {
           <Review />
         </section>
 
-        <Footer />
+      
       </div>
-    </div>
+    </Layout>
   )
 }
