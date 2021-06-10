@@ -3,7 +3,7 @@ import { Product } from "server/models/Product";
 import { ProductItem } from "./ProductItem";
 
 interface MyProps {
-
+    items: Array<Product> 
 }
 
 interface MyState {
@@ -17,7 +17,6 @@ export class ProductList extends React.Component<MyProps, MyState> {
         this.state = {
             items: [],
         };
-
     }
 
     componentDidMount() {

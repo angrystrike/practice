@@ -3,6 +3,11 @@ import BaseContext from '../BaseContext';
 
 export default class ProductService extends BaseContext {
 
+    public findByCategory(id) {
+        const { ProductModel } = this.di;
+        return ProductModel.find({}).populate('categories').where('categories._id', id);
+    }
+
     public findByNameOrDescription(text) {
         const { ProductModel } = this.di;
         return ProductModel.find({
@@ -37,7 +42,7 @@ export default class ProductService extends BaseContext {
 
     public findOneByID(id) {
         const { ProductModel } = this.di;
-        return ProductModel.findById(id);
+        return ProductModel.findById(id).populate('reviews');
     }
 
     public deleteByID(id) {

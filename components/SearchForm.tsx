@@ -1,4 +1,6 @@
 import React from "react";
+import { ProductList } from "./ProductList";
+import { Product } from "server/models/Product";
 
 interface MyProps {
 
@@ -6,6 +8,7 @@ interface MyProps {
 
 interface MyState {
     search: string,
+    items: Array<Product>,
 }
 
 export class SearchForm extends React.Component<MyProps, MyState> {
@@ -13,6 +16,7 @@ export class SearchForm extends React.Component<MyProps, MyState> {
         super(props);
         this.state = {
             search: '',
+            items: [],
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -30,12 +34,16 @@ export class SearchForm extends React.Component<MyProps, MyState> {
 
     handleSubmit(event) {
         console.log('Your favorite flavor is: ' + JSON.stringify(this.state));
+        
         event.preventDefault();     
         fetch('/products/search/' + this.state.search, { method: 'GET' })
             .then(response => response.json())
             .then(
-                (result) => {                       
-                    console.log(result);                                   
+                (result) => {                                       
+                    console.log(result);  
+                    this.setState<typeof result.data>({ 
+                        items: result.data 
+                    });                                 
                 },
                 (error) => {
                     console.log(error);

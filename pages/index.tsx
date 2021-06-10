@@ -13,7 +13,7 @@ export default function Home() {
       <Header />
       
       <div className="pb-3 max-w-5xl mx-auto">
-        <section className="mt-5 mx-6 pb-4 bg-white rounded-lg">
+        <section id="categories" className="mt-5 mx-6 pb-4 bg-white rounded-lg">
           <div className="flex flex-col py-3 my-3">
             <h2 className="text-center text-3xl">Categories</h2>
           </div>
@@ -38,7 +38,7 @@ export default function Home() {
           </div>
         </section>
 
-        <ProductList />     
+        <ProductList items={[]} />     
 
         <Footer />
       </div>

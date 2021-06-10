@@ -30,9 +30,9 @@ export default class CategoryController extends BaseContext {
     @GET()
     @route('/:id')
     getByID(req: Request, res: Response) {
-        const { CategoryService } = this.di;
+        const { ProductService } = this.di;
 
-        const result = CategoryService.findOneByID(req.params.id)
+        const result = ProductService.findByCategory(req.params.id)
             .then((data) => res.answer(data, "Success", statusCode.OK))
             .catch((err) => res.answer(null, err, statusCode.BAD_REQUEST))
     }
