@@ -2,7 +2,7 @@ import Image from 'next/image'
 import dynamic from 'next/dynamic'
 import React from 'react'
 import { ProductList } from 'components/ProductList'
-import Layout from 'components/Layout'
+import Layout from 'components/partials/Layout'
 
 export default function Home() {
   return (

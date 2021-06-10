@@ -3,7 +3,7 @@ import dynamic from 'next/dynamic'
 import React from 'react'
 import { Product } from "server/models/Product";
 import nextConfig from 'next.config'
-import Layout from 'components/Layout';
+import Layout from 'components/partials/Layout';
 
 interface MyProps {
     id: string,
