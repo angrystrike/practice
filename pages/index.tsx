@@ -38,7 +38,7 @@ export default function Home() {
           </div>
         </section>
 
-        <ProductList items={[]} />     
+        <ProductList />     
 
         <Footer />
       </div>

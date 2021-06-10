@@ -28,6 +28,9 @@ class Review {
 
 @modelOptions({ schemaOptions: { collection: 'products' } })
 export class Product {
+    // @prop({ type: String })
+    // public _id: string;  
+
     @prop({ ref: Category }, WhatIsIt.ARRAY)
     public categories: mongoose.Types.Array<Category>
 
@@ -58,8 +61,6 @@ export class Product {
     @prop({ type: String })
     public image: string;
 
-    @prop({ type: Boolean })
-    public featured: boolean;
 }
 
 export type ProductType = mongoose.Model<DocumentType<Product>, {}> & Product;

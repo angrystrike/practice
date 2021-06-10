@@ -1,6 +1,6 @@
 import Link from "next/link";
 import React from "react";
-import { Product } from "server/models/Product";
+import Product from 'src/Product';
 
 interface MyProps {
     product: Product
@@ -18,12 +18,7 @@ export class ProductItem extends React.Component<MyProps, MyState> {
         };
     }
 
-    componentDidMount() {
-        console.log('mount')
-    }
-
     render() {
-        console.log(this.props.product)
         return (
             <div className="sm:flex-50 max-w-xs sm:w-full sm:flex-shrink-0 my-3 pb-5 sm:px-2">
                 <div className="relative pb-5/6">
@@ -37,9 +32,9 @@ export class ProductItem extends React.Component<MyProps, MyState> {
                                 Fast &middot; Secure
                             </div>
                         </div>
-                        {/* <Link href={`/product/${encodeURIComponent(this.props.product._id)}`}>
+                        <Link href={`/product/${encodeURIComponent(this.props.product._id)}`}>
                             <a className="text-gray-900 font-semibold text-lg ">{this.props.product.name}</a>
-                        </Link> */}
+                        </Link>
                         <div className="mt-2">
                             {this.props.product.description}
                         </div>
