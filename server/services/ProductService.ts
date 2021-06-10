@@ -11,7 +11,7 @@ export default class ProductService extends BaseContext {
     public async findSimilar(id) {
         const { ProductModel } = this.di;
         const product = await ProductModel.findById(id); 
-        console.log('PRICE: ' + product.price)
+        
         return ProductModel.find({})
             .where('engine', product.engine)
             .where('transmission', product.transmission)
@@ -53,7 +53,7 @@ export default class ProductService extends BaseContext {
 
     public findOneByID(id) {
         const { ProductModel } = this.di;
-        return ProductModel.findById(id).populate('reviews');
+        return ProductModel.findById(id).populate('user');
     }
 
     public deleteByID(id) {

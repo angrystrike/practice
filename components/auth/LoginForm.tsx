@@ -1,4 +1,6 @@
+import { useRouter } from "next/router";
 import React from "react";
+import { useEffect } from "react";
 
 interface MyProps {
 
@@ -8,6 +10,10 @@ interface MyState {
     email: string,
     password: string
 }
+
+// interface WithRouterProps {
+//     router: NextRouter
+// }
 
 export class LoginForm extends React.Component<MyProps, MyState> {
     constructor(props) {
@@ -30,21 +36,27 @@ export class LoginForm extends React.Component<MyProps, MyState> {
         });
     }
 
-    handleSubmit(event) {
-        console.log('Your favorite flavor is: ' + JSON.stringify(this.state));
+    handleSubmit(event) {      
         event.preventDefault();           
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(this.state)
         };
+        const router = useRouter()
         fetch('/auth/login', requestOptions)
             .then(response => response.json())
             .then(
                 (result) => {     
                     // var Router = require('react-router');
-                    // Router.browserHistory.push('/');          
-                    console.log(result);
+                    // Router.browserHistory.push('/');
+                    useEffect(() => {
+                        // Always do navigations after the first render
+                        //this.props.router
+                        router.push('/')
+                    }, [])          
+                    // console.log(result);
+                    //router.push('/login', '/', { shallow: true })
                     // window.location.href = '/';
                     // return (<Redirect to="/" />);                   
                 },            

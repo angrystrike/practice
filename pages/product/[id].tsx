@@ -2,9 +2,10 @@ import { useRouter } from 'next/router'
 import dynamic from 'next/dynamic'
 import React from 'react'
 import Product from 'src/Product';
+import User from 'src/User';
 import nextConfig from 'next.config'
 import Layout from 'components/partials/Layout';
-
+import Image from 'next/image'
 interface MyProps {
     id: string,
     product: Product,
@@ -37,12 +38,11 @@ class ProductPage extends React.Component<MyProps, MyState> {
         };
     }
 
-
     render() {
         const items = this.state.similarProducts.map(
             (item) => 
                 
-                <div className="mt-5 sm:ml-4 bg-white rounded-lg pt-2 pb-4 flex flex-row sm:flex-col items-center justify-center shadow-lg">
+                <div className="mt-5 sm:ml-4 bg-white rounded-lg pt-2 pb-4 flex flex-row sm:flex-col items-center justify-center shadow-lg" key={item._id}>
                     <img className="mt-3 self-center w-3/5 rounded-lg shadow-md" width="150" height="250" src={item.image} />
                     <div className="ml-2 -mt-2 sm:mt-2">
                         <h5 className="text-xl sm:text-sm font-semibold">{item.name}</h5>
@@ -57,6 +57,7 @@ class ProductPage extends React.Component<MyProps, MyState> {
                     </div>
                 </div>          
         );
+        
         return (
             <Layout>
                 <div className="mt-8 pb-3 max-w-5xl mx-auto">
@@ -65,10 +66,10 @@ class ProductPage extends React.Component<MyProps, MyState> {
                             <img className="mt-3 w-full rounded-lg shadow-md" width="400" height="200" src={this.state.product.image} />
                             <div className="mt-3 flex flex-col items-center">
                                 <div className="sm:mt-1">
-                                    <svg className="mx-auto sm:mx-0" xmlns="http://www.w3.org/2000/svg" width="45.532" height="45.532"><path d="M22.766.001C10.194.001 0 10.193 0 22.766s10.193 22.765 22.766 22.765c12.574 0 22.766-10.192 22.766-22.765S35.34.001 22.766.001zm0 6.807a7.53 7.53 0 11.001 15.06 7.53 7.53 0 01-.001-15.06zm-.005 32.771a16.708 16.708 0 01-10.88-4.012 3.209 3.209 0 01-1.126-2.439c0-4.217 3.413-7.592 7.631-7.592h8.762c4.219 0 7.619 3.375 7.619 7.592a3.2 3.2 0 01-1.125 2.438 16.702 16.702 0 01-10.881 4.013z" /></svg>
+                                    <img className="rounded-md" width="45" height="45" src={this.state.product.user.image} />                                   
                                 </div>
                                 <div className="text-center">
-                                    <h4 className="text-lg font-semibold">John Smith</h4>
+                                    <h4 className="text-lg font-semibold">{this.state.product.user.firstName} {this.state.product.user.lastName}</h4>
                                     <div className="">
                                         <span className="italic">august 14, 2018</span>
                                     </div>
