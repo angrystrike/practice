@@ -21,8 +21,8 @@ export class ProductItem extends React.Component<MyProps, MyState> {
     render() {
         return (
             <div className="sm:flex-50 max-w-xs sm:w-full sm:flex-shrink-0 my-3 pb-5 sm:px-2">
-                <div className="relative pb-5/6">
-                    <img className="absolute inset-0 h-full object-cover rounded-lg shadow-md" width="400" height="200" src={this.props.product.image} />
+                <div className="relative pb-5/6 bg-white rounded-lg shadow-md">
+                    <img className="absolute inset-0 h-full object-cover" width="400" height="200" src={this.props.product.image} />
                 </div>
                 <div className="relative px-4 -mt-16">
                     <div className="bg-white rounded-lg px-4 py-4 shadow-lg">

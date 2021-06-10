@@ -28,8 +28,6 @@ class Review {
 
 @modelOptions({ schemaOptions: { collection: 'products' } })
 export class Product {
-    // @prop({ type: String })
-    // public _id: string;  
 
     @prop({ ref: Category }, WhatIsIt.ARRAY)
     public categories: mongoose.Types.Array<Category>

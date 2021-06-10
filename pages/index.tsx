@@ -2,16 +2,11 @@ import Image from 'next/image'
 import dynamic from 'next/dynamic'
 import React from 'react'
 import { ProductList } from 'components/ProductList'
-
-const CarItem = dynamic(() => import('../partials/CarItem'))
-const Header = dynamic(() => import('../partials/Header'))
-const Footer = dynamic(() => import('../partials/Footer'))
+import Layout from 'components/Layout'
 
 export default function Home() {
   return (
-    <div className="bg-gray-200">
-      <Header />
-      
+    <Layout>
       <div className="pb-3 max-w-5xl mx-auto">
         <section id="categories" className="mt-5 mx-6 pb-4 bg-white rounded-lg">
           <div className="flex flex-col py-3 my-3">
@@ -38,10 +33,9 @@ export default function Home() {
           </div>
         </section>
 
-        <ProductList />     
-
-        <Footer />
+        <ProductList />
       </div>
-    </div>
+
+    </Layout>
   )
 }

@@ -3,9 +3,7 @@ import dynamic from 'next/dynamic'
 import React from 'react'
 import { Product } from "server/models/Product";
 import nextConfig from 'next.config'
-
-const Header = dynamic(() => import('../../partials/Header'))
-const Footer = dynamic(() => import('../../partials/Footer'))
+import Layout from 'components/Layout';
 
 interface MyProps {
     id: string,
@@ -34,8 +32,7 @@ class ProductPage extends React.Component<MyProps, MyState> {
 
     render() {
         return (
-            <div className="bg-gray-200">
-                <Header />
+            <Layout>               
                 <div className="mt-8 pb-3 max-w-5xl mx-auto">
                     <div className="mx-6 flex flex-col sm:flex-row py-3 px-4 bg-white rounded-lg shadow-lg">
                         <div className="mx-2 sm:w-3/5 sm:mx-0 sm:self-start sm:px-5">
@@ -88,9 +85,9 @@ class ProductPage extends React.Component<MyProps, MyState> {
 
                     
                     </div>
-                    <Footer />
+                    
                 </div>
-            </div>
+            </Layout>
 
         );
     }

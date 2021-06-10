@@ -25,8 +25,7 @@ export class ProductList extends React.Component<MyProps, MyState> {
         fetch('/products/featured', { method: 'GET' })
         .then(response => response.json())
         .then(
-            (result) => {                                       
-                console.log(result);  
+            (result) => {                                    
                 this.setState<typeof result.data>({ 
                     items: result.data 
                 });                                 
