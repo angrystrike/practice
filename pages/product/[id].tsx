@@ -7,6 +7,7 @@ import nextConfig from 'next.config'
 import Layout from 'components/partials/Layout';
 import Image from 'next/image'
 import { xRead } from 'modules';
+import { Comment } from '../../components/Comment';
 interface MyProps {
     id: string,
     product: Product,
@@ -47,13 +48,7 @@ class ProductPage extends React.Component<MyProps, MyState> {
                     <img className="mt-3 self-center w-3/5 rounded-lg shadow-md" width="150" height="250" src={item.image} />
                     <div className="ml-2 -mt-2 sm:mt-2">
                         <h5 className="text-xl sm:text-sm font-semibold">{item.name}</h5>
-                        <div className="mt-2 text-sm text-gray-600 flex justify-center items-center">
-                            <svg className="h-4 w-4 fill-current text-green-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 .288l2.833 8.718h9.167l-7.417 5.389 2.833 8.718-7.416-5.388-7.417 5.388 2.833-8.718-7.416-5.389h9.167z" /></svg>
-                            <svg className="h-4 w-4 fill-current text-green-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 .288l2.833 8.718h9.167l-7.417 5.389 2.833 8.718-7.416-5.388-7.417 5.388 2.833-8.718-7.416-5.389h9.167z" /></svg>
-                            <svg className="h-4 w-4 fill-current text-green-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 .288l2.833 8.718h9.167l-7.417 5.389 2.833 8.718-7.416-5.388-7.417 5.388 2.833-8.718-7.416-5.389h9.167z" /></svg>
-                            <svg className="h-4 w-4 fill-current text-green-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 .288l2.833 8.718h9.167l-7.417 5.389 2.833 8.718-7.416-5.388-7.417 5.388 2.833-8.718-7.416-5.389h9.167z" /></svg>
-                            <svg className="h-4 w-4 fill-current text-gray-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 .288l2.833 8.718h9.167l-7.417 5.389 2.833 8.718-7.416-5.388-7.417 5.388 2.833-8.718-7.416-5.389h9.167z" /></svg>
-                        </div>
+                        <Comment items={this.props.product.reviews} />                 
                         <div className="mt-2 text-gray-900 font-semibold text-xl text-center ">${item.price}</div>
                     </div>
                 </div>          
@@ -80,17 +75,11 @@ class ProductPage extends React.Component<MyProps, MyState> {
 
                         <div className="sm:w-2/5 text-xl text-center sm:text-left">
                             <div className="mt-5 sm:mt-3 font-bold text-xl">{this.state.product.name}</div>
-                            <div className="mt-2 text-sm text-gray-600 flex justify-center sm:justify-start items-center">
-                                <svg className="h-4 w-4 fill-current text-green-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 .288l2.833 8.718h9.167l-7.417 5.389 2.833 8.718-7.416-5.388-7.417 5.388 2.833-8.718-7.416-5.389h9.167z" /></svg>
-                                <svg className="h-4 w-4 fill-current text-green-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 .288l2.833 8.718h9.167l-7.417 5.389 2.833 8.718-7.416-5.388-7.417 5.388 2.833-8.718-7.416-5.389h9.167z" /></svg>
-                                <svg className="h-4 w-4 fill-current text-green-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 .288l2.833 8.718h9.167l-7.417 5.389 2.833 8.718-7.416-5.388-7.417 5.388 2.833-8.718-7.416-5.389h9.167z" /></svg>
-                                <svg className="h-4 w-4 fill-current text-green-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 .288l2.833 8.718h9.167l-7.417 5.389 2.833 8.718-7.416-5.388-7.417 5.388 2.833-8.718-7.416-5.389h9.167z" /></svg>
-                                <svg className="h-4 w-4 fill-current text-gray-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 .288l2.833 8.718h9.167l-7.417 5.389 2.833 8.718-7.416-5.388-7.417 5.388 2.833-8.718-7.416-5.389h9.167z" /></svg>
-                                <span className="ml-2">34 reviews</span>
-                            </div>
+                            <Comment items={this.state.product.reviews} />
+                            
                             <div className="mt-5 font-semibold">
                                 Price:
-                        <span className="ml-2 font-normal">${this.state.product.price}</span>
+                                <span className="ml-2 font-normal">${this.state.product.price}</span>
                             </div>
 
                             <div className="mt-5 flex items-center justify-center sm:justify-start">
@@ -101,11 +90,11 @@ class ProductPage extends React.Component<MyProps, MyState> {
                             </div>
                             <div className="mt-5 font-semibold">
                                 Transmission:
-                            <span className="mt-5 ml-2 font-normal">{this.state.product.transmission}</span>
+                                <span className="mt-5 ml-2 font-normal">{this.state.product.transmission}</span>
                             </div>
                             <div className="mt-5 font-semibold">
                                 Engine:
-                        <span className="mt-5 ml-2 font-normal">{this.state.product.engine}</span>
+                                <span className="mt-5 ml-2 font-normal">{this.state.product.engine}</span>
                             </div>
                             <div className="mt-5"> {this.state.product.description} </div>
                             <button type="button" className="mt-3 sm:mt-9 px-7 font-medium py-1 text-white bg-blue-600 rounded-md shadow-lg">Order</button>

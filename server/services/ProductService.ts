@@ -53,7 +53,7 @@ export default class ProductService extends BaseContext {
 
     public findOneByID(id) {
         const { ProductModel } = this.di;
-        return ProductModel.findById(id).populate('user');
+        return ProductModel.findById(id).populate('user').populate('reviews.user'); 
     }
 
     public deleteByID(id) {

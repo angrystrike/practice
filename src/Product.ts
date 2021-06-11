@@ -1,8 +1,10 @@
+import Review from './Review';
 import User from './User'
 
 export default interface Product {
     _id: string;
-    user: User;  
+    user: User;
+    reviews: Array<Review>; 
     name: string;  
     price: number;
     color: string;

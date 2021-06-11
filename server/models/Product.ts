@@ -35,8 +35,8 @@ export class Product {
     @prop({ ref: User })
     public user: User
 
-    @prop({ type: () => Review })
-    public reviews: Review[];
+    @prop({ type: () => Review }, WhatIsIt.ARRAY)
+    public reviews: mongoose.Types.Array<Review>;
 
     @prop({ type: String })
     public name: string;  
