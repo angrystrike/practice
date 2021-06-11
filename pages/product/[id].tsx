@@ -31,9 +31,9 @@ class ProductPage extends React.Component<MyProps, MyState> {
     static async getInitialProps(ctx) {
         const [item, similarItems] = await Promise.all([
             xRead('products/' + ctx.query.id).then((res) => res.response.data),
-            xRead('products/similar/' + ctx.query.id).then((res) => res.response.data)           
+            xRead('products/similar/' + ctx.query.id).then((res) => res.response.data)
         ]);
-        
+
         return {
             product: item,
             similarProducts: similarItems
@@ -42,18 +42,38 @@ class ProductPage extends React.Component<MyProps, MyState> {
 
     render() {
         const items = this.state.similarProducts.map(
-            (item) => 
-                
+            (item) =>
                 <div className="mt-5 sm:ml-4 bg-white rounded-lg pt-2 pb-4 flex flex-row sm:flex-col items-center justify-center shadow-lg" key={item._id}>
                     <img className="mt-3 self-center w-3/5 rounded-lg shadow-md" width="150" height="250" src={item.image} />
                     <div className="ml-2 -mt-2 sm:mt-2">
                         <h5 className="text-xl sm:text-sm font-semibold">{item.name}</h5>
-                        <Comment items={this.props.product.reviews} />                 
+                        <Comment items={this.props.product.reviews} />
                         <div className="mt-2 text-gray-900 font-semibold text-xl text-center ">${item.price}</div>
                     </div>
-                </div>          
+                </div>
         );
-        
+
+        const reviews = this.state.product.reviews.map(
+            (item) =>
+                <div className="mt-6 bg-white rounded-lg py-4 px-4 flex flex-row justify-center shadow-lg">
+                    <div className="sm:flex sm:flex-col items-center w-full">
+                        <div className="sm:mt-1">
+                            <img width="45" height="45" src={item.user.image} alt="profile" />
+                        </div>
+                        <div className="mt-3 sm:ml-3">
+                            <h4 className="text-center sm:text-left text-lg font-semibold">{item.user.firstName} {item.user.lastName}</h4>
+                            <div className="mb-3 text-center">
+                                <span className="italic">august 14, 2018</span>
+                            </div>
+
+                            <Comment items={[item]} />
+                        </div>
+                    </div>
+
+                    <div className="ml-4 text-center sm:text-left self-center">{item.text}</div>
+                </div>
+        );
+
         return (
             <Layout>
                 <div className="mt-8 pb-3 max-w-5xl mx-auto">
@@ -62,7 +82,7 @@ class ProductPage extends React.Component<MyProps, MyState> {
                             <img className="mt-3 w-full rounded-lg shadow-md" width="400" height="200" src={this.state.product.image} />
                             <div className="mt-3 flex flex-col items-center">
                                 <div className="sm:mt-1">
-                                    <img className="rounded-md" width="45" height="45" src={this.state.product.user.image} />                                   
+                                    <img className="rounded-md" width="45" height="45" src={this.state.product.user.image} />
                                 </div>
                                 <div className="text-center">
                                     <h4 className="text-lg font-semibold">{this.state.product.user.firstName} {this.state.product.user.lastName}</h4>
@@ -76,7 +96,7 @@ class ProductPage extends React.Component<MyProps, MyState> {
                         <div className="sm:w-2/5 text-xl text-center sm:text-left">
                             <div className="mt-5 sm:mt-3 font-bold text-xl">{this.state.product.name}</div>
                             <Comment items={this.state.product.reviews} />
-                            
+
                             <div className="mt-5 font-semibold">
                                 Price:
                                 <span className="ml-2 font-normal">${this.state.product.price}</span>
@@ -106,6 +126,11 @@ class ProductPage extends React.Component<MyProps, MyState> {
                         <div className="sm:flex sm:flex-row sm:flex-nowrap">
                             {items}
                         </div>
+                    </section>
+
+                    <section className="p-3 rounded-lg justify-center">
+                        <h2 className="mt-2 text-4xl text-center">Reviews</h2>
+                        {reviews}
                     </section>
                 </div>
             </Layout>
