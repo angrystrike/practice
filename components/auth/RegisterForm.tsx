@@ -42,7 +42,7 @@ export class RegisterForm extends React.Component<MyProps, MyState> {
 
     handleSubmit(event) {
         event.preventDefault();
-        xSave('auth/register').then((res) => {
+        xSave('auth/register', this.state).then((res) => {
             Router.push('/login')
         })
     }
