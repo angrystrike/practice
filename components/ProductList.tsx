@@ -2,6 +2,7 @@ import React from "react";
 import Product from 'src/Product';
 import { ProductItem } from "./ProductItem";
 import nextConfig from 'next.config';
+import { xRead } from "modules";
 
 interface MyProps {
 
@@ -22,23 +23,16 @@ export class ProductList extends React.Component<MyProps, MyState> {
 
 
     componentDidMount() {
-        fetch('/products/featured', { method: 'GET' })
-        .then(response => response.json())
-        .then(
-            (result) => {                                    
-                this.setState<typeof result.data>({ 
-                    items: result.data 
-                });                                 
-            },
-            (error) => {
-                console.log(error);
-            }
-        )
+        xRead('products/featured').then((res) => {
+            this.setState<typeof res.response.data>({
+                items : res.response.data
+            })
+        })
     }
 
     render() {
-        const items = this.state.items.map(         
-            (item) => <ProductItem product={item} key={item._id} />            
+        const items = this.state.items.map(
+            (item) => <ProductItem product={item} key={item._id} />
         );
         return (
             <section className="mt-6 flex justify-center flex-wrap px-3">
@@ -46,4 +40,4 @@ export class ProductList extends React.Component<MyProps, MyState> {
             </section>
         );
     }
-} 
+}

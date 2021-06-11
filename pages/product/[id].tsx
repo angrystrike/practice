@@ -6,6 +6,7 @@ import User from 'src/User';
 import nextConfig from 'next.config'
 import Layout from 'components/partials/Layout';
 import Image from 'next/image'
+import { xRead } from 'modules';
 interface MyProps {
     id: string,
     product: Product,
@@ -28,13 +29,13 @@ class ProductPage extends React.Component<MyProps, MyState> {
 
     static async getInitialProps(ctx) {
         const [item, similarItems] = await Promise.all([
-            fetch(nextConfig.public.BASE_URL + '/products/' + ctx.query.id).then(r => r.json()),
-            fetch(nextConfig.public.BASE_URL + '/products/similar/' + ctx.query.id).then(r => r.json())
+            xRead('products/' + ctx.query.id).then((res) => res.response.data),
+            xRead('products/similar/' + ctx.query.id).then((res) => res.response.data)           
         ]);
         
         return {
-            product: item.data,
-            similarProducts: similarItems.data
+            product: item,
+            similarProducts: similarItems
         };
     }
 

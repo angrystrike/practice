@@ -1,3 +1,5 @@
+import { xSave } from "modules";
+import Router from "next/router";
 import React from "react";
 
 interface MyProps {
@@ -39,26 +41,10 @@ export class RegisterForm extends React.Component<MyProps, MyState> {
     }
 
     handleSubmit(event) {
-        console.log('Your favorite flavor is: ' + JSON.stringify(this.state));
         event.preventDefault();
-        const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(this.state)
-        };
-        fetch('/auth/register', requestOptions)
-            .then(response => response.json())
-            .then(
-                (result) => {
-                    // var Router = require('react-router');
-                    // Router.browserHistory.push('/');          
-                    console.log(result);
-                    // return (<Redirect to="/" />);                   
-                },
-                (error) => {
-                    console.log(error);
-                }
-            )
+        xSave('auth/register').then((res) => {
+            Router.push('/login')
+        })
     }
 
     render() {

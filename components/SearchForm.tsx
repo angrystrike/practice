@@ -1,6 +1,7 @@
 import React from "react";
 import { ProductList } from "./ProductList";
 import { Product } from "server/models/Product";
+import { xRead } from "modules";
 
 interface MyProps {
 
@@ -32,23 +33,13 @@ export class SearchForm extends React.Component<MyProps, MyState> {
         });
     }
 
-    handleSubmit(event) {
-        console.log('Your favorite flavor is: ' + JSON.stringify(this.state));
-        
-        event.preventDefault();     
-        fetch('/products/search/' + this.state.search, { method: 'GET' })
-            .then(response => response.json())
-            .then(
-                (result) => {                                       
-                    console.log(result);  
-                    this.setState<typeof result.data>({ 
-                        items: result.data 
-                    });                                 
-                },
-                (error) => {
-                    console.log(error);
-                }
-            )
+    handleSubmit(event) {    
+        event.preventDefault();
+        xRead('products/search', { search: this.state.search }).then((res) => {
+            this.setState<typeof res.response.data>({
+                items : res.response.data
+            })
+        })     
     }
 
     render() {
