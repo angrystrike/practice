@@ -8,6 +8,7 @@ import Layout from 'components/partials/Layout';
 import Image from 'next/image'
 import { xRead } from 'modules';
 import { Comment } from '../../components/Comment';
+
 interface MyProps {
     id: string,
     product: Product,

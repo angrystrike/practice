@@ -1,7 +1,5 @@
 import React from "react";
-import { ProductList } from "./ProductList";
-import { Product } from "server/models/Product";
-import { xRead } from "modules";
+import Router from 'next/router';
 
 interface MyProps {
 
@@ -9,15 +7,13 @@ interface MyProps {
 
 interface MyState {
     search: string,
-    items: Array<Product>,
 }
 
 export class SearchForm extends React.Component<MyProps, MyState> {
     constructor(props) {
         super(props);
         this.state = {
-            search: '',
-            items: [],
+            search: ''
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -35,11 +31,7 @@ export class SearchForm extends React.Component<MyProps, MyState> {
 
     handleSubmit(event) {    
         event.preventDefault();
-        xRead('products/search', { search: this.state.search }).then((res) => {
-            this.setState<typeof res.response.data>({
-                items : res.response.data
-            })
-        })     
+        Router.push('/search/' + this.state.search)        
     }
 
     render() {

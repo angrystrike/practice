@@ -27,12 +27,12 @@ export default class ProductService extends BaseContext {
             }, {
                 description: { $regex: text, $options: 'i' }
             }]
-        })
+        }).limit(5);
     }
 
     public findFeatured() {
         const { ProductModel } = this.di;
-        return ProductModel.find({}).where('featured', true).sort({"price": -1}).limit(4).populate('reviews');
+        return ProductModel.find({}).where('featured', true).sort({'price': -1}).limit(4).populate('reviews');
     }
 
     public findAll() {
