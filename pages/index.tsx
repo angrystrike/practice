@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import React from 'react'
+  import React from 'react'
 import { ProductList } from 'components/ProductList'
 import Layout from 'components/partials/Layout'
 
