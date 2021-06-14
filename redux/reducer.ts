@@ -29,7 +29,15 @@ const nextReducer = (
 };
 
 function products(state = [], action: any) {
-    return state;
+    switch(action.type) {
+        case 'products/featured': {
+            state = action.data;
+            return state;
+        }
+
+        default:
+            return state;
+    }
 }
 
 function users(state = [], action: any) {

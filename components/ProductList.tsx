@@ -1,7 +1,6 @@
 import React from "react";
-import Product from 'src/Product';
+import Product from 'redux/models/Product';
 import { ProductItem } from "./ProductItem";
-import nextConfig from 'next.config';
 import { xRead } from "modules";
 
 interface MyProps {

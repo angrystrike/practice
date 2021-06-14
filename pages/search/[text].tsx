@@ -1,5 +1,5 @@
 import React from 'react'
-import Product from 'src/Product';
+import Product from 'redux/models/Product';
 import Layout from 'components/partials/Layout';
 import { xRead } from 'modules';
 import { ProductList } from 'components/ProductList';
@@ -34,8 +34,6 @@ class SearchPage extends React.Component<MyProps, MyState> {
     }
 
     render() {
-        // console.log('state: ' + this.state.items[0].image)
-        // console.log('props text: ' + this.props.text)
         return (
             <Layout>
                 <div className="pb-3 max-w-5xl mx-auto">

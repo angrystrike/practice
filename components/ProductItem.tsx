@@ -1,6 +1,6 @@
 import Link from "next/link";
 import React from "react";
-import Product from 'src/Product';
+import Product from 'redux/models/Product';
 import { Comment } from "./Comment";
 
 interface MyProps {
@@ -42,15 +42,7 @@ export class ProductItem extends React.Component<MyProps, MyState> {
                         <div className="mt-1">
                             <span className="text-gray-900 font-semibold">${this.props.product.price}</span>
                         </div>
-                        <Comment items={this.props.product.reviews} />
-                        {/* <div className="text-sm text-gray-600 mt-2 flex items-center">
-                            <svg className="h-4 w-4 fill-current text-green-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 .288l2.833 8.718h9.167l-7.417 5.389 2.833 8.718-7.416-5.388-7.417 5.388 2.833-8.718-7.416-5.389h9.167z" /></svg>
-                            <svg className="h-4 w-4 fill-current text-green-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 .288l2.833 8.718h9.167l-7.417 5.389 2.833 8.718-7.416-5.388-7.417 5.388 2.833-8.718-7.416-5.389h9.167z" /></svg>
-                            <svg className="h-4 w-4 fill-current text-green-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 .288l2.833 8.718h9.167l-7.417 5.389 2.833 8.718-7.416-5.388-7.417 5.388 2.833-8.718-7.416-5.389h9.167z" /></svg>
-                            <svg className="h-4 w-4 fill-current text-green-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 .288l2.833 8.718h9.167l-7.417 5.389 2.833 8.718-7.416-5.388-7.417 5.388 2.833-8.718-7.416-5.389h9.167z" /></svg>
-                            <svg className="h-4 w-4 fill-current text-gray-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 .288l2.833 8.718h9.167l-7.417 5.389 2.833 8.718-7.416-5.388-7.417 5.388 2.833-8.718-7.416-5.389h9.167z" /></svg>
-                            <span className="ml-2">{this.props.product.reviews.length} reviews</span>
-                        </div> */}
+                        <Comment items={this.props.product.reviews} />                   
                     </div>
                 </div>
             </div>

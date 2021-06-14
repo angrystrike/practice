@@ -1,8 +1,8 @@
 import { useRouter } from 'next/router'
 import dynamic from 'next/dynamic'
 import React from 'react'
-import Product from 'src/Product';
-import User from 'src/User';
+import Product from 'redux/models/Product';
+import User from 'redux/models/User';
 import nextConfig from 'next.config'
 import Layout from 'components/partials/Layout';
 import Image from 'next/image'

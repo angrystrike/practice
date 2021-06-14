@@ -5,6 +5,9 @@ import { createWrapper, MakeStore } from 'next-redux-wrapper';
 import next from 'next';
 import { AppState } from './reducer';
 import rootReducer from './reducer';
+import { all } from 'redux-saga/effects'
+import { watchFetchFeaturedProducts } from './models/Product';
+
 
 declare global {
     interface Window {
@@ -13,7 +16,9 @@ declare global {
 }
 
 const rootSaga = function* root() {
-    // yield all([........... ]);
+    yield all([
+        watchFetchFeaturedProducts
+    ]);
 };
 
 export interface SagaStore extends Store {
