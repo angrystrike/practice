@@ -27,10 +27,10 @@ export const requestFeaturedProducts = (data: any) => action(REQUEST_FEATURED_PR
 
 export function* watchFetchFeaturedProducts() {
     while (true) {
-        const action = yield take(FETCH_FEATURED_PRODUCTS);
-        const data = yield call(xRead, 'products/featured');
+        const fetchedData = yield take(FETCH_FEATURED_PRODUCTS);
+        const products = yield call(xRead, '/products/featured', fetchedData);
 
-        yield put(requestFeaturedProducts(data));
+        yield put(requestFeaturedProducts(products));
     }
 }
 

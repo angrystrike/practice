@@ -11,9 +11,10 @@ function MyApp({ Component, pageProps }: AppProps) {
     return (<Component {...pageProps} />);
 }
 
-MyApp.getInitialProps = async ({ Component, ctx }: AppContext) => {
+MyApp.getInitialProps = wrapper.getInitialAppProps(store => async ({ Component, ctx }) => {
+    //async ({ Component, ctx }: AppContext) => {
 
-    ctx.store && (ctx.store as SagaStore).runSaga();
+    (store as SagaStore).runSaga();
 
     // 1. Wait for all page actions to dispatch
     const pageProps = {
@@ -22,15 +23,15 @@ MyApp.getInitialProps = async ({ Component, ctx }: AppContext) => {
     };
 
     // 2. Stop the saga if on server
-    if (ctx.store && ctx.req) {
-        ctx.store.dispatch(END);
-        await (ctx.store as SagaStore).sagaTask.toPromise();
+    if (store && ctx.req) {
+        store.dispatch(END);
+        await (store as SagaStore).sagaTask.toPromise();
     }
 
     // 3. Return props
     return {
         pageProps
     };
-};
+});
 
 export default wrapper.withRedux(MyApp);

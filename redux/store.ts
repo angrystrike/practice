@@ -17,7 +17,7 @@ declare global {
 
 const rootSaga = function* root() {
     yield all([
-        watchFetchFeaturedProducts
+        watchFetchFeaturedProducts()
     ]);
 };
 
@@ -45,7 +45,6 @@ export const makeStore: MakeStore<AppState> = () => {
     console.log('Init RunSaga()');
     store.runSaga = () => sagaMiddleware.run(rootSaga);
     
-
     return store;
 };
 

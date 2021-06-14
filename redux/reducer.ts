@@ -12,17 +12,13 @@ const nextReducer = (
 ) => {
     switch (action.type) {
         case HYDRATE:
-            return {...state, ...action.payload, isHydrate: true };
-            // if (action.payload.app === 'init') delete action.payload.app;
-            // if (action.payload.page === 'init') delete action.payload.page;
-            // if (!state.isHydrate) {
-            //     return { ...state };
-            // }
-            // return { ...state, ...action.payload, isHydrate: true };
+            if (action.payload.app === 'init') delete action.payload.app;
+            if (action.payload.page === 'init') delete action.payload.page;
+            return {...state, ...action.payload};
         case 'APP':
-            return { ...state, app: action.payload };
+            return {...state, app: action.payload};
         case 'PAGE':
-            return { ...state, page: action.payload };
+            return {...state, page: action.payload};
         default:
             return state;
     }
@@ -30,9 +26,9 @@ const nextReducer = (
 
 function products(state = [], action: any) {
     switch(action.type) {
-        case 'products/featured': {
-            state = action.data;
-            return state;
+        case 'REQUEST_FEATURED_PRODUCTS': {
+            const data = JSON.parse(JSON.stringify(action.data));
+            return data;
         }
 
         default:

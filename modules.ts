@@ -30,12 +30,13 @@ function xFetch(endpoint: string, method: HTTP_METHOD, data = {}, token?: string
         .then((response) => {
             return response.json().then((json) => ({ json, response }));
         })
-        .then(({ json, response }) =>
-                Promise.resolve({
-                    success: response.ok ? true : false,
-                    response: json
-                })
-            );
+        // .then(({ json, response }) =>
+        //         Promise.resolve({
+        //             success: response.ok ? true : false,
+        //             response: json
+        //         })
+        //     );
+        .then(({ json, response }) => json );
 }
 
 export function xSave(uri: string, data: any = {}) {
