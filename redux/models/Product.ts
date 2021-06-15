@@ -2,8 +2,12 @@ import { xRead } from 'modules';
 import { put, take, call, select } from 'redux-saga/effects';
 import { action } from 'redux/action';
 import { Category } from 'server/models/Category';
-import Review from './Review';
-import User from './User'
+import Review, { reviewEntity } from './Review';
+import User, { userEntity } from './User'
+import { normalize, schema } from 'normalizr';
+import { SchemaType } from 'mongoose';
+import { categoryEntity } from './Category';
+
 
 export default interface Product {
     _id: string;
@@ -19,6 +23,18 @@ export default interface Product {
     image: string;
 }
 
+
+export const productEntity = new schema.Entity('products', {
+    user: userEntity,
+    reviews: [reviewEntity],
+    categories: [categoryEntity]
+}, {
+    idAttribute: '_id'
+});
+
+// const productsSchema = new schema.Array(productEntity);
+// productEntity.define({ productsSchema });
+
 export const FETCH_FEATURED_PRODUCTS = 'FETCH_FEATURED_PRODUCTS';
 export const REQUEST_FEATURED_PRODUCTS = 'REQUEST_FEATURED_PRODUCTS';
 
@@ -29,8 +45,12 @@ export function* watchFetchFeaturedProducts() {
     while (true) {
         const fetchedData = yield take(FETCH_FEATURED_PRODUCTS);
         const products = yield call(xRead, 'products/featured', fetchedData);
-
-        yield put(requestFeaturedProducts(products));
+        console.log('Start: ', products);
+        
+        const normalizedData = normalize(products.data, [productEntity]);
+        console.log('Normalized:',normalizedData);
+        
+        yield put(requestFeaturedProducts(normalizedData));
     }
 }
 
@@ -50,7 +70,25 @@ export function* watchFetchProduct() {
             const product = yield call(xRead, 'products/' + data.productId);
             yield put(requestProduct(product)); 
         }
+    }
+}
 
+export const FETCH_SIMILAR_PRODUCTS = 'FETCH_SIMILAR_PRODUCTS';
+export const REQUEST_SIMILAR_PRODUCTS = 'REQUEST_SIMILAR_PRODUCTS';
+
+export const fetchSimilarProducts = (productId: string | string[]) => action(FETCH_SIMILAR_PRODUCTS, { productId });
+export const requestSimilarProducts = (data: any) => action(REQUEST_SIMILAR_PRODUCTS, data);  
+
+export function* watchFetchSimilarProducts() {
+    while (true) {
+        const data = yield take(FETCH_SIMILAR_PRODUCTS);
+
+        const products = yield select(state => state.products);
+        const item = products.find(o => o._id !== data.productId);
+        if (!item) {
+            const product = yield call(xRead, 'products/similar/' + data.productId);
+            yield put(requestSimilarProducts(product)); 
+        }
     }
 }
 

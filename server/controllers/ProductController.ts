@@ -22,8 +22,8 @@ export default class ProductController extends BaseContext {
     @route('/similar/:id')
     getSimilar(req: Request, res: Response) {
         const { ProductService } = this.di;
-
-        const result = ProductService.findSimilar(req.params.id)
+        
+        ProductService.findSimilar(req.params.id)
             .then((data) => res.answer(data, "Success", statusCode.OK))
             .catch((err) => res.answer(null, err, statusCode.BAD_REQUEST)) 
     }

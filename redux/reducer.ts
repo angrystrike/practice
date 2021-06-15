@@ -32,7 +32,36 @@ function products(state = [], action: any) {
         }
         case 'REQUEST_PRODUCT': {
             const data = JSON.parse(JSON.stringify(action.data));
-            return [ data ];
+            return [data];
+            // return {
+            //     products: [
+            //         ...state.products,
+            //         data
+            //     ]
+            // }
+            // return {
+            //     ...state,
+            //     products: [
+            //         ...state.products,
+            //         data
+            //     ]
+            // }
+            // return {
+            //     state,
+            //     data: [ data ]
+            // };
+        }
+        case 'REQUEST_SIMILAR_PRODUCTS': {
+            const data = JSON.parse(JSON.stringify(action.data));
+            return data;
+            // console.log('data',data)
+            // return {
+            //     ...state,
+            //     products: [
+            //         ...state.products,
+            //         data
+            //     ]
+            // }
         }
         default:
             return state;

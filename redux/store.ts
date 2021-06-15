@@ -1,12 +1,11 @@
-import createSagaMiddleware, { Task, END } from 'redux-saga';
+import createSagaMiddleware, { Task } from 'redux-saga';
 import nextConfig from 'next.config'
-import { createStore, applyMiddleware, compose, Store, AnyAction } from 'redux';
+import { createStore, applyMiddleware, compose, Store } from 'redux';
 import { createWrapper, MakeStore } from 'next-redux-wrapper';
-import next from 'next';
 import { AppState } from './reducer';
 import rootReducer from './reducer';
 import { all } from 'redux-saga/effects'
-import { watchFetchFeaturedProducts, watchFetchProduct } from './models/Product';
+import { watchFetchFeaturedProducts, watchFetchProduct, watchFetchSimilarProducts } from './models/Product';
 
 
 declare global {
@@ -18,7 +17,8 @@ declare global {
 const rootSaga = function* root() {
     yield all([
         watchFetchFeaturedProducts(),
-        watchFetchProduct()
+        watchFetchProduct(),
+        watchFetchSimilarProducts()
     ]);
 };
 
