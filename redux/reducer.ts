@@ -30,7 +30,10 @@ function products(state = [], action: any) {
             const data = JSON.parse(JSON.stringify(action.data));
             return data;
         }
-
+        case 'REQUEST_PRODUCT': {
+            const data = JSON.parse(JSON.stringify(action.data));
+            return [ data ];
+        }
         default:
             return state;
     }

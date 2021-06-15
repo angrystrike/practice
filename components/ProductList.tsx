@@ -1,19 +1,17 @@
 import React from "react";
 import Product, { fetchFeaturedProducts } from 'redux/models/Product';
-import { ProductItem } from "./ProductItem";
-import { xRead } from "modules";
+import { ProductItem } from './ProductItem';
 import { connect } from "react-redux";
 
 interface MyProps {
-    
+    fetchFeaturedProducts: () => void;
+    products: Array<Product>;
 }
 
 interface MyState {
-    items: Array<Product>,
 }
 
-export class ProductList extends React.Component<MyProps, MyState> {
-
+class ProductList extends React.Component<MyProps, MyState> {
     constructor(props) {
         super(props);
         this.state = {
@@ -23,35 +21,19 @@ export class ProductList extends React.Component<MyProps, MyState> {
 
     componentDidMount() {
         const { fetchFeaturedProducts } = this.props
-        fetchFeaturedProducts();
-        //if (this.props.items.length === 0) {
-            // xRead('products/featured').then((res) => {
-            //     this.setState<typeof res.response.data>({
-            //         items: res.response.data
-            //     })
-            // })           
-            // const test = fetchFeaturedProducts();
-            // console.log(test);            
-    
-       // }
+        fetchFeaturedProducts()
     }
 
     render() {
-        // let items;
-        // if (this.props.items.length === 0) {
-        //     items = this.state.items.map(
-        //         (item) => <ProductItem product={item} key={item._id} />
-        //     );
-        // } else {
-        //     items = this.props.items.map(
-        //         (item) => <ProductItem product={item} key={item._id} />
-        //     );
-        // }
         const { products } = this.props
-        console.log("product list: " +  products)
+        
+        let items = products.map(           
+            (item) => <ProductItem product={item} key={item._id} />
+        );
+
         return (
             <section className="mt-6 flex justify-center flex-wrap px-3">
-                 {/* {items} */} 
+                { items }
             </section>
         );
     }
@@ -64,4 +46,8 @@ const mapStateToProps = (state) => {
     };
 };
 
-export default connect(mapStateToProps, { fetchFeaturedProducts }) (ProductList);
+const mapDispatchToProps = {
+    fetchFeaturedProducts
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProductList);

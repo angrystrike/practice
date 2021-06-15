@@ -6,7 +6,7 @@ import next from 'next';
 import { AppState } from './reducer';
 import rootReducer from './reducer';
 import { all } from 'redux-saga/effects'
-import { watchFetchFeaturedProducts } from './models/Product';
+import { watchFetchFeaturedProducts, watchFetchProduct } from './models/Product';
 
 
 declare global {
@@ -17,7 +17,8 @@ declare global {
 
 const rootSaga = function* root() {
     yield all([
-        watchFetchFeaturedProducts()
+        watchFetchFeaturedProducts(),
+        watchFetchProduct()
     ]);
 };
 
@@ -42,7 +43,6 @@ export const makeStore: MakeStore<AppState> = () => {
     const store = createStore(rootReducer, enhancer) as SagaStore;
     store.sagaTask = sagaMiddleware.run(rootSaga);
     // Entity.store = store;
-    console.log('Init RunSaga()');
     store.runSaga = () => sagaMiddleware.run(rootSaga);
     
     return store;

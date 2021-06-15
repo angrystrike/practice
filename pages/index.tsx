@@ -1,6 +1,6 @@
 import Image from 'next/image'
-  import React from 'react'
-import { ProductList } from 'components/ProductList'
+import React from 'react'
+import ProductList from 'components/ProductList'
 import Layout from 'components/partials/Layout'
 
 export default function Home() {
@@ -32,7 +32,7 @@ export default function Home() {
           </div>
         </section>
 
-        <ProductList items={[]} />
+        <ProductList />
       </div>
 
     </Layout>

@@ -13,8 +13,7 @@ export default class ProductController extends BaseContext {
     @route('/featured')
     getFeatured(req: Request, res: Response) {
         const { ProductService } = this.di;
-
-        const result = ProductService.findFeatured()
+            ProductService.findFeatured()
             .then((data) => res.answer(data, "Success", statusCode.OK))
             .catch((err) => res.answer(null, err, statusCode.BAD_REQUEST)) 
     }
