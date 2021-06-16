@@ -1,5 +1,8 @@
 import { HYDRATE } from "next-redux-wrapper";
 import { AnyAction, combineReducers } from "redux";
+import { fromJS, List, Map } from 'immutable';
+
+
 
 export interface AppState {
     users: any,
@@ -24,11 +27,22 @@ const nextReducer = (
     }
 };
 
+//const initialEntities = fromJS({});
+
 function products(state = [], action: any) {
     switch(action.type) {
         case 'REQUEST_FEATURED_PRODUCTS': {
-            const data = JSON.parse(JSON.stringify(action.data));
+            console.log('action',action);
+            
+            const data = JSON.parse(JSON.stringify(action.entities));
             return data;
+            // state = fromJS(state);
+            // console.log('data', action.data);
+            
+            // state = state.mergeDeep(fromJS(action.data));
+            // console.log('state',state);
+            
+            // return state;
         }
         case 'REQUEST_PRODUCT': {
             const data = JSON.parse(JSON.stringify(action.data));

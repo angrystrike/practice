@@ -1,4 +1,3 @@
-import { xRead } from 'modules';
 import { put, take, call, select } from 'redux-saga/effects';
 import { action } from 'redux/action';
 import { Category } from 'server/models/Category';
@@ -7,6 +6,7 @@ import User, { userEntity } from './User'
 import { normalize, schema } from 'normalizr';
 import { SchemaType } from 'mongoose';
 import { categoryEntity } from './Category';
+import Entity from './Entity';
 
 
 export default interface Product {
@@ -23,8 +23,18 @@ export default interface Product {
     image: string;
 }
 
+export class ProductEntity extends Entity {
+    constructor(schema) {
+        super(schema);
+    }
 
-export const productEntity = new schema.Entity('products', {
+    public static addWatcher(func : Function) {
+        this.getWatchers().push(func);
+    }
+    
+}
+
+const productSchema = new schema.Entity('products', {
     user: userEntity,
     reviews: [reviewEntity],
     categories: [categoryEntity]
@@ -32,8 +42,8 @@ export const productEntity = new schema.Entity('products', {
     idAttribute: '_id'
 });
 
-// const productsSchema = new schema.Array(productEntity);
-// productEntity.define({ productsSchema });
+const productEntity = new ProductEntity(productSchema);
+
 
 export const FETCH_FEATURED_PRODUCTS = 'FETCH_FEATURED_PRODUCTS';
 export const REQUEST_FEATURED_PRODUCTS = 'REQUEST_FEATURED_PRODUCTS';
@@ -43,16 +53,22 @@ export const requestFeaturedProducts = (data: any) => action(REQUEST_FEATURED_PR
 
 export function* watchFetchFeaturedProducts() {
     while (true) {
+        console.log('watchFetchFeaturedProducts');
+        
         const fetchedData = yield take(FETCH_FEATURED_PRODUCTS);
-        const products = yield call(xRead, 'products/featured', fetchedData);
-        console.log('Start: ', products);
+        yield call(productEntity.xRead, 'products/featured', fetchedData, requestFeaturedProducts);
+        ProductEntity.addWatcher(watchFetchFeaturedProducts);
+        console.log('Product wachers', ProductEntity.getWatchers());
         
-        const normalizedData = normalize(products.data, [productEntity]);
-        console.log('Normalized:',normalizedData);
+        // console.log('Start: ', products);
         
-        yield put(requestFeaturedProducts(normalizedData));
+        // const normalizedData = normalize(products.data, [productEntity]);
+        // console.log('Normalized: ', normalizedData);
+        
+        // yield put(requestFeaturedProducts(normalizedData));
     }
 }
+
 
 export const FETCH_PRODUCT = 'FETCH_PRODUCT';
 export const REQUEST_PRODUCT = 'REQUEST_PRODUCT';

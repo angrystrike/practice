@@ -26,14 +26,14 @@ class ProductList extends React.Component<MyProps, MyState> {
 
     render() {
         const { products } = this.props
-        
-        let items = products.map(           
-            (item) => <ProductItem product={item} key={item._id} />
-        );
+        console.log('products', products)
+        // let items = products.map(           
+        //     (item) => <ProductItem product={item} key={item._id} />
+        // );
 
         return (
             <section className="mt-6 flex justify-center flex-wrap px-3">
-                { items }
+                {/* { items } */}
             </section>
         );
     }

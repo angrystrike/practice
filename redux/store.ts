@@ -5,7 +5,10 @@ import { createWrapper, MakeStore } from 'next-redux-wrapper';
 import { AppState } from './reducer';
 import rootReducer from './reducer';
 import { all } from 'redux-saga/effects'
-import { watchFetchFeaturedProducts, watchFetchProduct, watchFetchSimilarProducts } from './models/Product';
+import { ProductEntity, watchFetchFeaturedProducts, watchFetchProduct, watchFetchSimilarProducts } from './models/Product';
+import { fromJS, List, Map } from 'immutable';
+
+
 
 
 declare global {
@@ -15,10 +18,11 @@ declare global {
 }
 
 const rootSaga = function* root() {
+    console.log('Root saga',ProductEntity.getWatchers());
+    
+    //yield all([ProductEntity.getWatchers().map((item) => item())]);
     yield all([
-        watchFetchFeaturedProducts(),
-        watchFetchProduct(),
-        watchFetchSimilarProducts()
+        watchFetchFeaturedProducts()
     ]);
 };
 
