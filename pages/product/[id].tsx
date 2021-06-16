@@ -1,21 +1,19 @@
 import { withRouter, NextRouter } from 'next/router'
 import dynamic from 'next/dynamic'
 import React from 'react'
-import Product from 'redux/models/Product';
 import User from 'redux/models/User';
 import nextConfig from 'next.config'
 import Layout from 'components/partials/Layout';
 import Image from 'next/image'
-import { xRead } from 'modules';
 import { Comment } from '../../components/Comment';
 import { connect } from 'react-redux';
-import  { fetchProduct, fetchSimilarProducts } from 'redux/models/Product';
+import  { fetchProduct, Product } from 'redux/models/Product';
 
 interface MyProps {
     fetchProduct: (productId: string | string[]) => void;
     fetchSimilarProducts: (productId: string | string[]) => void;
     product: Product;
-    items: Array<Product>;
+    // items: Array<Product>;
     router: NextRouter;
 }
 
@@ -33,16 +31,16 @@ class ProductPage extends React.Component<MyProps, MyState> {
         const { fetchProduct, router : { query } } = this.props;
         fetchProduct(query.id);
 
-        const { fetchSimilarProducts } = this.props;
-        fetchSimilarProducts(query.id);
+        // const { fetchSimilarProducts } = this.props;
+        // fetchSimilarProducts(query.id);
     }
 
     render() {       
         const { product } = this.props
         console.log('Product render', product)
 
-        const { items } = this.props
-        console.log('items', items)
+        // const { items } = this.props
+        // console.log('items', items)
 
         // let similarItems = items.map(
         //     (item) =>
@@ -143,17 +141,22 @@ class ProductPage extends React.Component<MyProps, MyState> {
 }
 
 const mapStateToProps = (state, props) => {
+    // const { products } = state;
+    // const { router } = props;
+    // return {
+    //     product : router ? products.find(o => o._id === router.query.id) : null,
+    //     // items : router ? products.filter(o => o._id !== router.query.id) : null,
+    // };
+
     const { products } = state;
-    const { router } = props;
     return {
-        product : router ? products.find(o => o._id === router.query.id) : null,
-        items : router ? products.filter(o => o._id !== router.query.id) : null,
+        products
     };
 };
 
 const mapDispatchToProps = {
     fetchProduct,
-    fetchSimilarProducts
+    // fetchSimilarProducts
 }
 
 const prodPage = connect(mapStateToProps, mapDispatchToProps)(ProductPage);

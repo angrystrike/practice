@@ -2,6 +2,8 @@ import nextConfig from 'next.config'
 import { normalize, schema } from 'normalizr';
 import { put } from 'redux-saga/effects';
 import { requestFeaturedProducts } from 'redux/models/Product';
+import { isArray } from 'util';
+import { runInThisContext } from 'vm';
 
 export enum HTTP_METHOD {
     GET = 'GET',
@@ -13,8 +15,12 @@ export default class Entity {
     private schema;
     private static watchers: Function[] = [];
 
-    constructor(schema) {
-        this.schema = schema;
+    constructor(name: string, options: any) {
+        
+        this.schema =  new schema.Entity(name, options, {
+            idAttribute: '_id'
+        });
+
         this.xRead = this.xRead.bind(this);
         this.xFetch = this.xFetch.bind(this);
     }
@@ -22,7 +28,16 @@ export default class Entity {
     public static getWatchers() {
         return this.watchers;
     }
-    
+    public static setWatchers(watchers : Array<Function>) {
+        this.watchers = watchers;
+    }
+
+    public static addWatcher(watchers: Array<Function>) {
+//        const data = Array.isArray(func) ? func: [ func ];
+        console.log('add Watcher', watchers);
+        Entity.setWatchers(Entity.getWatchers().concat(watchers));
+    }
+        
     protected * xFetch(endpoint: string, method: HTTP_METHOD,func : Function, data = {}, token?: string) {
         let fullUrl = nextConfig.public.BASE_URL + '/' + endpoint;
 

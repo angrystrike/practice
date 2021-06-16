@@ -27,9 +27,9 @@ const nextReducer = (
     }
 };
 
-//const initialEntities = fromJS({});
+const initialEntities = fromJS({});
 
-function products(state = [], action: any) {
+function entities(state = initialEntities, action: any) {
     switch(action.type) {
         case 'REQUEST_FEATURED_PRODUCTS': {
             console.log('action',action);
@@ -44,55 +44,50 @@ function products(state = [], action: any) {
             
             // return state;
         }
-        case 'REQUEST_PRODUCT': {
-            const data = JSON.parse(JSON.stringify(action.data));
-            return [data];
-            // return {
-            //     products: [
-            //         ...state.products,
-            //         data
-            //     ]
-            // }
-            // return {
-            //     ...state,
-            //     products: [
-            //         ...state.products,
-            //         data
-            //     ]
-            // }
-            // return {
-            //     state,
-            //     data: [ data ]
-            // };
-        }
-        case 'REQUEST_SIMILAR_PRODUCTS': {
-            const data = JSON.parse(JSON.stringify(action.data));
-            return data;
-            // console.log('data',data)
-            // return {
-            //     ...state,
-            //     products: [
-            //         ...state.products,
-            //         data
-            //     ]
-            // }
-        }
+        // case 'REQUEST_PRODUCT': {
+        //     const data = JSON.parse(JSON.stringify(action.data));
+        //     return [data];
+        //     // return {
+        //     //     products: [
+        //     //         ...state.products,
+        //     //         data
+        //     //     ]
+        //     // }
+        //     // return {
+        //     //     ...state,
+        //     //     products: [
+        //     //         ...state.products,
+        //     //         data
+        //     //     ]
+        //     // }
+        //     // return {
+        //     //     state,
+        //     //     data: [ data ]
+        //     // };
+        // }
+        // case 'REQUEST_SIMILAR_PRODUCTS': {
+        //     const data = JSON.parse(JSON.stringify(action.data));
+        //     return data;
+        //     // console.log('data',data)
+        //     // return {
+        //     //     ...state,
+        //     //     products: [
+        //     //         ...state.products,
+        //     //         data
+        //     //     ]
+        //     // }
+        // }
         default:
             return state;
     }
 }
 
-function users(state = [], action: any) {
-    return state;
-}
-
-const appReducer = combineReducers({
-    products,
-    users
-});
+// const appReducer = combineReducers({
+//     entities
+// });
 
 function rootReducer(state, action) {
-    const intermediateState = appReducer(state, action);
+    const intermediateState = entities(state, action);
     const finalState = nextReducer(intermediateState, action);
     return finalState;
 }

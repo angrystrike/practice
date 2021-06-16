@@ -1,7 +1,8 @@
 import React from "react";
-import Product, { fetchFeaturedProducts } from 'redux/models/Product';
+import { Product, fetchFeaturedProducts } from 'redux/models/Product';
 import { ProductItem } from './ProductItem';
 import { connect } from "react-redux";
+import { get, Map } from 'immutable';
 
 interface MyProps {
     fetchFeaturedProducts: () => void;
@@ -26,14 +27,17 @@ class ProductList extends React.Component<MyProps, MyState> {
 
     render() {
         const { products } = this.props
-        console.log('products', products)
-        // let items = products.map(           
-        //     (item) => <ProductItem product={item} key={item._id} />
-        // );
+
+        let items = [];
+        for (var i in products) {
+            if (products.hasOwnProperty(i)) {
+                items.push(<ProductItem product={products[i]} key={products[i]._id} />);
+            }
+        }
 
         return (
             <section className="mt-6 flex justify-center flex-wrap px-3">
-                {/* { items } */}
+                { items }
             </section>
         );
     }

@@ -5,11 +5,10 @@ import { createWrapper, MakeStore } from 'next-redux-wrapper';
 import { AppState } from './reducer';
 import rootReducer from './reducer';
 import { all } from 'redux-saga/effects'
-import { ProductEntity, watchFetchFeaturedProducts, watchFetchProduct, watchFetchSimilarProducts } from './models/Product';
 import { fromJS, List, Map } from 'immutable';
+import Entity from './models/Entity';
 
-
-
+import './models/Product';
 
 declare global {
     interface Window {
@@ -18,12 +17,8 @@ declare global {
 }
 
 const rootSaga = function* root() {
-    console.log('Root saga',ProductEntity.getWatchers());
-    
-    //yield all([ProductEntity.getWatchers().map((item) => item())]);
-    yield all([
-        watchFetchFeaturedProducts()
-    ]);
+    console.log('watchers', Entity.getWatchers());
+    yield all(Entity.getWatchers().map((func) => func()));
 };
 
 export interface SagaStore extends Store {
