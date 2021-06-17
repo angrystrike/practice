@@ -62,7 +62,7 @@ export class ProductEntity extends Entity {
     public * watchFetchProduct() {
         while (true) {
             const data = yield take(FETCH_PRODUCT);
-            yield call(this.xRead, 'products/' + data.productId, data);
+            yield call(this.xRead, 'products/' + data.productId);
             // const products = yield select(state => state.products);
             // const item = products.find(o => o._id === data.productId);
             // if (!item) {
@@ -75,7 +75,7 @@ export class ProductEntity extends Entity {
     public * watchFetchSimilarProducts() {
         while (true) {
             const data = yield take(FETCH_SIMILAR_PRODUCTS);
-            yield call(this.xRead, 'products/similar/' + data.productId, data);
+            yield call(this.xRead, 'products/similar/' + data.productId);
             // const data = yield take(FETCH_SIMILAR_PRODUCTS);
 
             // const products = yield select(state => state.products);

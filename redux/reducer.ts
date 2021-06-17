@@ -1,6 +1,6 @@
 import { HYDRATE } from "next-redux-wrapper";
 import { AnyAction, combineReducers } from "redux";
-import { fromJS, List, Map } from 'immutable';
+import { get, fromJS, List, Map } from 'immutable';
 import { REQUEST_RESULT } from "./models/Entity";
 import { isEmpty } from "server/common";
 
@@ -46,11 +46,20 @@ const initialEntities = fromJS({});
 function entities(state = initialEntities, action: any) {
     
     switch(action.type) {
-        case REQUEST_RESULT :
+        case REQUEST_RESULT:
             const { data } = action;
             if (data.entities) {
-                const newData = fromJS(action.data.entities);
-                state = isEmpty(state) ? newData: state.mergeDeep(newData);
+                console.log('data entities', data.entities);
+                console.log('state', state);
+
+                Object.keys(data.entities).map((entityName) => {
+                    let list = state.get(entityName);
+                    if (list && list.size > 0) {
+                        Object.keys(data.entities[entityName]).map((id) => list = list.remove(id));
+                    }
+                    state = state.set(entityName, list);
+                });
+                state = state.mergeDeep(fromJS(data.entities));
             }
             break;
     }
@@ -113,10 +122,10 @@ const appReducer = combineReducers({
     isHydrate
 });
 
-function rootReducer(state, action) {
-    const intermediateState = appReducer(state, action);
-    const finalState = nextReducer(intermediateState, action);
-    return finalState;
-}
+// function rootReducer(state, action) {
+//     const intermediateState = appReducer(state, action);
+//     const finalState = nextReducer(intermediateState, action);
+//     return finalState;
+// }
 
-export default rootReducer;
+export default appReducer;
