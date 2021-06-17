@@ -60,14 +60,14 @@ export class ProductEntity extends Entity {
         while (true) {
             console.log('watchFetchFeaturedProducts');
             const data = yield take(FETCH_FEATURED_PRODUCTS);
-            yield call(this.xRead, 'products/featured', data, requestFeaturedProducts);
+            yield call(this.xRead, 'products/featured', data);
         }
     }
 
     public * watchFetchProduct() {
         while (true) {
             const data = yield take(FETCH_PRODUCT);
-            yield call(this.xRead, 'products/' + data.productId, data, requestProduct);
+            yield call(this.xRead, 'products/' + data.productId, data);
             // const products = yield select(state => state.products);
             // const item = products.find(o => o._id === data.productId);
             // if (!item) {

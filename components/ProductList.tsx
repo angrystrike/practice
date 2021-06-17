@@ -21,12 +21,12 @@ class ProductList extends React.Component<MyProps, MyState> {
     }
 
     componentDidMount() {
-        const { fetchFeaturedProducts } = this.props
-        fetchFeaturedProducts()
+        const { fetchFeaturedProducts } = this.props;
+        fetchFeaturedProducts();
     }
 
     render() {
-        const { products } = this.props
+        const { products } = this.props;
 
         let items = [];
         for (var i in products) {

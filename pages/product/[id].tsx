@@ -11,7 +11,7 @@ import  { fetchProduct, Product } from 'redux/models/Product';
 
 interface MyProps {
     fetchProduct: (productId: string | string[]) => void;
-    fetchSimilarProducts: (productId: string | string[]) => void;
+    //fetchSimilarProducts: (productId: string | string[]) => void;
     product: Product;
     // items: Array<Product>;
     router: NextRouter;
@@ -29,6 +29,8 @@ class ProductPage extends React.Component<MyProps, MyState> {
 
     componentDidMount() {
         const { fetchProduct, router : { query } } = this.props;
+        console.log(query.id);
+        
         fetchProduct(query.id);
 
         // const { fetchSimilarProducts } = this.props;
@@ -149,6 +151,8 @@ const mapStateToProps = (state, props) => {
     // };
 
     const { products } = state;
+    console.log('map',products);
+    
     return {
         products
     };
@@ -160,10 +164,4 @@ const mapDispatchToProps = {
 }
 
 const prodPage = connect(mapStateToProps, mapDispatchToProps)(ProductPage);
-
 export default withRouter(prodPage);
-
-
-        
-
-/*          */

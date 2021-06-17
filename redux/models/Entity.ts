@@ -1,9 +1,7 @@
 import nextConfig from 'next.config'
 import { normalize, schema } from 'normalizr';
-import { put } from 'redux-saga/effects';
-import { requestFeaturedProducts } from 'redux/models/Product';
-import { isArray } from 'util';
-import { runInThisContext } from 'vm';
+import { call, put } from 'redux-saga/effects';
+import { action } from 'redux/action';
 
 export enum HTTP_METHOD {
     GET = 'GET',
@@ -11,16 +9,20 @@ export enum HTTP_METHOD {
     DELETE = 'DELETE'
 }
 
+export const REQUEST_RESULT = 'REQUEST_RESULT';
+export const requestResult = (entityName: string, data: any) => action(REQUEST_RESULT, { entityName, data });
+
 export default class Entity {
     private schema;
+    private entityName;
     private static watchers: Function[] = [];
 
     constructor(name: string, options: any) {
-        
         this.schema =  new schema.Entity(name, options, {
             idAttribute: '_id'
         });
 
+        this.entityName = name;
         this.xRead = this.xRead.bind(this);
         this.xFetch = this.xFetch.bind(this);
     }
@@ -33,12 +35,10 @@ export default class Entity {
     }
 
     public static addWatcher(watchers: Array<Function>) {
-//        const data = Array.isArray(func) ? func: [ func ];
-        console.log('add Watcher', watchers);
         Entity.setWatchers(Entity.getWatchers().concat(watchers));
     }
         
-    protected * xFetch(endpoint: string, method: HTTP_METHOD,func : Function, data = {}, token?: string) {
+    protected xFetch(endpoint: string, method: HTTP_METHOD, data = {}, token?: string) {
         let fullUrl = nextConfig.public.BASE_URL + '/' + endpoint;
 
         const params: any = {
@@ -58,28 +58,33 @@ export default class Entity {
             fullUrl += (opts.length > 0 ? '?' + opts : '');
         }
 
-        let normalizedData;
         console.log('Entity xfetch', data);
         
-        yield fetch(fullUrl, params)
+        return fetch(fullUrl, params)
             .then((response) => {
                 return response.json().then((json) => ({ json, response }));
-            })
-
-            .then(({ json, response }) => {
-                console.log('fetch', json);
-                
-                normalizedData = normalize(json.data, [this.schema]);
-                console.log('Normalized: ', normalizedData);                
-            });
-
-        yield put(func(normalizedData));   
+            }).then(({ json, response }) =>
+                Promise.resolve({
+                    success: response.ok ? true : false,
+                    response: json
+                })
+            );
     }
 
-    public * xRead(uri: string, data: any = {},func : Function, method: HTTP_METHOD = HTTP_METHOD.GET ) {
-        console.log('xRed');
+    public * actionRequest (endpoint: string, method: HTTP_METHOD, data: any, token?: string) {
+
+        const { response } = yield call(this.xFetch, endpoint, method, data, token);
+
+        const normalizedData = normalize(response.data, [this.schema]);
+        console.log('Normalized: ', normalizedData);   
         
-        yield this.xFetch(uri, method, func, data);
+        yield put(requestResult(this.entityName, normalizedData));  
+        return { ...response };
+    }
+
+    public xRead(uri: string, data: any = {}, method: HTTP_METHOD = HTTP_METHOD.GET ) {
+        console.log('xRed');
+        return this.actionRequest(uri, method, data);
     }
 }
 
