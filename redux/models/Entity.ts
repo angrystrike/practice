@@ -71,7 +71,7 @@ export default class Entity {
             );
     }
 
-    public * actionRequest (endpoint: string, method: HTTP_METHOD, data: any, token?: string) {
+    protected * actionRequest (endpoint: string, method: HTTP_METHOD, data: any, token?: string) {
 
         const { response } = yield call(this.xFetch, endpoint, method, data, token);
 

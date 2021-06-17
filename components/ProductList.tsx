@@ -3,10 +3,11 @@ import { Product, fetchFeaturedProducts } from 'redux/models/Product';
 import { ProductItem } from './ProductItem';
 import { connect } from "react-redux";
 import { get, Map } from 'immutable';
+import { isEmpty } from "server/common";
 
 interface MyProps {
     fetchFeaturedProducts: () => void;
-    products: Array<Product>;
+    products: Map<string, Product>;
 }
 
 interface MyState {
@@ -28,25 +29,22 @@ class ProductList extends React.Component<MyProps, MyState> {
     render() {
         const { products } = this.props;
 
-        let items = [];
-        for (var i in products) {
-            if (products.hasOwnProperty(i)) {
-                items.push(<ProductItem product={products[i]} key={products[i]._id} />);
-            }
-        }
-
         return (
             <section className="mt-6 flex justify-center flex-wrap px-3">
-                { items }
+                { 
+                    products && products.valueSeq().map((product: any, i: number) =>
+                        <ProductItem key={'product_item_' + i} product={product} />
+                    )
+                }
             </section>
         );
     }
 }
 
 const mapStateToProps = (state) => {
-    const { products } = state;
+    const { entities } = state;
     return {
-        products
+        products: !isEmpty(entities) && entities.get('products')
     };
 };
 

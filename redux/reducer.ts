@@ -2,15 +2,13 @@ import { HYDRATE } from "next-redux-wrapper";
 import { AnyAction, combineReducers } from "redux";
 import { fromJS, List, Map } from 'immutable';
 import { REQUEST_RESULT } from "./models/Entity";
+import { isEmpty } from "server/common";
 
 
 export const HYDRATE_ACTION = 'HYDRATE_ACTION';
 
 export interface AppState {
-    entities: {
-        users: any,
-        products: any,
-    },
+    entities: Map<string, Map<string, any>>,
     isHydrate: boolean;
 }
 
@@ -61,7 +59,6 @@ const nextReducer = (
     }
 };
 
-
 const initialEntities = fromJS({});
 
 function entities(state = initialEntities, action: any) {
@@ -71,8 +68,7 @@ function entities(state = initialEntities, action: any) {
             const { data } = action;
             if (data.entities) {
                 const newData = fromJS(action.data.entities);
-                const isEmpty = Object.keys(state).length === 0 && state.constructor === Object;
-                state = isEmpty ? newData: state.mergeDeep(newData);
+                state = isEmpty(state) ? newData: state.mergeDeep(newData);
             }
             break;
     }
