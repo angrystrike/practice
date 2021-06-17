@@ -72,10 +72,9 @@ export default class Entity {
     }
 
     protected * actionRequest (endpoint: string, method: HTTP_METHOD, data: any, token?: string) {
-
         const { response } = yield call(this.xFetch, endpoint, method, data, token);
-
-        const normalizedData = normalize(response.data, [this.schema]);
+        
+        const normalizedData = normalize(response.data, Array.isArray(response.data) ? [this.schema] : this.schema);
         console.log('Normalized: ', normalizedData);   
         
         yield put(requestResult(this.entityName, normalizedData));  
@@ -83,7 +82,6 @@ export default class Entity {
     }
 
     public xRead(uri: string, data: any = {}, method: HTTP_METHOD = HTTP_METHOD.GET ) {
-        console.log('xRed');
         return this.actionRequest(uri, method, data);
     }
 }

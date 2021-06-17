@@ -1,9 +1,9 @@
 import Link from "next/link";
 import React from "react";
-import Review from 'src/Review';
+import Review from '../redux/models/Review';
 
 interface MyProps {
-    items: Array<Review>;
+    items: Array<Map<string, Review>>;
 }
 
 interface MyState {
@@ -12,13 +12,13 @@ interface MyState {
 
 export class Comment extends React.Component<MyProps, MyState> {
     constructor(props) {
-        super(props);
+        super(props);   
     }
 
     render() {
-        const averageGradeByReviews = this.props.items.reduce((acc, curr) =>{
-            return acc + curr.mark
-        }, 0) / this.props.items.length
+        const averageGradeByReviews = this.props.items?.reduce((acc, curr) => {
+            return acc + (curr?.get('mark')) as number
+        }, 0) / this.props.items?.length
 
         let averageGradeMarkers = [];
         for(let i = 1; i <= 5; i++){
@@ -33,7 +33,7 @@ export class Comment extends React.Component<MyProps, MyState> {
         return (
             <div className="text-sm text-gray-600 mt-2 flex items-center">
                 {averageGradeMarkers}
-                <span className="ml-2">{this.props.items.length} reviews</span>
+                <span className="ml-2">{this.props.items?.length} reviews</span>
             </div>
         );
     }

@@ -2,7 +2,7 @@ import React from "react";
 import { Product, fetchFeaturedProducts } from 'redux/models/Product';
 import { ProductItem } from './ProductItem';
 import { connect } from "react-redux";
-import { get, Map } from 'immutable';
+import { get, List, Map } from 'immutable';
 import { isEmpty } from "server/common";
 
 interface MyProps {
@@ -43,8 +43,15 @@ class ProductList extends React.Component<MyProps, MyState> {
 
 const mapStateToProps = (state) => {
     const { entities } = state;
+    const allProducts = !isEmpty(entities) && entities.get('products');
+
+    let featuredProducts = allProducts && allProducts
+    .filter(t => t.get('featured') == true)
+    .sortBy(f => f.get('price'))
+    .reduce((accum, data) => (accum.size < 4 ? accum.push(data) : accum), List())
+
     return {
-        products: !isEmpty(entities) && entities.get('products')
+        products: featuredProducts
     };
 };
 

@@ -7,12 +7,19 @@ import Layout from 'components/partials/Layout';
 import Image from 'next/image'
 import { Comment } from '../../components/Comment';
 import { connect } from 'react-redux';
-import  { fetchProduct, Product } from 'redux/models/Product';
+import  { fetchProduct, Product, fetchSimilarProducts } from 'redux/models/Product';
+import { isEmpty } from 'server/common';
+import { get, getIn } from 'immutable';
+import Review from 'redux/models/Review';
 
 interface MyProps {
     fetchProduct: (productId: string | string[]) => void;
+    fetchSimilarProducts: (productId: string | string[]) => void;
     //fetchSimilarProducts: (productId: string | string[]) => void;
-    product: Product;
+    product: Map<string, Product>;
+    similarProducts: Map<string, Product>;
+    user: Map<string, User>;
+    reviews: Map<string, Review>;
     // items: Array<Product>;
     router: NextRouter;
 }
@@ -28,19 +35,22 @@ class ProductPage extends React.Component<MyProps, MyState> {
     }
 
     componentDidMount() {
-        const { fetchProduct, router : { query } } = this.props;
-        console.log(query.id);
+        const { fetchProduct, fetchSimilarProducts, router : { query } } = this.props;
         
         fetchProduct(query.id);
-
-        // const { fetchSimilarProducts } = this.props;
-        // fetchSimilarProducts(query.id);
+        fetchSimilarProducts(query.id);
     }
 
     render() {       
-        const { product } = this.props
-        console.log('Product render', product)
-
+        const { product, user, reviews, similarProducts } = this.props
+        //console.log('Product render', product)
+        console.log('Product render', product?.get('image'))
+        console.log('user', user);
+        
+        console.log('User render', user?.get('image'))
+        console.log('review render', reviews);
+        console.log('Products similar render', similarProducts);
+        
         // const { items } = this.props
         // console.log('items', items)
 
@@ -78,71 +88,97 @@ class ProductPage extends React.Component<MyProps, MyState> {
         // );
 
         return (
-            <div>TEST</div>
-            // <Layout>
-            //     <div className="mt-8 pb-3 max-w-5xl mx-auto">
-            //         <div className="mx-6 flex flex-col sm:flex-row py-3 px-4 bg-white rounded-lg shadow-lg">
-            //             <div className="mx-2 sm:w-3/5 sm:mx-0 sm:self-start sm:px-5">
-            //                 <img className="mt-3 w-full rounded-lg shadow-md" width="400" height="200" src={product.image} />
-            //                 <div className="mt-3 flex flex-col items-center">
-            //                     <div className="sm:mt-1">
-            //                         <img className="rounded-md" width="45" height="45" src={product.user.image} />
-            //                     </div>
-            //                     <div className="text-center">
-            //                         <h4 className="text-lg font-semibold">{product.user.firstName} {product.user.lastName}</h4>
-            //                         <div className="">
-            //                             <span className="italic">august 14, 2018</span>
-            //                         </div>
-            //                     </div>
-            //                 </div>
-            //             </div>
+            <Layout>
+                <div className="mt-8 pb-3 max-w-5xl mx-auto">
+                    <div className="mx-6 flex flex-col sm:flex-row py-3 px-4 bg-white rounded-lg shadow-lg">
+                        <div className="mx-2 sm:w-3/5 sm:mx-0 sm:self-start sm:px-5">
+                            <img className="mt-3 w-full rounded-lg shadow-md" width="400" height="200" src={product?.get('image')} />
+                            <div className="mt-3 flex flex-col items-center">
+                                <div className="sm:mt-1">
+                                    <img className="rounded-md" width="45" height="45" src={user?.get('image')} />
+                                </div>
+                                <div className="text-center">
+                                    <h4 className="text-lg font-semibold">{user?.get('firstName')} {user?.get('lastName')}</h4>
+                                    <div className="">
+                                        <span className="italic">august 14, 2018</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-            //             <div className="sm:w-2/5 text-xl text-center sm:text-left">
-            //                 <div className="mt-5 sm:mt-3 font-bold text-xl">{product.name}</div>
-            //                 <Comment items={product.reviews} />
+                        <div className="sm:w-2/5 text-xl text-center sm:text-left">
+                            <div className="mt-5 sm:mt-3 font-bold text-xl">{product?.get('name')}</div>
+                            <Comment items={reviews} />
 
-            //                 <div className="mt-5 font-semibold">
-            //                     Price:
-            //                     <span className="ml-2 font-normal">${product.price}</span>
-            //                 </div>
+                            <div className="mt-5 font-semibold">
+                                Price:
+                                <span className="ml-2 font-normal">${product?.get('price')}</span>
+                            </div>
 
-            //                 <div className="mt-5 flex items-center justify-center sm:justify-start">
-            //                     <label className="font-semibold">Color:</label>
-            //                     <button className="ml-2 h-5 w-5 rounded-full bg-blue-600 border-2 border-blue-200 mr-2 focus:outline-none"></button>
-            //                     <button className="h-5 w-5 rounded-full bg-gray-600 mr-2 focus:outline-none"></button>
-            //                     <button className="h-5 w-5 rounded-full bg-black mr-2 focus:outline-none"></button>
-            //                 </div>
-            //                 <div className="mt-5 font-semibold">
-            //                     Transmission:
-            //                     <span className="mt-5 ml-2 font-normal">{product.transmission}</span>
-            //                 </div>
-            //                 <div className="mt-5 font-semibold">
-            //                     Engine:
-            //                     <span className="mt-5 ml-2 font-normal">{product.engine}</span>
-            //                 </div>
-            //                 <div className="mt-5"> {product.description} </div>
-            //                 <button type="button" className="mt-3 sm:mt-9 px-7 font-medium py-1 text-white bg-blue-600 rounded-md shadow-lg">Order</button>
-            //             </div>
-            //         </div>
+                            <div className="mt-5 flex items-center justify-center sm:justify-start">
+                                <label className="font-semibold">Color:</label>
+                                <button className="ml-2 h-5 w-5 rounded-full bg-blue-600 border-2 border-blue-200 mr-2 focus:outline-none"></button>
+                                <button className="h-5 w-5 rounded-full bg-gray-600 mr-2 focus:outline-none"></button>
+                                <button className="h-5 w-5 rounded-full bg-black mr-2 focus:outline-none"></button>
+                            </div>
+                            <div className="mt-5 font-semibold">
+                                Transmission:
+                                <span className="mt-5 ml-2 font-normal">{product?.get('transmission')}</span>
+                            </div>
+                            <div className="mt-5 font-semibold">
+                                Engine:
+                                <span className="mt-5 ml-2 font-normal">{product?.get('engine')}</span>
+                            </div>
+                            <div className="mt-5"> {product?.get('description')} </div>
+                            <button type="button" className="mt-3 sm:mt-9 px-7 font-medium py-1 text-white bg-blue-600 rounded-md shadow-lg">Order</button>
+                        </div>
+                    </div>
 
-            //         <section className="mt-3 mx-6 py-3 rounded-lg justify-center">
-            //             <h2 className="mt-2 text-4xl text-center">Similar Cars</h2>
-            //             <div className="sm:flex sm:flex-row sm:flex-nowrap">
-            //                 {similarItems}
-            //             </div>
-            //         </section>
+                    {/* <section className="mt-3 mx-6 py-3 rounded-lg justify-center">
+                        <h2 className="mt-2 text-4xl text-center">Similar Cars</h2>
+                        <div className="sm:flex sm:flex-row sm:flex-nowrap">
+                            {similarItems}
+                        </div>
+                    </section>
 
-            //         <section className="p-3 rounded-lg justify-center">
-            //             <h2 className="mt-2 text-4xl text-center">Reviews</h2>
-            //             {reviews}
-            //         </section>
-            //     </div>
-            // </Layout>            
+                    <section className="p-3 rounded-lg justify-center">
+                        <h2 className="mt-2 text-4xl text-center">Reviews</h2>
+                        {reviews}
+                    </section> */}
+                </div>
+            </Layout>            
         );
     }
 }
 
 const mapStateToProps = (state, props) => {
+    const { entities } = state;
+    const { router } = props;
+
+    const products = !isEmpty(entities) && entities.get('products');
+    const users = !isEmpty(entities) && entities.get('users');
+    const productReviews = !isEmpty(entities) && entities.get('reviews');
+    console.log('reviews', productReviews)
+
+    const product = get(products, router.query.id);
+    const userId = product?.get('user');
+    const reviewsIds = product?.get('reviews');
+    console.log('ids', reviewsIds);
+    console.log('similar', products && products.find(o => o._id !== router.query.id));
+    
+    const reviewsResult = reviewsIds && reviewsIds.valueSeq().map((item : any) =>{
+        return getIn(productReviews, [item], 'lol')
+    }).toArray()
+
+    return {
+        product: product,
+        user: get(users, userId),
+        // reviews: reviewsIds && getIn(productReviews, reviewsIds, [])
+        reviews: reviewsResult,
+        similarProducts: products && products.find(o => o._id !== router.query.id)
+    };
+    // router ? products.find(o => o._id === router.query.id) : 
+
     // const { products } = state;
     // const { router } = props;
     // return {
@@ -150,17 +186,17 @@ const mapStateToProps = (state, props) => {
     //     // items : router ? products.filter(o => o._id !== router.query.id) : null,
     // };
 
-    const { products } = state;
-    console.log('map',products);
+    // const { products } = state;
+    // console.log('map',products);
     
-    return {
-        products
-    };
+    // return {
+    //     products
+    // };
 };
 
 const mapDispatchToProps = {
     fetchProduct,
-    // fetchSimilarProducts
+    fetchSimilarProducts
 }
 
 const prodPage = connect(mapStateToProps, mapDispatchToProps)(ProductPage);

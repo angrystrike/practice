@@ -12,24 +12,6 @@ export interface AppState {
     isHydrate: boolean;
 }
 
-// const nextReducer = (
-//     state: AppState,
-//     action: AnyAction
-// ) => {
-//     switch (action.type) {
-//         case HYDRATE:
-//             if (action.payload.app === 'init') delete action.payload.app;
-//             if (action.payload.page === 'init') delete action.payload.page;
-//             return {...state, ...action.payload};
-//         case 'APP':
-//             return {...state, app: action.payload};
-//         case 'PAGE':
-//             return {...state, page: action.payload};
-//         default:
-//             return state;
-//     }
-// };
-
 function isHydrate(state = true, action: any) {
     switch (action.type) {
         case HYDRATE_ACTION:

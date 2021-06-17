@@ -1,5 +1,4 @@
 import { put, take, call } from 'redux-saga/effects'
-import { xRead } from '../../modules';
 import { action } from "redux/action";
 import { normalize, schema } from 'normalizr';
 
