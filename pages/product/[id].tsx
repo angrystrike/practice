@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { withRouter, NextRouter } from 'next/router'
 import React from 'react'
 import Layout from 'components/partials/Layout';
@@ -73,7 +74,9 @@ class ProductPage extends React.Component<MyProps, MyState> {
                         <div className="mt-5 sm:ml-4 bg-white rounded-lg pt-2 pb-4 flex flex-row sm:flex-col items-center justify-center shadow-lg" key={item?.get('_id')}>
                             <img className="mt-3 self-center w-3/5 rounded-lg shadow-md" width="150" height="250" src={item?.get('image')} />
                             <div className="ml-2 -mt-2 sm:mt-2">
-                                <h5 className="text-xl sm:text-sm font-semibold">{item?.get('name')}</h5>
+                                <Link href={`/product/${encodeURIComponent(item?.get('_id'))}`}>
+                                    <a className="text-xl sm:text-md font-semibold">{item?.get('name')}</a>
+                                </Link>
                                 <div className="mt-2 text-gray-900 font-semibold text-xl text-center ">${item?.get('price')}</div>
                             </div>
                         </div>
@@ -169,11 +172,10 @@ const mapStateToProps = (state, props) => {
             .map(r => r.get('user'))
             .reduce((accum, key) => (u?.get(key) ? accum.set(key, u.get(key)) : accum), new Map())
 
-        owner = u.get(product.get('user'))
+        owner = u?.get(product.get('user'))
 
         const allProducts = entities.get('products');
         console.log('allProducts', allProducts);
-        
 
         similarProducts = allProducts
         .filter(element => {
@@ -184,22 +186,6 @@ const mapStateToProps = (state, props) => {
             return accum.size < 4 ? accum.push(item) : accum
         }, List())
         console.log('similar PRODUCTS', similarProducts);
-        
-        // const allProducts = entities.get('products').toList();
-        // console.log('ALL', allProducts);
-        
-        // allProducts.forEach(element => {
-        //     console.log('element', element);
-        //     similarProducts.push(element);
-        //     similarProducts = similarProducts && similarProducts.updateIn([], function (myList) {
-                
-        //         if (element.get('engine') == product.get('engine') &&
-        //             element.get('transmission') == product.get('transmission')) {
-
-        //             return myList.push(element);
-        //         }
-        //     });
-        // });
     };
 
     return {

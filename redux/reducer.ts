@@ -1,8 +1,7 @@
 import { HYDRATE } from "next-redux-wrapper";
 import { AnyAction, combineReducers } from "redux";
-import { get, fromJS, List, Map } from 'immutable';
+import { fromJS, Map } from 'immutable';
 import { REQUEST_RESULT } from "./models/Entity";
-import { isEmpty } from "server/common";
 
 
 export const HYDRATE_ACTION = 'HYDRATE_ACTION';
@@ -64,68 +63,11 @@ function entities(state = initialEntities, action: any) {
             break;
     }
     return state;
-    
-    // switch(action.type) {
-    //     case 'REQUEST_FEATURED_PRODUCTS': {
-    //         console.log('action',action);
-            
-    //      //   const data = JSON.parse(JSON.stringify(action.entities));
-    //        /// return data;
-    //         // state = fromJS(state);
-    //         // console.log('data', action.data);
-            
-    //         // state = state.mergeDeep(fromJS(action.data));
-    //         // console.log('state',state);
-            
-    //         // return state;
-    //     }
-        // case 'REQUEST_PRODUCT': {
-        //     const data = JSON.parse(JSON.stringify(action.data));
-        //     return [data];
-        //     // return {
-        //     //     products: [
-        //     //         ...state.products,
-        //     //         data
-        //     //     ]
-        //     // }
-        //     // return {
-        //     //     ...state,
-        //     //     products: [
-        //     //         ...state.products,
-        //     //         data
-        //     //     ] 
-        //     // }
-        //     // return {
-        //     //     state,
-        //     //     data: [ data ]
-        //     // };
-        // }
-        // case 'REQUEST_SIMILAR_PRODUCTS': {
-        //     const data = JSON.parse(JSON.stringify(action.data));
-        //     return data;
-        //     // console.log('data',data)
-        //     // return {
-        //     //     ...state,
-        //     //     products: [
-        //     //         ...state.products,
-        //     //         data
-        //     //     ]
-        //     // }
-        // }
-    //     default:
-    //         return state;
-    // }
 }
 
 const appReducer = combineReducers({
     entities,
     isHydrate
 });
-
-// function rootReducer(state, action) {
-//     const intermediateState = appReducer(state, action);
-//     const finalState = nextReducer(intermediateState, action);
-//     return finalState;
-// }
 
 export default appReducer;
