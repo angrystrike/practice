@@ -2,7 +2,7 @@ import { take, call } from 'redux-saga/effects';
 import { action } from 'redux/action';
 import { Category } from 'server/models/Category';
 import Review, { reviewEntity } from './Review';
-import User, { userEntity } from './User'
+import userEntity, { User } from './User'
 import { categoryEntity } from './Category';
 import Entity from './Entity';
 

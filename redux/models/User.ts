@@ -1,8 +1,12 @@
-import { put, take, call } from 'redux-saga/effects'
+import { take, call } from 'redux-saga/effects'
 import { action } from "redux/action";
-import { normalize, schema } from 'normalizr';
+import Entity from './Entity';
 
-export default interface User {
+export const REGISTER = 'REGISTER';
+
+export const register = (data : any) => action(REGISTER,data);
+
+export interface User {
     _id: string;
     email: string;
     firstName: string;
@@ -12,23 +16,25 @@ export default interface User {
     image: string;
 }
 
-export const userEntity = new schema.Entity('users', {}, {
-    idAttribute: '_id'
-});
+export class UserEntity extends Entity {
 
+    constructor() {
+        super("users", {});
 
-export const FETCH_USER = 'FETCH_USER';
-export const REQUEST_USER = 'REQUEST_USER';
+        this.watchRegister = this.watchRegister.bind(this);
 
-export const fetchUser = (data: any) => action(FETCH_USER, data);
-export const requestUser = (data: any) => action(REQUEST_USER, data);
+        UserEntity.addWatcher([
+            this.watchRegister
+        ]);
+    }
 
-// export function* watchRegisterUser() {
-//     while (true) {
-//         const data = yield take(FETCH_USER);
-//         const data = yield call(xRead, {
-//             user_id: data.id
-//         });
-//         put(requestUser(data));
-//     }
-// }
+    public * watchRegister() {
+        while (true) {
+            const data = yield take(REGISTER);
+            yield call(this.xSave, 'users/save/test', data);
+        }
+    }
+}
+
+const userEntity = new UserEntity();
+export default userEntity;

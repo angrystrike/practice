@@ -1,11 +1,15 @@
-import { xSave } from "modules";
-import Router from "next/router";
+// import { register } from 'redux/models/User';
+import Router, { withRouter } from "next/router";
 import React from "react";
+import { connect } from 'react-redux';
+import { action } from 'redux/action';
 
 interface MyProps {
-
+    register: (data : any) => void;
 }
 
+export const REGISTER = 'REGISTER';
+const register = (data : any) => action(REGISTER,data);
 interface MyState {
     email: string,
     password: string,
@@ -42,9 +46,15 @@ export class RegisterForm extends React.Component<MyProps, MyState> {
 
     handleSubmit(event) {
         event.preventDefault();
-        xSave('auth/register', this.state).then((res) => {
-            Router.push('/login')
-        })
+        console.log('REGISTER SUBMIt');
+        
+        // const { register } = this.props;
+        console.log('xto ti',register);
+        
+        register && register({data : 'sdg'});
+        // xSave('auth/register', this.state).then((res) => {
+        //     Router.push('/login')
+        // })
     }
 
     render() {
@@ -80,3 +90,13 @@ export class RegisterForm extends React.Component<MyProps, MyState> {
         );
     }
 }
+const mapStateToProps = (state, props) => {
+
+}
+
+const mapDispatchToProps = {
+    register
+}
+
+const registerPage = connect(mapStateToProps,{register})(RegisterForm);
+export default withRouter(registerPage);

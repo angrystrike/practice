@@ -84,4 +84,8 @@ export default class Entity {
     public xRead(uri: string, data: any = {}, method: HTTP_METHOD = HTTP_METHOD.GET ) {
         return this.actionRequest(uri, method, data);
     }
+
+    public xSave(uri: string, data: any = {}, method: HTTP_METHOD = HTTP_METHOD.POST) {
+        return this.actionRequest(uri, method, data);
+    }
 }

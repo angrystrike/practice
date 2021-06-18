@@ -1,8 +1,7 @@
 import mongoose from 'mongoose'
 
-import { AwilixContainer } from 'awilix';
 import { loadControllers, scopePerRequest } from 'awilix-express';
-import container, { IContextContainer } from './container';
+import container from './container';
 import { PassportStatic } from 'passport';
 
 import { Request, Response, NextFunction } from 'express';

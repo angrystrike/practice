@@ -1,4 +1,3 @@
-import { xSave } from "modules";
 import Router from "next/router";
 import React from "react";
 
@@ -35,9 +34,10 @@ export class LoginForm extends React.Component<MyProps, MyState> {
     handleSubmit(event) {      
         event.preventDefault();           
     
-        xSave('auth/login').then((res) => {
-            Router.push('/')
-        })
+        
+        // xSave('auth/login').then((res) => {
+        //     Router.push('/')
+        // })
     }
 
     render() {

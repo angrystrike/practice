@@ -9,12 +9,15 @@ import { fromJS, List, Map } from 'immutable';
 import Entity from './models/Entity';
 
 import './models/Product';
+import './models/User';
 
 declare global {
     interface Window {
         __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
     }
 }
+
+console.log('watchers', Entity.getWatchers());
 
 const rootSaga = function* root() {
     yield all(Entity.getWatchers().map((func) => func()));
