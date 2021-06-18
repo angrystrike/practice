@@ -1,26 +1,20 @@
 import { withRouter, NextRouter } from 'next/router'
-import dynamic from 'next/dynamic'
 import React from 'react'
-import User from 'redux/models/User';
-import nextConfig from 'next.config'
 import Layout from 'components/partials/Layout';
-import Image from 'next/image'
 import { Comment } from '../../components/Comment';
 import { connect } from 'react-redux';
-import  { fetchProduct, Product, fetchSimilarProducts } from 'redux/models/Product';
+import { fetchProduct, fetchSimilarProducts } from 'redux/models/Product';
 import { isEmpty } from 'server/common';
-import { get, getIn } from 'immutable';
-import Review from 'redux/models/Review';
+import { List } from 'immutable';
 
 interface MyProps {
     fetchProduct: (productId: string | string[]) => void;
     fetchSimilarProducts: (productId: string | string[]) => void;
-    //fetchSimilarProducts: (productId: string | string[]) => void;
-    product: Map<string, Product>;
-    similarProducts: Map<string, Product>;
-    user: Map<string, User>;
-    reviews: Map<string, Review>;
-    // items: Array<Product>;
+    product: Map<string, any>;
+    similarProducts: Map<string, any>;
+    users: Map<string, any>;
+    reviews: Map<string, any>;
+    owner: Map<string, any>;
     router: NextRouter;
 }
 
@@ -35,57 +29,58 @@ class ProductPage extends React.Component<MyProps, MyState> {
     }
 
     componentDidMount() {
-        const { fetchProduct, fetchSimilarProducts, router : { query } } = this.props;
-        
+        const { fetchProduct, fetchSimilarProducts, router: { query } } = this.props;
         fetchProduct(query.id);
         fetchSimilarProducts(query.id);
     }
 
-    render() {       
-        const { product, user, reviews, similarProducts } = this.props
-        //console.log('Product render', product)
-        console.log('Product render', product?.get('image'))
-        console.log('user', user);
-        
-        console.log('User render', user?.get('image'))
-        console.log('review render', reviews);
-        console.log('Products similar render', similarProducts);
-        
-        // const { items } = this.props
-        // console.log('items', items)
+    render() {
+        const { product, users, reviews, owner, similarProducts } = this.props
 
-        // let similarItems = items.map(
-        //     (item) =>
-        //         <div className="mt-5 sm:ml-4 bg-white rounded-lg pt-2 pb-4 flex flex-row sm:flex-col items-center justify-center shadow-lg" key={item._id}>
-        //             <img className="mt-3 self-center w-3/5 rounded-lg shadow-md" width="150" height="250" src={item.image} />
-        //             <div className="ml-2 -mt-2 sm:mt-2">
-        //                 <h5 className="text-xl sm:text-sm font-semibold">{item.name}</h5>
-        //                 <Comment items={product.reviews} />
-        //                 <div className="mt-2 text-gray-900 font-semibold text-xl text-center ">${item.price}</div>
-        //             </div>
-        //         </div>
-        // );
+        console.log('product', product);
+        console.log('users', users);
+        console.log('reviews', reviews);
+        console.log('owner', owner);
+        console.log('similarProducts', similarProducts);
 
-        // let reviews = product.reviews.map(
-        //     (item) =>
-        //         <div className="mt-6 bg-white rounded-lg py-4 px-4 flex flex-row justify-center shadow-lg">
-        //             <div className="sm:flex sm:flex-col items-center w-full">
-        //                 <div className="sm:mt-1">
-        //                     <img width="45" height="45" src={item.user.image} alt="profile" />
-        //                 </div>
-        //                 <div className="mt-3 sm:ml-3">
-        //                     <h4 className="text-center sm:text-left text-lg font-semibold">{item.user.firstName} {item.user.lastName}</h4>
-        //                     <div className="mb-3 text-center">
-        //                         <span className="italic">august 14, 2018</span>
-        //                     </div>
+        const reviewsItems = reviews ? reviews.valueSeq().map(
+            (item) => {
+                const reviewUser = users.get(item.get('user'));
+                const reviewMark = new List([item]);
 
-        //                     <Comment items={[item]} />
-        //                 </div>
-        //             </div>
+                return (
+                    <div key={item?.get('_id')} className="mt-6 bg-white rounded-lg p-4 flex flex-row justify-center shadow-lg">
+                        <div className="sm:flex sm:flex-col items-center w-3/12">
+                            <div className="sm:mt-1">
+                                <img width="45" height="45" src={reviewUser?.get('image')} alt="profile" />
+                            </div>
+                            <div className="mt-3 sm:ml-3">
+                                <h4 className="text-center sm:text-left text-lg font-semibold">{reviewUser?.get('firstName')} {reviewUser?.get('lastName')}</h4>
+                                <Comment items={reviewMark} />
+                            </div>
+                        </div>
 
-        //             <div className="ml-4 text-center sm:text-left self-center">{item.text}</div>
-        //         </div>
-        // );
+                        <div className="ml-4 text-center sm:text-left w-9/12">{item?.get('text')}</div>
+                    </div>
+                )
+            }
+        ) : []
+
+        const similarItems = similarProducts ? similarProducts.valueSeq().map(
+            (item) => {
+                if (item.get('_id') != product.get('_id')) {
+                    return (
+                        <div className="mt-5 sm:ml-4 bg-white rounded-lg pt-2 pb-4 flex flex-row sm:flex-col items-center justify-center shadow-lg" key={item?.get('_id')}>
+                            <img className="mt-3 self-center w-3/5 rounded-lg shadow-md" width="150" height="250" src={item?.get('image')} />
+                            <div className="ml-2 -mt-2 sm:mt-2">
+                                <h5 className="text-xl sm:text-sm font-semibold">{item?.get('name')}</h5>
+                                <div className="mt-2 text-gray-900 font-semibold text-xl text-center ">${item?.get('price')}</div>
+                            </div>
+                        </div>
+                    )
+                }
+            }
+        ) : []
 
         return (
             <Layout>
@@ -95,13 +90,10 @@ class ProductPage extends React.Component<MyProps, MyState> {
                             <img className="mt-3 w-full rounded-lg shadow-md" width="400" height="200" src={product?.get('image')} />
                             <div className="mt-3 flex flex-col items-center">
                                 <div className="sm:mt-1">
-                                    <img className="rounded-md" width="45" height="45" src={user?.get('image')} />
+                                    <img className="rounded-md" width="45" height="45" src={owner?.get('image')} />
                                 </div>
                                 <div className="text-center">
-                                    <h4 className="text-lg font-semibold">{user?.get('firstName')} {user?.get('lastName')}</h4>
-                                    <div className="">
-                                        <span className="italic">august 14, 2018</span>
-                                    </div>
+                                    <h4 className="text-lg font-semibold">{owner?.get('firstName')} {owner?.get('lastName')}</h4>
                                 </div>
                             </div>
                         </div>
@@ -121,78 +113,103 @@ class ProductPage extends React.Component<MyProps, MyState> {
                                 <button className="h-5 w-5 rounded-full bg-gray-600 mr-2 focus:outline-none"></button>
                                 <button className="h-5 w-5 rounded-full bg-black mr-2 focus:outline-none"></button>
                             </div>
+
                             <div className="mt-5 font-semibold">
                                 Transmission:
                                 <span className="mt-5 ml-2 font-normal">{product?.get('transmission')}</span>
                             </div>
+
                             <div className="mt-5 font-semibold">
                                 Engine:
                                 <span className="mt-5 ml-2 font-normal">{product?.get('engine')}</span>
                             </div>
+
                             <div className="mt-5"> {product?.get('description')} </div>
+
                             <button type="button" className="mt-3 sm:mt-9 px-7 font-medium py-1 text-white bg-blue-600 rounded-md shadow-lg">Order</button>
                         </div>
                     </div>
 
-                    {/* <section className="mt-3 mx-6 py-3 rounded-lg justify-center">
+                    <section className="p-3 rounded-lg justify-center">
+                        <h2 className="mt-2 text-4xl text-center">Reviews</h2>
+                        {reviewsItems}
+                    </section>
+
+                    <section className="mt-3 mx-6 py-3 rounded-lg">
                         <h2 className="mt-2 text-4xl text-center">Similar Cars</h2>
-                        <div className="sm:flex sm:flex-row sm:flex-nowrap">
+                        <div className="sm:flex sm:flex-row sm:flex-nowrap justify-between">
                             {similarItems}
                         </div>
                     </section>
-
-                    <section className="p-3 rounded-lg justify-center">
-                        <h2 className="mt-2 text-4xl text-center">Reviews</h2>
-                        {reviews}
-                    </section> */}
                 </div>
-            </Layout>            
+            </Layout>
         );
     }
 }
 
 const mapStateToProps = (state, props) => {
     const { entities } = state;
-    const { router } = props;
+    const { router } = props
 
-    const products = !isEmpty(entities) && entities.get('products');
-    const users = !isEmpty(entities) && entities.get('users');
-    const productReviews = !isEmpty(entities) && entities.get('reviews');
-    console.log('reviews', productReviews)
+    let reviews = null;
+    let users = null;
+    let owner = null;
+    let similarProducts = List();
 
-    const product = get(products, router.query.id);
-    const userId = product?.get('user');
-    const reviewsIds = product?.get('reviews');
-    console.log('ids', reviewsIds);
-    console.log('similar', products && products.find(o => o._id !== router.query.id));
-    
-    const reviewsResult = reviewsIds && reviewsIds.valueSeq().map((item : any) =>{
-        return getIn(productReviews, [item], 'lol')
-    }).toArray()
+    const product = !isEmpty(entities) && entities.getIn(['products', router.query.id]);
+
+    if (product) {
+        const ar = entities.get('reviews');
+        reviews = product
+            .get('reviews')
+            .reduce((accum, data) => (ar?.get(data) ? accum.push(ar.get(data)) : accum), List())
+
+        const u = entities.get('users');
+        users = reviews
+            .map(r => r.get('user'))
+            .reduce((accum, key) => (u?.get(key) ? accum.set(key, u.get(key)) : accum), new Map())
+
+        owner = u.get(product.get('user'))
+
+        const allProducts = entities.get('products');
+        console.log('allProducts', allProducts);
+        
+
+        similarProducts = allProducts
+        .filter(element => {
+            return (element.get('engine') == product.get('engine')) &&
+                    (element.get('transmission') == product.get('transmission'))
+        })
+        .reduce((accum, item) => {
+            return accum.size < 4 ? accum.push(item) : accum
+        }, List())
+        console.log('similar PRODUCTS', similarProducts);
+        
+        // const allProducts = entities.get('products').toList();
+        // console.log('ALL', allProducts);
+        
+        // allProducts.forEach(element => {
+        //     console.log('element', element);
+        //     similarProducts.push(element);
+        //     similarProducts = similarProducts && similarProducts.updateIn([], function (myList) {
+                
+        //         if (element.get('engine') == product.get('engine') &&
+        //             element.get('transmission') == product.get('transmission')) {
+
+        //             return myList.push(element);
+        //         }
+        //     });
+        // });
+    };
 
     return {
-        product: product,
-        user: get(users, userId),
-        // reviews: reviewsIds && getIn(productReviews, reviewsIds, [])
-        reviews: reviewsResult,
-        similarProducts: products && products.find(o => o._id !== router.query.id)
+        product,
+        reviews,
+        users,
+        owner,
+        similarProducts
     };
-    // router ? products.find(o => o._id === router.query.id) : 
-
-    // const { products } = state;
-    // const { router } = props;
-    // return {
-    //     product : router ? products.find(o => o._id === router.query.id) : null,
-    //     // items : router ? products.filter(o => o._id !== router.query.id) : null,
-    // };
-
-    // const { products } = state;
-    // console.log('map',products);
-    
-    // return {
-    //     products
-    // };
-};
+}
 
 const mapDispatchToProps = {
     fetchProduct,

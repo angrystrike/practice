@@ -1,9 +1,5 @@
 import Link from "next/link";
 import React from "react";
-import { connect } from "react-redux";
-import { Product } from 'redux/models/Product';
-import Review from "redux/models/Review";
-import { Comment } from "./Comment";
 
 interface MyProps {
     product: Map<string, any>;
@@ -44,7 +40,6 @@ export class ProductItem extends React.Component<MyProps, MyState> {
                         <div className="mt-1">
                             <span className="text-gray-900 font-semibold">${this.props.product.get('price')}</span>
                         </div>
-                        {/* <Comment items={this.props.reviews} />                    */}
                     </div>
                 </div>
             </div>

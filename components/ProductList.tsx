@@ -28,12 +28,15 @@ class ProductList extends React.Component<MyProps, MyState> {
 
     render() {
         const { products } = this.props;
-       
+        console.log('PRODUCTS', products);
+        
         let featuredProducts = products && products
             .filter(t => t.get('featured') == true)
             .sort((a, b) => b.get('price') - a.get('price'))
-            .reduce((accum, data) => (accum.size < 4 ? accum.push(data) : accum), List())
+            .reduce((accum, data) => (accum.size < 4 ? accum.push(data) : accum), List());
 
+        console.log('fet', featuredProducts);
+            
         return (
             <section className="mt-6 flex justify-center flex-wrap px-3">
                 { 
@@ -50,7 +53,6 @@ const mapStateToProps = (state) => {
     const { entities } = state;
     const allProducts = !isEmpty(entities) && entities.get('products');
 
-    
     return {
         products: allProducts
     };

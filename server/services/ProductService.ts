@@ -15,7 +15,6 @@ export default class ProductService extends BaseContext {
         return ProductModel.find({})
             .where('engine', product.engine)
             .where('transmission', product.transmission)
-            // .where('price').gt(150).lt(product.price)
             .limit(3);
     }
 
