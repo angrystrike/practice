@@ -85,19 +85,3 @@ export default class Entity {
         return this.actionRequest(uri, method, data);
     }
 }
-
-
-
-
-
-// export function xSave(uri: string, data: any = {}) {
-//     return xFetch(uri, HTTP_METHOD.POST, data);
-// }
-
-// export function* xRead(uri: string, data: any = {}, method: HTTP_METHOD = HTTP_METHOD.GET) {
-//     return xFetch(uri, method, data);
-// }
-
-// export function xDelete(uri: string, data: any = {}) {
-//     return xFetch(uri, HTTP_METHOD.DELETE, data);
-// }

@@ -1,6 +1,4 @@
-import Link from "next/link";
 import React from "react";
-import Review from '../redux/models/Review';
 
 interface MyProps {
     items: Map<string, any>;

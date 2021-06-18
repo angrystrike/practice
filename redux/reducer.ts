@@ -47,6 +47,8 @@ function entities(state = initialEntities, action: any) {
     switch(action.type) {
         case REQUEST_RESULT:
             const { data } = action;
+            console.log('REQUEST RESULT');
+            
             if (data.entities) {
                 console.log('data entities', data.entities);
                 console.log('state', state);

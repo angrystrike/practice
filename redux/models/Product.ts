@@ -1,10 +1,8 @@
-import { put, take, call, select } from 'redux-saga/effects';
+import { take, call } from 'redux-saga/effects';
 import { action } from 'redux/action';
 import { Category } from 'server/models/Category';
 import Review, { reviewEntity } from './Review';
 import User, { userEntity } from './User'
-import { normalize, schema } from 'normalizr';
-import { SchemaType } from 'mongoose';
 import { categoryEntity } from './Category';
 import Entity from './Entity';
 
@@ -63,12 +61,6 @@ export class ProductEntity extends Entity {
         while (true) {
             const data = yield take(FETCH_PRODUCT);
             yield call(this.xRead, 'products/' + data.productId);
-            // const products = yield select(state => state.products);
-            // const item = products.find(o => o._id === data.productId);
-            // if (!item) {
-            //     const product = yield call(this.xRead, 'products/' + data.productId);
-            //     yield put(requestProduct(product));
-            // }
         }
     }
 
@@ -76,14 +68,6 @@ export class ProductEntity extends Entity {
         while (true) {
             const data = yield take(FETCH_SIMILAR_PRODUCTS);
             yield call(this.xRead, 'products/similar/' + data.productId);
-            // const data = yield take(FETCH_SIMILAR_PRODUCTS);
-
-            // const products = yield select(state => state.products);
-            // const item = products.find(o => o._id !== data.productId);
-            // if (!item) {
-            //     const product = yield call(this.xRead, 'products/similar/' + data.productId);
-            //     yield put(requestSimilarProducts(product)); 
-            // }
         }
     }
 }

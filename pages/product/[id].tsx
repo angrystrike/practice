@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { withRouter, NextRouter } from 'next/router'
+import { withRouter, NextRouter, Router } from 'next/router'
 import React from 'react'
 import Layout from 'components/partials/Layout';
 import { Comment } from '../../components/Comment';
@@ -20,29 +20,35 @@ interface MyProps {
 }
 
 interface MyState {
+    productId: string | string[];
 }
 
 class ProductPage extends React.Component<MyProps, MyState> {
     constructor(props) {
         super(props)
         this.state = {
+            productId: this.props.router.query.id
         };
     }
 
     componentDidMount() {
         const { fetchProduct, fetchSimilarProducts, router: { query } } = this.props;
+        console.log('MOUNT');
         fetchProduct(query.id);
         fetchSimilarProducts(query.id);
     }
 
+    componentDidUpdate(prevProps, prevState) {
+        console.log('SOME');
+        if (this.props.router.query.id != this.state.productId) {
+            console.log('LOCATION CHANGED');
+            fetchProduct(this.props.router.query.id);
+            fetchSimilarProducts(this.props.router.query.id);
+        }
+    }
+
     render() {
         const { product, users, reviews, owner, similarProducts } = this.props
-
-        console.log('product', product);
-        console.log('users', users);
-        console.log('reviews', reviews);
-        console.log('owner', owner);
-        console.log('similarProducts', similarProducts);
 
         const reviewsItems = reviews ? reviews.valueSeq().map(
             (item) => {
@@ -168,24 +174,24 @@ const mapStateToProps = (state, props) => {
             .reduce((accum, data) => (ar?.get(data) ? accum.push(ar.get(data)) : accum), List())
 
         const u = entities.get('users');
+        console.log('USERS', u);
+
+        owner = u?.get(product.get('user'))
+
         users = reviews
             .map(r => r.get('user'))
             .reduce((accum, key) => (u?.get(key) ? accum.set(key, u.get(key)) : accum), new Map())
 
-        owner = u?.get(product.get('user'))
-
         const allProducts = entities.get('products');
-        console.log('allProducts', allProducts);
 
         similarProducts = allProducts
-        .filter(element => {
-            return (element.get('engine') == product.get('engine')) &&
+            .filter(element => {
+                return (element.get('engine') == product.get('engine')) &&
                     (element.get('transmission') == product.get('transmission'))
-        })
-        .reduce((accum, item) => {
-            return accum.size < 4 ? accum.push(item) : accum
-        }, List())
-        console.log('similar PRODUCTS', similarProducts);
+            })
+            .reduce((accum, item) => {
+                return accum.size < 4 ? accum.push(item) : accum
+            }, List())
     };
 
     return {
