@@ -24,12 +24,15 @@ export default class Entity {
 
         this.entityName = name;
         this.xRead = this.xRead.bind(this);
+        this.xSave = this.xSave.bind(this);
         this.xFetch = this.xFetch.bind(this);
+        this.actionRequest = this.actionRequest.bind(this);
     }
 
     public static getWatchers() {
         return this.watchers;
     }
+
     public static setWatchers(watchers : Array<Function>) {
         this.watchers = watchers;
     }
@@ -40,6 +43,7 @@ export default class Entity {
         
     protected xFetch(endpoint: string, method: HTTP_METHOD, data = {}, token?: string) {
         let fullUrl = nextConfig.public.BASE_URL + '/' + endpoint;
+        // let fullUrl = nextConfig.public.BASE_URL + '/products/60b75fab5fe771649be87bb3';
 
         const params: any = {
             method,
@@ -48,18 +52,21 @@ export default class Entity {
                 Authorization: 'bearer ' + token,
             },
         };
-
-        if (method !== HTTP_METHOD.GET) {
-            params['headers']['content-type'] = 'application/json';
-            params['body'] = JSON.stringify(data);
-
-        } else {
-            const opts = Object.entries(data).map(([key, val]) => key + '=' + val).join('&');
-            fullUrl += (opts.length > 0 ? '?' + opts : '');
-        }
-
-        console.log('Entity xfetch', data);
+        console.log('ENDPOINT', endpoint);
+        console.log('FULL URL', fullUrl);
         
+        const opts = Object.entries(data).map(([key, val]) => key + '=' + val).join('&');
+        fullUrl += (opts.length > 0 ? '?' + opts : '');
+
+        // if (method !== HTTP_METHOD.GET) {
+        //     params['headers']['content-type'] = 'application/json';
+        //     params['body'] = JSON.stringify(data);
+
+        // } else {
+        //     const opts = Object.entries(data).map(([key, val]) => key + '=' + val).join('&');
+        //     fullUrl += (opts.length > 0 ? '?' + opts : '');
+        // }
+
         return fetch(fullUrl, params)
             .then((response) => {
                 return response.json().then((json) => ({ json, response }));
@@ -72,16 +79,24 @@ export default class Entity {
     }
 
     protected * actionRequest (endpoint: string, method: HTTP_METHOD, data: any, token?: string) {
+        console.log('all info', endpoint, method, data);
+        
         const { response } = yield call(this.xFetch, endpoint, method, data, token);
+        console.log('response', response.data);
+        console.log('schema', this.schema);
+        console.log('BEFORE NORMALIZE');
         
         const normalizedData = normalize(response.data, Array.isArray(response.data) ? [this.schema] : this.schema);
-        console.log('Normalized: ', normalizedData);   
+        console.log('AFTER NORMALIZE');
+        // const normalizedData = normalize(response.data, this.schema);
+        console.log('normalized', normalizedData);
         
         yield put(requestResult(this.entityName, normalizedData));  
         return { ...response };
     }
 
     public xRead(uri: string, data: any = {}, method: HTTP_METHOD = HTTP_METHOD.GET ) {
+        console.log('URI', uri);
         return this.actionRequest(uri, method, data);
     }
 

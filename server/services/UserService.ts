@@ -19,7 +19,6 @@ export default class UserService extends BaseContext {
 
     public findOneByID(id) {
         const { UserModel } = this.di;
-        console.log('find')
         return UserModel.findById(id);
     }
 

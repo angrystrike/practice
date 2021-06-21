@@ -33,26 +33,25 @@ class ProductPage extends React.Component<MyProps, MyState> {
 
     componentDidMount() {
         const { fetchProduct, fetchSimilarProducts, router: { query } } = this.props;
-        console.log('MOUNT');
+        //const { fetchProduct, router: { query } } = this.props;
         fetchProduct(query.id);
         fetchSimilarProducts(query.id);
     }
 
-    componentDidUpdate(prevProps, prevState) {
-        console.log('SOME');
-        if (this.props.router.query.id != this.state.productId) {
-            console.log('LOCATION CHANGED');
-            fetchProduct(this.props.router.query.id);
-            fetchSimilarProducts(this.props.router.query.id);
-        }
-    }
-
     render() {
         const { product, users, reviews, owner, similarProducts } = this.props
-
+        console.log('product', product);
+        console.log('reviews', reviews);
+        console.log('users', users);
+        
+        
         const reviewsItems = reviews ? reviews.valueSeq().map(
             (item) => {
+                console.log('review', item);
+                
                 const reviewUser = users.get(item.get('user'));
+                console.log('reviewUser', reviewUser);
+                
                 const reviewMark = new List([item]);
 
                 return (
@@ -104,7 +103,7 @@ class ProductPage extends React.Component<MyProps, MyState> {
                                 <div className="text-center">
                                     <h4 className="text-lg font-semibold">{owner?.get('firstName')} {owner?.get('lastName')}</h4>
                                 </div>
-                            </div>
+                            </div> 
                         </div>
 
                         <div className="sm:w-2/5 text-xl text-center sm:text-left">
@@ -114,14 +113,7 @@ class ProductPage extends React.Component<MyProps, MyState> {
                             <div className="mt-5 font-semibold">
                                 Price:
                                 <span className="ml-2 font-normal">${product?.get('price')}</span>
-                            </div>
-
-                            <div className="mt-5 flex items-center justify-center sm:justify-start">
-                                <label className="font-semibold">Color:</label>
-                                <button className="ml-2 h-5 w-5 rounded-full bg-blue-600 border-2 border-blue-200 mr-2 focus:outline-none"></button>
-                                <button className="h-5 w-5 rounded-full bg-gray-600 mr-2 focus:outline-none"></button>
-                                <button className="h-5 w-5 rounded-full bg-black mr-2 focus:outline-none"></button>
-                            </div>
+                            </div>                          
 
                             <div className="mt-5 font-semibold">
                                 Transmission:
@@ -141,7 +133,7 @@ class ProductPage extends React.Component<MyProps, MyState> {
 
                     <section className="p-3 rounded-lg justify-center">
                         <h2 className="mt-2 text-4xl text-center">Reviews</h2>
-                        {reviewsItems}
+                        {reviewsItems} 
                     </section>
 
                     <section className="mt-3 mx-6 py-3 rounded-lg">
@@ -164,7 +156,6 @@ const mapStateToProps = (state, props) => {
     let users = null;
     let owner = null;
     let similarProducts = List();
-
     const product = !isEmpty(entities) && entities.getIn(['products', router.query.id]);
 
     if (product) {

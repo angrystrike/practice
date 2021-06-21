@@ -1,0 +1,69 @@
+"filename", "language", "TypeScript React", "JSON", "CSS", "JavaScript", "TypeScript", "Markdown", "XML", "comment", "blank", "total"
+"c:\Users\Professional\Desktop\Projects\final\practice\.eslintrc.json", "JSON", 0, 63, 0, 0, 0, 0, 0, 6, 1, 70
+"c:\Users\Professional\Desktop\Projects\final\practice\README.md", "Markdown", 0, 0, 0, 0, 0, 10, 0, 0, 6, 16
+"c:\Users\Professional\Desktop\Projects\final\practice\components\Comment.tsx", "TypeScript React", 29, 0, 0, 0, 0, 0, 0, 0, 8, 37
+"c:\Users\Professional\Desktop\Projects\final\practice\components\ProductItem.tsx", "TypeScript React", 44, 0, 0, 0, 0, 0, 0, 0, 4, 48
+"c:\Users\Professional\Desktop\Projects\final\practice\components\ProductList.tsx", "TypeScript React", 53, 0, 0, 0, 0, 0, 0, 0, 12, 65
+"c:\Users\Professional\Desktop\Projects\final\practice\components\SearchForm.tsx", "TypeScript React", 37, 0, 0, 0, 0, 0, 0, 0, 9, 46
+"c:\Users\Professional\Desktop\Projects\final\practice\components\auth\AuthLayout.tsx", "TypeScript React", 34, 0, 0, 0, 0, 0, 0, 0, 9, 43
+"c:\Users\Professional\Desktop\Projects\final\practice\components\auth\LoginForm.tsx", "TypeScript React", 44, 0, 0, 0, 0, 0, 0, 3, 13, 60
+"c:\Users\Professional\Desktop\Projects\final\practice\components\auth\RegisterForm.tsx", "TypeScript React", 79, 0, 0, 0, 0, 0, 0, 5, 18, 102
+"c:\Users\Professional\Desktop\Projects\final\practice\components\partials\Footer.tsx", "TypeScript React", 20, 0, 0, 0, 0, 0, 0, 0, 1, 21
+"c:\Users\Professional\Desktop\Projects\final\practice\components\partials\Header.tsx", "TypeScript React", 43, 0, 0, 0, 0, 0, 0, 0, 6, 49
+"c:\Users\Professional\Desktop\Projects\final\practice\components\partials\Layout.tsx", "TypeScript React", 27, 0, 0, 0, 0, 0, 0, 0, 7, 34
+"c:\Users\Professional\Desktop\Projects\final\practice\config.js", "JavaScript", 0, 0, 0, 31, 0, 0, 0, 0, 5, 36
+"c:\Users\Professional\Desktop\Projects\final\practice\http-status.js", "JavaScript", 0, 0, 0, 243, 0, 0, 0, 0, 0, 243
+"c:\Users\Professional\Desktop\Projects\final\practice\migrate-mongo-config.js", "JavaScript", 0, 0, 0, 14, 0, 0, 0, 11, 9, 34
+"c:\Users\Professional\Desktop\Projects\final\practice\migrations\20210602103637-init.js", "JavaScript", 0, 0, 0, 74, 0, 0, 0, 3, 14, 91
+"c:\Users\Professional\Desktop\Projects\final\practice\migrations\package-lock.json", "JSON", 0, 976, 0, 0, 0, 0, 0, 0, 1, 977
+"c:\Users\Professional\Desktop\Projects\final\practice\migrations\package.json", "JSON", 0, 16, 0, 0, 0, 0, 0, 0, 1, 17
+"c:\Users\Professional\Desktop\Projects\final\practice\next-env.d.ts", "TypeScript", 0, 0, 0, 0, 0, 0, 0, 2, 1, 3
+"c:\Users\Professional\Desktop\Projects\final\practice\next.config.js", "JavaScript", 0, 0, 0, 7, 0, 0, 0, 0, 1, 8
+"c:\Users\Professional\Desktop\Projects\final\practice\nodemon.json", "JSON", 0, 6, 0, 0, 0, 0, 0, 0, 0, 6
+"c:\Users\Professional\Desktop\Projects\final\practice\package-lock.json", "JSON", 0, 6013, 0, 0, 0, 0, 0, 0, 1, 6014
+"c:\Users\Professional\Desktop\Projects\final\practice\package.json", "JSON", 0, 58, 0, 0, 0, 0, 0, 0, 1, 59
+"c:\Users\Professional\Desktop\Projects\final\practice\pages\_app.tsx", "TypeScript React", 25, 0, 0, 0, 0, 0, 0, 4, 9, 38
+"c:\Users\Professional\Desktop\Projects\final\practice\pages\index.tsx", "TypeScript React", 36, 0, 0, 0, 0, 0, 0, 0, 5, 41
+"c:\Users\Professional\Desktop\Projects\final\practice\pages\login.tsx", "TypeScript React", 20, 0, 0, 0, 0, 0, 0, 0, 2, 22
+"c:\Users\Professional\Desktop\Projects\final\practice\pages\product.tsx", "TypeScript React", 77, 0, 0, 0, 0, 0, 0, 0, 11, 88
+"c:\Users\Professional\Desktop\Projects\final\practice\pages\product\[id].tsx", "TypeScript React", 180, 0, 0, 0, 0, 0, 0, 0, 32, 212
+"c:\Users\Professional\Desktop\Projects\final\practice\pages\register.tsx", "TypeScript React", 20, 0, 0, 0, 0, 0, 0, 0, 2, 22
+"c:\Users\Professional\Desktop\Projects\final\practice\pages\search\[text].tsx", "TypeScript React", 39, 0, 0, 0, 0, 0, 0, 0, 9, 48
+"c:\Users\Professional\Desktop\Projects\final\practice\partials\CarItem.tsx", "TypeScript React", 36, 0, 0, 0, 0, 0, 0, 0, 1, 37
+"c:\Users\Professional\Desktop\Projects\final\practice\partials\Review.tsx", "TypeScript React", 28, 0, 0, 0, 0, 0, 0, 0, 2, 30
+"c:\Users\Professional\Desktop\Projects\final\practice\partials\SimilarItem.tsx", "TypeScript React", 19, 0, 0, 0, 0, 0, 0, 0, 1, 20
+"c:\Users\Professional\Desktop\Projects\final\practice\postcss.config.js", "JavaScript", 0, 0, 0, 6, 0, 0, 0, 0, 0, 6
+"c:\Users\Professional\Desktop\Projects\final\practice\public\images\login-bg.svg", "XML", 0, 0, 0, 0, 0, 0, 79, 0, 1, 80
+"c:\Users\Professional\Desktop\Projects\final\practice\redux\action.ts", "TypeScript", 0, 0, 0, 0, 4, 0, 0, 0, 1, 5
+"c:\Users\Professional\Desktop\Projects\final\practice\redux\models\Category.ts", "TypeScript", 0, 0, 0, 0, 9, 0, 0, 0, 2, 11
+"c:\Users\Professional\Desktop\Projects\final\practice\redux\models\Entity.ts", "TypeScript", 0, 0, 0, 0, 71, 0, 0, 9, 19, 99
+"c:\Users\Professional\Desktop\Projects\final\practice\redux\models\Product.ts", "TypeScript", 0, 0, 0, 0, 63, 0, 0, 0, 16, 79
+"c:\Users\Professional\Desktop\Projects\final\practice\redux\models\Review.ts", "TypeScript", 0, 0, 0, 0, 13, 0, 0, 0, 4, 17
+"c:\Users\Professional\Desktop\Projects\final\practice\redux\models\User.ts", "TypeScript", 0, 0, 0, 0, 31, 0, 0, 0, 9, 40
+"c:\Users\Professional\Desktop\Projects\final\practice\redux\reducer.ts", "TypeScript", 0, 0, 0, 0, 60, 0, 0, 0, 12, 72
+"c:\Users\Professional\Desktop\Projects\final\practice\redux\store.ts", "TypeScript", 0, 0, 0, 0, 39, 0, 0, 3, 12, 54
+"c:\Users\Professional\Desktop\Projects\final\practice\server\BaseContext.ts", "TypeScript", 0, 0, 0, 0, 16, 0, 0, 4, 5, 25
+"c:\Users\Professional\Desktop\Projects\final\practice\server\common.ts", "TypeScript", 0, 0, 0, 0, 14, 0, 0, 0, 3, 17
+"c:\Users\Professional\Desktop\Projects\final\practice\server\container.ts", "TypeScript", 0, 0, 0, 0, 36, 0, 0, 1, 6, 43
+"c:\Users\Professional\Desktop\Projects\final\practice\server\controllers\AuthController.ts", "TypeScript", 0, 0, 0, 0, 38, 0, 0, 6, 6, 50
+"c:\Users\Professional\Desktop\Projects\final\practice\server\controllers\CategoryController.ts", "TypeScript", 0, 0, 0, 0, 39, 0, 0, 0, 10, 49
+"c:\Users\Professional\Desktop\Projects\final\practice\server\controllers\ProductController.ts", "TypeScript", 0, 0, 0, 0, 65, 0, 0, 0, 16, 81
+"c:\Users\Professional\Desktop\Projects\final\practice\server\controllers\UserController.ts", "TypeScript", 0, 0, 0, 0, 41, 0, 0, 0, 11, 52
+"c:\Users\Professional\Desktop\Projects\final\practice\server\models\Category.ts", "TypeScript", 0, 0, 0, 0, 11, 0, 0, 0, 3, 14
+"c:\Users\Professional\Desktop\Projects\final\practice\server\models\Product.ts", "TypeScript", 0, 0, 0, 0, 47, 0, 0, 0, 18, 65
+"c:\Users\Professional\Desktop\Projects\final\practice\server\models\Test.ts", "TypeScript", 0, 0, 0, 0, 10, 0, 0, 0, 4, 14
+"c:\Users\Professional\Desktop\Projects\final\practice\server\models\User.ts", "TypeScript", 0, 0, 0, 0, 35, 0, 0, 1, 11, 47
+"c:\Users\Professional\Desktop\Projects\final\practice\server\models\index.ts", "TypeScript", 0, 0, 0, 0, 14, 0, 0, 0, 2, 16
+"c:\Users\Professional\Desktop\Projects\final\practice\server\passports\JwtStrategy.ts", "TypeScript", 0, 0, 0, 0, 35, 0, 0, 0, 7, 42
+"c:\Users\Professional\Desktop\Projects\final\practice\server\passports\SignInStrategy.ts", "TypeScript", 0, 0, 0, 0, 49, 0, 0, 0, 14, 63
+"c:\Users\Professional\Desktop\Projects\final\practice\server\passports\SignUpStrategy.ts", "TypeScript", 0, 0, 0, 0, 46, 0, 0, 0, 13, 59
+"c:\Users\Professional\Desktop\Projects\final\practice\server\server.ts", "TypeScript", 0, 0, 0, 0, 120, 0, 0, 2, 31, 153
+"c:\Users\Professional\Desktop\Projects\final\practice\server\services\CategoryService.ts", "TypeScript", 0, 0, 0, 0, 25, 0, 0, 0, 5, 30
+"c:\Users\Professional\Desktop\Projects\final\practice\server\services\ProductService.ts", "TypeScript", 0, 0, 0, 0, 52, 0, 0, 0, 10, 62
+"c:\Users\Professional\Desktop\Projects\final\practice\server\services\UserService.ts", "TypeScript", 0, 0, 0, 0, 26, 0, 0, 0, 5, 31
+"c:\Users\Professional\Desktop\Projects\final\practice\server\services\index.ts", "TypeScript", 0, 0, 0, 0, 14, 0, 0, 0, 3, 17
+"c:\Users\Professional\Desktop\Projects\final\practice\styles.css", "CSS", 0, 0, 3, 0, 0, 0, 0, 0, 0, 3
+"c:\Users\Professional\Desktop\Projects\final\practice\tailwind.config.js", "JavaScript", 0, 0, 0, 977, 0, 0, 0, 1, 2, 980
+"c:\Users\Professional\Desktop\Projects\final\practice\tsconfig.json", "JSON", 0, 48, 0, 0, 0, 0, 0, 1, 0, 49
+"c:\Users\Professional\Desktop\Projects\final\practice\tsconfig.server.json", "JSON", 0, 11, 0, 0, 0, 0, 0, 0, 0, 11
+"Total", "-", 890, 7191, 3, 1352, 1023, 10, 79, 62, 463, 11073

@@ -23,8 +23,10 @@ const dev = process.env.NODE_ENV !== 'production'
 const app = next({ dev })
 const handle = app.getRequestHandler()
 
+console.log('config', config);
 
 const startDatabase = async () => {
+
   connectToMongoDb(config.db.uri, config.db.options)
   startup()
 }

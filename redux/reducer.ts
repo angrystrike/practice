@@ -43,7 +43,6 @@ const nextReducer = (
 const initialEntities = fromJS({});
 
 function entities(state = initialEntities, action: any) {
-    
     switch(action.type) {
         case REQUEST_RESULT:
             const { data } = action;

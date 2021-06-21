@@ -23,7 +23,6 @@ import { ROLE } from '../common';
 
 @modelOptions({ schemaOptions: { collection: 'users' } })
 export class User {
-    
     @prop({ type : String })
     public email: string;  
 

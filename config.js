@@ -8,11 +8,11 @@ const isDev = process.env.NODE_ENV !== 'production';
 
 const prodConfig = {
     siteName: 'MyProjectName',
-    baseUrl: process.env.BASE_URL,
+    baseUrl: process.env.BASE_URL || 'http://localhost:3000',
     dev: isDev,
     debug_mode: process.env.DEBUG_MODE,
-    mongo: {
-        uri: process.env.MONGO_URL,
+    db: {
+        uri: process.env.MONGO_URL || 'mongodb+srv://max:max@cluster0.fedrw.mongodb.net/mydb',
         options: {
             useNewUrlParser: true,
             useUnifiedTopology: true,
@@ -20,6 +20,7 @@ const prodConfig = {
             bufferMaxEntries: 0
         }
     },
+    jwtSecret: 'fsnjbsjlk7845jkfdsd'
 }
 
 let localConfig = {};
