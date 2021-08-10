@@ -90,11 +90,11 @@ export default class Entity {
         console.log('all info', endpoint, method, data);
         
         const { response } = yield call(this.xFetch, endpoint, method, data, token);
-        const schema  = (Array.isArray(response.data) ? this.schema : [this.schema]);
+        const schema  = (Array.isArray(response.data) ? [this.schema] : this.schema);
         console.log('response.data', response.data);
         
         // const normalizedData = normalize(response.data, schema);
-        const normalizedData = normalize(camelizeKeys(response.data), this.schema);
+        const normalizedData = normalize(camelizeKeys(response.data), schema);
         console.log('normalizedData', normalizedData);
         
 
