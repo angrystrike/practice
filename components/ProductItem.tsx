@@ -31,7 +31,7 @@ export class ProductItem extends React.Component<MyProps, MyState> {
                                 Fast &middot; Secure
                             </div>
                         </div>
-                        <Link href={`/product/${encodeURIComponent(this.props.product.get('_id'))}`}>
+                        <Link href={`/product/${encodeURIComponent(this.props.product.get('id'))}`}>
                             <a className="text-gray-900 font-semibold text-lg ">{this.props.product.get('name')}</a>
                         </Link>
                         <div className="mt-2">

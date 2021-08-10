@@ -7,7 +7,7 @@ export const REGISTER = 'REGISTER';
 export const register = (data : any) => action(REGISTER,data);
 
 export interface User {
-    _id: string;
+    id: string;
     email: string;
     firstName: string;
     lastName: string;

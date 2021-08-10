@@ -33,22 +33,34 @@ class ProductPage extends React.Component<MyProps, MyState> {
 
     componentDidMount() {
         const { fetchProduct, fetchSimilarProducts, router: { query } } = this.props;
+        // const { fetchProduct, router: { query } } = this.props;
         console.log('MOUNT');
         fetchProduct(query.id);
-        fetchSimilarProducts(query.id);
+        console.log("Fetch product");
+        // fetchSimilarProducts(query.id);
+        // console.log("Fetch similar products");
+        
     }
 
-    componentDidUpdate(prevProps, prevState) {
-        console.log('SOME');
-        if (this.props.router.query.id != this.state.productId) {
-            console.log('LOCATION CHANGED');
-            fetchProduct(this.props.router.query.id);
-            fetchSimilarProducts(this.props.router.query.id);
-        }
-    }
+    // static async getInitialProps(ctx) {
+    //     const { fetchProduct, router: { query } } = this.props;
+    // }
+
+    // componentDidUpdate(prevProps, prevState) {
+    //     console.log('SOME');
+    //     if (this.props.router.query.id != this.state.productId) {
+    //         console.log('LOCATION CHANGED');
+    //         fetchProduct(this.props.router.query.id);
+    //         fetchSimilarProducts(this.props.router.query.id);
+    //     }
+    // }
 
     render() {
-        const { product, users, reviews, owner, similarProducts } = this.props
+        // const { product, users, reviews, owner, similarProducts } = this.props
+        const { product, users, reviews, owner } = this.props
+
+        console.log('OWNER', owner);
+        
 
         const reviewsItems = reviews ? reviews.valueSeq().map(
             (item) => {
@@ -56,7 +68,7 @@ class ProductPage extends React.Component<MyProps, MyState> {
                 const reviewMark = new List([item]);
 
                 return (
-                    <div key={item?.get('_id')} className="mt-6 bg-white rounded-lg p-4 flex flex-row justify-center shadow-lg">
+                    <div key={item?.get('id')} className="mt-6 bg-white rounded-lg p-4 flex flex-row justify-center shadow-lg">
                         <div className="sm:flex sm:flex-col items-center w-3/12">
                             <div className="sm:mt-1">
                                 <img width="45" height="45" src={reviewUser?.get('image')} alt="profile" />
@@ -73,28 +85,28 @@ class ProductPage extends React.Component<MyProps, MyState> {
             }
         ) : []
 
-        const similarItems = similarProducts ? similarProducts.valueSeq().map(
-            (item) => {
-                if (item.get('_id') != product.get('_id')) {
-                    return (
-                        <div className="mt-5 sm:ml-4 bg-white rounded-lg pt-2 pb-4 flex flex-row sm:flex-col items-center justify-center shadow-lg" key={item?.get('_id')}>
-                            <img className="mt-3 self-center w-3/5 rounded-lg shadow-md" width="150" height="250" src={item?.get('image')} />
-                            <div className="ml-2 -mt-2 sm:mt-2">
-                                <Link href={`/product/${encodeURIComponent(item?.get('_id'))}`}>
-                                    <a className="text-xl sm:text-md font-semibold">{item?.get('name')}</a>
-                                </Link>
-                                <div className="mt-2 text-gray-900 font-semibold text-xl text-center ">${item?.get('price')}</div>
-                            </div>
-                        </div>
-                    )
-                }
-            }
-        ) : []
+        // const similarItems = similarProducts ? similarProducts.valueSeq().map(
+        //     (item) => {
+        //         if (item.get('_id') != product.get('_id')) {
+        //             return (
+        //                 <div className="mt-5 sm:ml-4 bg-white rounded-lg pt-2 pb-4 flex flex-row sm:flex-col items-center justify-center shadow-lg" key={item?.get('_id')}>
+        //                     <img className="mt-3 self-center w-3/5 rounded-lg shadow-md" width="150" height="250" src={item?.get('image')} />
+        //                     <div className="ml-2 -mt-2 sm:mt-2">
+        //                         <Link href={`/product/${encodeURIComponent(item?.get('_id'))}`}>
+        //                             <a className="text-xl sm:text-md font-semibold">{item?.get('name')}</a>
+        //                         </Link>
+        //                         <div className="mt-2 text-gray-900 font-semibold text-xl text-center ">${item?.get('price')}</div>
+        //                     </div>
+        //                 </div>
+        //             )
+        //         }
+        //     }
+        // ) : []
 
         return (
             <Layout>
                 <div className="mt-8 pb-3 max-w-5xl mx-auto">
-                    <div className="mx-6 flex flex-col sm:flex-row py-3 px-4 bg-white rounded-lg shadow-lg">
+                    {/* <div className="mx-6 flex flex-col sm:flex-row py-3 px-4 bg-white rounded-lg shadow-lg">
                         <div className="mx-2 sm:w-3/5 sm:mx-0 sm:self-start sm:px-5">
                             <img className="mt-3 w-full rounded-lg shadow-md" width="400" height="200" src={product?.get('image')} />
                             <div className="mt-3 flex flex-col items-center">
@@ -142,14 +154,14 @@ class ProductPage extends React.Component<MyProps, MyState> {
                     <section className="p-3 rounded-lg justify-center">
                         <h2 className="mt-2 text-4xl text-center">Reviews</h2>
                         {reviewsItems}
-                    </section>
+                    </section> */}
 
-                    <section className="mt-3 mx-6 py-3 rounded-lg">
+                    {/* <section className="mt-3 mx-6 py-3 rounded-lg">
                         <h2 className="mt-2 text-4xl text-center">Similar Cars</h2>
                         <div className="sm:flex sm:flex-row sm:flex-nowrap justify-between">
                             {similarItems}
                         </div>
-                    </section>
+                    </section> */}
                 </div>
             </Layout>
         );

@@ -5,6 +5,8 @@ import Review, { reviewEntity } from './Review';
 import userEntity, { User } from './User'
 import { categoryEntity } from './Category';
 import Entity from './Entity';
+import { schema } from 'normalizr';
+import { ENTITIES } from 'server/common';
 
 
 export const FETCH_FEATURED_PRODUCTS = 'FETCH_FEATURED_PRODUCTS';
@@ -17,7 +19,7 @@ export const fetchSimilarProducts = (productId: string | string[]) => action(FET
 
 
 export interface Product {
-    _id: string;
+    id: string;
     user: User;
     reviews: Array<Review>;
     categories: Array<Category>;
@@ -33,10 +35,10 @@ export interface Product {
 export class ProductEntity extends Entity {
 
     constructor() {
-        super("products", {
-            user: userEntity,
-            reviews: [reviewEntity],
-            categories: [categoryEntity]
+        super(ENTITIES.PRODUCTS, {
+            user: new schema.Entity(ENTITIES.USERS),
+            reviews: [new schema.Entity(ENTITIES.REVIEWS)],
+            //categories: [new schema.Entity(ENTITIES.CATEGORIES)]
         });
 
         this.watchFetchFeaturedProducts = this.watchFetchFeaturedProducts.bind(this);
@@ -59,7 +61,11 @@ export class ProductEntity extends Entity {
 
     public * watchFetchProduct() {
         while (true) {
+            console.log('Start wathc fetch');
+            
             const data = yield take(FETCH_PRODUCT);
+            console.log('watchFetchProduct');
+            
             yield call(this.xRead, 'products/' + data.productId);
         }
     }
