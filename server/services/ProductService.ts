@@ -12,9 +12,11 @@ export default class ProductService extends BaseContext {
         const { ProductModel } = this.di;
         const product = await ProductModel.findById(id); 
         
-        return ProductModel.find({})
+        return ProductModel.find({_id : {$ne : id}})
             .where('engine', product.engine)
             .where('transmission', product.transmission)
+            .populate('user')
+            .populate('reviews.user')
             .limit(3);
     }
 
@@ -31,7 +33,7 @@ export default class ProductService extends BaseContext {
 
     public findFeatured() {
         const { ProductModel } = this.di;
-        return ProductModel.find({}).where('featured', true).sort({'price': -1}).limit(4).populate('reviews').populate('user');
+        return ProductModel.find({}).where('featured', true).sort({'price': -1}).populate('reviews.user').populate('user').populate("reviews").limit(4);
     }
 
     public findAll() {

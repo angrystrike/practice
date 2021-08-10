@@ -37,7 +37,18 @@ class ProductPage extends React.Component<MyProps, MyState> {
         fetchSimilarProducts(query.id);
     }
     
-   
+    componentDidUpdate(state, props) {
+        console.log('SOME');
+        if (this.props.router.query.id != this.state.productId) {
+            this.setState((state) => {
+                return {productId : this.props.router.query.id}
+            });
+            this.componentDidMount();
+
+            
+        }
+        
+    }
 
     render() {
 
@@ -51,8 +62,10 @@ class ProductPage extends React.Component<MyProps, MyState> {
         const reviewsItems = reviews ? reviews.valueSeq().map(
             (item) => {
                 console.log('review', item);
+                console.log('item get user', );
+                console.log(users);
                 
-                const reviewUser = users.get(item.get('user'));
+                const reviewUser = users.get(item.get('user').get('id').toString())
                 console.log('reviewUser', reviewUser);
                 
                 const reviewMark = new List([item]);
@@ -167,21 +180,26 @@ const mapStateToProps = (state, props) => {
             .get('reviews')
             .reduce((accum, data) => (ar?.get(data) ? accum.push(ar.get(data)) : accum), List())
 
+        
         const u = entities.get('users');
         console.log('USERS', u);
 
         owner = u?.get(product.get('user'))
 
-        users = reviews
-            .map(r => r.get('user'))
-            .reduce((accum, key) => (u?.get(key) ? accum.set(key, u.get(key)) : accum), new Map())
 
-        const allProducts = entities.get('products');
+        console.log('reviews', reviews.first());
+
+        users = u
+
+        console.log('users', users);
+        
+        const allProducts = entities.get('products');   
 
         similarProducts = allProducts
             .filter(element => {
                 return (element.get('engine') == product.get('engine')) &&
-                    (element.get('transmission') == product.get('transmission'))
+                    (element.get('transmission') == product.get('transmission') &&
+                    element.get('id') != product.get('id'))
             })
             .reduce((accum, item) => {
                 return accum.size < 4 ? accum.push(item) : accum
