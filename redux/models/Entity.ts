@@ -27,6 +27,7 @@ export default class Entity {
 
         this.entityName = name;
         this.xRead = this.xRead.bind(this);
+        this.xSave = this.xSave.bind(this);
         this.xFetch = this.xFetch.bind(this);
         this.xSave = this.xSave.bind(this);
     }
@@ -34,6 +35,7 @@ export default class Entity {
     public static getWatchers() {
         return this.watchers;
     }
+
     public static setWatchers(watchers : Array<Function>) {
         this.watchers = watchers;
     }
@@ -55,11 +57,15 @@ export default class Entity {
                 Authorization: 'bearer ' + token,
             },
         };
+        console.log('ENDPOINT', endpoint);
+        console.log('FULL URL', fullUrl);
+        
+        const opts = Object.entries(data).map(([key, val]) => key + '=' + val).join('&');
+        fullUrl += (opts.length > 0 ? '?' + opts : '');
 
         if (method != HTTP_METHOD.GET) {
             params['headers']['content-type'] = 'application/json';
             params['body'] = JSON.stringify(data);
-
         } else {
             const opts = Object.entries(data).map(([key, val]) => key + '=' + val).join('&');
             fullUrl += (opts.length > 0 ? '?' + opts : '');
@@ -81,6 +87,8 @@ export default class Entity {
     }
 
     protected * actionRequest (endpoint: string, method: HTTP_METHOD, data: any, token?: string) {
+        console.log('all info', endpoint, method, data);
+        
         const { response } = yield call(this.xFetch, endpoint, method, data, token);
         const schema  = (Array.isArray(response.data) ? this.schema : [this.schema]);
         console.log('response.data', response.data);
@@ -95,6 +103,7 @@ export default class Entity {
     }
 
     public xRead(uri: string, data: any = {}, method: HTTP_METHOD = HTTP_METHOD.GET ) {
+        console.log('URI', uri);
         return this.actionRequest(uri, method, data);
     }
 

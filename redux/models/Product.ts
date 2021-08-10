@@ -1,9 +1,8 @@
 import { take, call } from 'redux-saga/effects';
 import { action } from 'redux/action';
-import { Category } from 'server/models/Category';
-import Review, { reviewEntity } from './Review';
-import userEntity, { User } from './User'
-import { categoryEntity } from './Category';
+import { Review } from './Review';
+import { User } from './User'
+import { Category } from './Category';
 import Entity from './Entity';
 import { schema } from 'normalizr';
 import { ENTITIES } from 'server/common';
@@ -32,8 +31,21 @@ export interface Product {
     image: string;
 }
 
-export class ProductEntity extends Entity {
+const categoryEntity = new schema.Entity('categories', {}, {
+    idAttribute: '_id'
+})
 
+const userEntity = new schema.Entity('users', {}, {
+    idAttribute: '_id'
+})
+
+const reviewEntity = new schema.Entity('reviews', {
+    user: userEntity,
+}, {
+    idAttribute: '_id'
+})
+
+export class ProductEntity extends Entity {
     constructor() {
         super(ENTITIES.PRODUCTS, {
             user: new schema.Entity(ENTITIES.USERS),

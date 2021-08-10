@@ -1,5 +1,7 @@
-import User, { userEntity } from './User'
+import userEntity, { User } from './User'
 import { normalize, schema } from 'normalizr';
+import Entity from './Entity';
+import { ENTITIES } from 'server/common';
 
 export default interface Review {
     id: string;
@@ -9,8 +11,7 @@ export default interface Review {
 }
 
 export const reviewEntity = new schema.Entity('reviews', {
-    user: userEntity,
+    user: new schema.Entity(ENTITIES.USERS),
 }, {
     idAttribute: 'id'
 });
-
