@@ -13,6 +13,12 @@ export interface IIdentity {
     role: ROLE;
 }
 
+export interface SagaAction {
+    saga: Function;
+    trigger: Function;
+    constant : string;
+}
+
 export enum ENTITIES {
     USERS = 'users',
     PRODUCTS = 'products',
