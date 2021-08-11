@@ -53,15 +53,17 @@ export class ProductEntity extends Entity {
             //categories: [new schema.Entity(ENTITIES.CATEGORIES)]
         });
 
-        this.watchFetchFeaturedProducts = this.watchFetchFeaturedProducts.bind(this);
-        this.watchFetchProduct = this.watchFetchProduct.bind(this);
-        this.watchFetchSimilarProducts = this.watchFetchSimilarProducts.bind(this);
+        // this.bindFunctions(instanceOnly)
 
-        ProductEntity.addWatcher([
-            this.watchFetchFeaturedProducts,
-            this.watchFetchProduct,
-            this.watchFetchSimilarProducts
-        ]);
+        // this.watchFetchFeaturedProducts = this.watchFetchFeaturedProducts.bind(this);
+        // this.watchFetchProduct = this.watchFetchProduct.bind(this);
+        // this.watchFetchSimilarProducts = this.watchFetchSimilarProducts.bind(this);
+
+        // ProductEntity.addWatcher([
+        //     this.watchFetchFeaturedProducts,
+        //     this.watchFetchProduct,
+        //     this.watchFetchSimilarProducts
+        // ]);
     }
 
     public * watchFetchFeaturedProducts() {
@@ -88,6 +90,13 @@ export class ProductEntity extends Entity {
             yield call(this.xRead, 'products/similar/' + data.productId);
         }
     }
+
+    // public bindFunctions(functions: Array<String>) {
+    //     functions.forEach((func, i) => {
+    //         const watch = ProductEntity[func].bind(this);
+    //         ProductEntity.addWatcher([productEntity[func]]);
+    //     });
+    // }
 }
 
 const productEntity = new ProductEntity();

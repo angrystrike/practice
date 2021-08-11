@@ -21,9 +21,24 @@ export default class Entity {
     private static watchers: Function[] = [];
 
     constructor(name: string, options: any = {}) {
-        this.schema =  new schema.Entity(name, options);
+        this.schema = new schema.Entity(name, options);
 
-        console.log('Entity', name, this.schema);
+        console.log('CURRENT CLASS', this.constructor.name);
+        // const watcherFunc = entity[act.watcher].bind(entity);
+
+        // var obj = new this[classNameString]();
+        const instanceOnly = Object.getOwnPropertyNames(Object.getPrototypeOf(this))
+            .filter(prop => prop != "constructor");
+        
+        console.log(instanceOnly);
+            
+        // const watcherFunc = entity[act.watcher].bind(entity);
+        
+        instanceOnly.forEach((functionName, i) => { 
+            // this.watchFetchFeaturedProducts = this.watchFetchFeaturedProducts.bind(this);
+            this[functionName] = this[functionName].bind(this);
+            Entity.addWatcher([this[functionName]]);
+        });
 
         this.entityName = name;
         this.xRead = this.xRead.bind(this);
@@ -36,20 +51,20 @@ export default class Entity {
         return this.watchers;
     }
 
-    public static setWatchers(watchers : Array<Function>) {
+    public static setWatchers(watchers: Array<Function>) {
         this.watchers = watchers;
     }
 
     public static addWatcher(watchers: Array<Function>) {
         Entity.setWatchers(Entity.getWatchers().concat(watchers));
     }
-        
+
     protected xFetch(endpoint: string, method: HTTP_METHOD, data = {}, token?: string) {
         console.log('endpoint', endpoint);
-        
+
         let fullUrl = nextConfig.public.BASE_URL + '/' + endpoint;
         console.log('fullUrl', fullUrl);
-        
+
         const params: any = {
             method,
             credentials: 'include',
@@ -59,7 +74,7 @@ export default class Entity {
         };
         console.log('ENDPOINT', endpoint);
         console.log('FULL URL', fullUrl);
-        
+
         const opts = Object.entries(data).map(([key, val]) => key + '=' + val).join('&');
         fullUrl += (opts.length > 0 ? '?' + opts : '');
 
@@ -73,7 +88,7 @@ export default class Entity {
 
         console.log('Entity xfetch', data);
         console.log('METGHOD', method);
-        
+
 
         return fetch(fullUrl, params)
             .then((response) => {
@@ -86,23 +101,23 @@ export default class Entity {
             );
     }
 
-    protected * actionRequest (endpoint: string, method: HTTP_METHOD, data: any, token?: string) {
+    protected * actionRequest(endpoint: string, method: HTTP_METHOD, data: any, token?: string) {
         console.log('all info', endpoint, method, data);
-        
+
         const { response } = yield call(this.xFetch, endpoint, method, data, token);
-        const schema  = (Array.isArray(response.data) ? [this.schema] : this.schema);
+        const schema = (Array.isArray(response.data) ? [this.schema] : this.schema);
         console.log('response.data', response.data);
-        
+
         // const normalizedData = normalize(response.data, schema);
         const normalizedData = normalize(camelizeKeys(response.data), schema);
         console.log('normalizedData', normalizedData);
-        
 
-        yield put(requestResult(this.entityName, normalizedData));  
+
+        yield put(requestResult(this.entityName, normalizedData));
         return { ...response };
     }
 
-    public xRead(uri: string, data: any = {}, method: HTTP_METHOD = HTTP_METHOD.GET ) {
+    public xRead(uri: string, data: any = {}, method: HTTP_METHOD = HTTP_METHOD.GET) {
         console.log('URI', uri);
         return this.actionRequest(uri, method, data);
     }
