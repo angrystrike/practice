@@ -3,8 +3,6 @@ import { normalize, schema } from 'normalizr';
 import { call, put } from 'redux-saga/effects';
 import { action } from 'redux/action';
 import { camelizeKeys } from 'humps';
-import { constants } from 'buffer';
-import { Action } from 'swr/dist/types';
 import { SagaAction } from 'server/common';
 
 
@@ -21,7 +19,6 @@ export default class Entity {
     private schema;
     private entityName;
     private static watchers: Function[] = [];
-    private static constants: Array<String> = [];
     private static actions : { [key : string] : SagaAction } = {};
 
     constructor(name: string, options: any = {}) {
@@ -51,6 +48,18 @@ export default class Entity {
         this.xSave = this.xSave.bind(this);
     }
 
+    // public * superFunction() {
+    //     while (true) {
+    //         const data = yield take(someName);
+    //         callback(data);
+    //     }
+    // }
+
+    // public * fetchFeaturedProducts_New() {
+    //     yield call(this.xRead, 'products/featured', data);
+    // }
+    
+
     public static getSagaList() {
         return Object
             .keys(Entity.actions)
@@ -68,7 +77,6 @@ export default class Entity {
     public static getWatchers() {
         return this.watchers;
     }
-
 
     public static setWatchers(watchers: Array<Function>) {
         this.watchers = watchers;

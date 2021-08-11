@@ -4,9 +4,9 @@ import React from 'react'
 import Layout from 'components/partials/Layout';
 import { Comment } from '../../components/Comment';
 import { connect } from 'react-redux';
-import { fetchProduct, fetchSimilarProducts } from 'redux/models/Product';
-import { isEmpty } from 'server/common';
+import { isEmpty, ENTITIES } from 'server/common';
 import { List } from 'immutable';
+import Entity from "redux/models/Entity";
 
 interface MyProps {
     fetchProduct: (productId: string | string[]) => void;
@@ -33,19 +33,18 @@ class ProductPage extends React.Component<MyProps, MyState> {
 
     componentDidMount() {
         const { fetchProduct, fetchSimilarProducts, router: { query } } = this.props;
-        fetchProduct(query.id);
-        fetchSimilarProducts(query.id);
+        console.log('ID', query.id);
+        
+        fetchProduct({ productId: query.id });
+        fetchSimilarProducts({ productId: query.id });
     }
     
     componentDidUpdate(state, props) {
-        console.log('SOME');
         if (this.props.router.query.id != this.state.productId) {
             this.setState((state) => {
-                return {productId : this.props.router.query.id}
+                return { productId : this.props.router.query.id }
             });
-            this.componentDidMount();
-
-            
+            this.componentDidMount();            
         }
         
     }
@@ -186,7 +185,6 @@ const mapStateToProps = (state, props) => {
 
         owner = u?.get(product.get('user'))
 
-
         console.log('reviews', reviews.first());
 
         users = u
@@ -215,10 +213,5 @@ const mapStateToProps = (state, props) => {
     };
 }
 
-const mapDispatchToProps = {
-    fetchProduct,
-    fetchSimilarProducts
-}
-
-const prodPage = connect(mapStateToProps, mapDispatchToProps)(ProductPage);
+const prodPage = connect(mapStateToProps, Entity.triggers())(ProductPage);
 export default withRouter(prodPage);

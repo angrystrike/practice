@@ -1,5 +1,5 @@
 import React from "react";
-import { Product, fetchFeaturedProducts } from 'redux/models/Product';
+import { Product } from 'redux/models/Product';
 import { ProductItem } from './ProductItem';
 import { connect } from "react-redux";
 import { get, List, Map } from 'immutable';
