@@ -18,9 +18,9 @@ declare global {
 }
 
 console.log('watchers', Entity.getWatchers());
-// Entity.getWatchers().map((func) => func())
+
 const rootSaga = function* root() {
-    yield all(Entity.getActions().map((item) => item.saga()));
+    yield all(Entity.getSagaList());
 };
 
 export interface SagaStore extends Store {

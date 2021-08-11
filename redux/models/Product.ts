@@ -66,28 +66,40 @@ export class ProductEntity extends Entity {
         // ]);
     }
 
-    public * watchFetchFeaturedProducts(constant : string) {
+
+    // public * superFunction() {
+    //     while (true) {
+    //         const data = yield take(someName);
+    //         callback(data);
+    //     }
+    // }
+
+    // public * fetchFeaturedProducts_New() {
+    //     yield call(this.xRead, 'products/featured', data);
+    // }
+
+    public * fetchFeaturedProducts() {
         while (true) {
             // const data = yield take(FETCH_FEATURED_PRODUCTS);
-            const data = yield take(constant);
+            const data = yield take('fetchFeaturedProducts'.toUpperCase());
             yield call(this.xRead, 'products/featured', data);
         }
     }
 
-    public * watchFetchProduct(constant : string) {
+    public * watchFetchProduct() {
         while (true) {
             console.log('Start wathc fetch');
             
-            const data = yield take(constant);
+            const data = yield take(FETCH_PRODUCT);
             console.log('watchFetchProduct');
             
             yield call(this.xRead, 'products/' + data.productId);
         }
     }
 
-    public * watchFetchSimilarProducts(constant : string) {
+    public * watchFetchSimilarProducts() {
         while (true) {
-            const data = yield take(constant);
+            const data = yield take(FETCH_SIMILAR_PRODUCTS);
             yield call(this.xRead, 'products/similar/' + data.productId);
         }
     }

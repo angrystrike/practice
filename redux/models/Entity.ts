@@ -22,12 +22,10 @@ export default class Entity {
     private entityName;
     private static watchers: Function[] = [];
     private static constants: Array<String> = [];
-    private static actions: Array<SagaAction> = [];
+    private static actions : { [key : string] : SagaAction } = {};
 
     constructor(name: string, options: any = {}) {
         this.schema = new schema.Entity(name, options);
-
-        console.log('CURRENT CLASS', this.constructor.name);
 
         const instanceOnly = Object.getOwnPropertyNames(Object.getPrototypeOf(this))
             .filter(prop => prop != "constructor");
@@ -38,19 +36,13 @@ export default class Entity {
             this[functionName] = this[functionName].bind(this);
             Entity.addWatcher([this[functionName]]);
 
-          // let actionName = (data: any) => action(functionName.toUpperCase(), data);
-
-            // type GreetFunction = (a: string) => void;
-            // = (data: any) => action(FETCH_FEATURED_PRODUCTS, data);
-            Entity.actions.push({ 
+            Entity.actions[functionName] = { 
                 saga: this[functionName],
                 trigger: (data: any) => action(functionName.toUpperCase(), data)
-            });
-            
+            };
+
             console.log('actions', Entity.actions);
         });
-
-
 
         this.entityName = name;
         this.xRead = this.xRead.bind(this);
@@ -59,8 +51,18 @@ export default class Entity {
         this.xSave = this.xSave.bind(this);
     }
 
-    public static getActions() {
-        return this.actions;
+    public static getSagaList() {
+        return Object
+            .keys(Entity.actions)
+            .map(key => Entity.actions[key].saga());
+    }
+
+    public static triggers() {
+        const list = {};
+        Object
+            .keys(Entity.actions)
+            .map(key => list[key] = Entity.actions[key].trigger);
+        return list;
     }
 
     public static getWatchers() {
@@ -75,12 +77,6 @@ export default class Entity {
     public static addWatcher(watchers: Array<Function>) {
         Entity.setWatchers(Entity.getWatchers().concat(watchers));
     }
-
-    // public static addConstant(array : Array<String>) {
-    //     array.forEach((functionName, i) => { 
-    //         Entity.constants.push(functionName.toUpperCase())
-    //     });
-    // }
 
     protected xFetch(endpoint: string, method: HTTP_METHOD, data = {}, token?: string) {
         console.log('endpoint', endpoint);

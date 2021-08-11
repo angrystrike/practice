@@ -14,9 +14,8 @@ export interface IIdentity {
 }
 
 export interface SagaAction {
-    saga: Function;
-    trigger: Function;
-    constant : string;
+    saga: () => void;
+    trigger: (data: any) => void;
 }
 
 export enum ENTITIES {

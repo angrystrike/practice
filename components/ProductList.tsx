@@ -4,6 +4,7 @@ import { ProductItem } from './ProductItem';
 import { connect } from "react-redux";
 import { get, List, Map } from 'immutable';
 import { isEmpty } from "server/common";
+import Entity from "redux/models/Entity";
 
 interface MyProps {
     fetchFeaturedProducts: () => void;
@@ -58,8 +59,5 @@ const mapStateToProps = (state) => {
     };
 };
 
-const mapDispatchToProps = {
-    fetchFeaturedProducts
-}
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProductList);
+export default connect(mapStateToProps, Entity.triggers())(ProductList);
