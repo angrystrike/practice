@@ -24,33 +24,6 @@ export default class Entity {
         this.schema = new schema.Entity(name, options);
         console.log('Entity constr = 1');
         
-        // const instanceOnly = Object
-        //     .getOwnPropertyNames(Object.getPrototypeOf(this))
-        //     .filter(prop => prop != "constructor");
-        
-        // console.log(instanceOnly);
-            
-        // instanceOnly.forEach((functionName, i) => { 
-        //     this[functionName] = this[functionName].bind(this);
-
-        //     const func = this[functionName];
-
-        //     const sagaFunc = function * () {
-        //         while (true) {
-        //             const data = yield take(functionName.toUpperCase());
-        //             delete(data.type);
-        //             yield fork(func, data);
-        //         }
-        //     };
-
-        //     Entity.actions[functionName] = { 
-        //         saga: sagaFunc,
-        //         trigger: (data: any) => action(functionName.toUpperCase(), data)
-        //     };
-
-        //     console.log('actions', Entity.actions);
-        // });
-
         this.entityName = name;
         this.xRead = this.xRead.bind(this);
         this.xSave = this.xSave.bind(this);
@@ -60,7 +33,6 @@ export default class Entity {
 
     public static getSagaList() {
         const list = [];
-        console.log('getSagaList 11111111111111');
         Object
             .keys(Entity.actions)
             .map(entity => 
@@ -73,19 +45,6 @@ export default class Entity {
             )
         return list;
     }
-
-    // public static setAction(functionName, sagaFunc) {
-    //     console.log('setAction', functionName, sagaFunc);
-        
-    //    // Entity[functionName] = Entity[functionName].bind(Entity);
-    //     Entity.actions[functionName] = {
-    //         saga: sagaFunc,
-    //         trigger: (data: any) => action(functionName.toUpperCase(), data)
-    //     };
-
-    //     console.log('entity actions', Entity.actions);
-        
-    // }
 
     public triggers() {
         const list = {};
@@ -158,13 +117,10 @@ export default class Entity {
     }
 
     public xRead(uri: string, data: any = {}, method: HTTP_METHOD = HTTP_METHOD.GET) {
-        console.log('URI', uri);
         return this.actionRequest(uri, method, data);
     }
 
     public xSave(uri: string, data: any = {}) {
-        console.log('xSave', uri);
-        
         return this.actionRequest(uri, HTTP_METHOD.POST, data);
     }
 }

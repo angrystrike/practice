@@ -3,7 +3,9 @@ import Router, { withRouter } from "next/router";
 import React from "react";
 import { connect } from 'react-redux';
 import { action } from 'redux/action';
+import saga from "redux/decorators/saga";
 import Entity from "redux/models/Entity";
+import UserEntity from "redux/models/User";
 
 interface MyProps {
     register: (data: any) => void;
@@ -17,6 +19,7 @@ interface MyState {
     lastName: string
 }
 
+@saga(UserEntity)
 class RegisterForm extends React.Component<MyProps, MyState> {
     constructor(props) {
         super(props);
@@ -93,4 +96,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, Entity.triggers())(RegisterForm);
+export default connect(mapStateToProps, UserEntity.triggers())(RegisterForm);

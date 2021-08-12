@@ -7,6 +7,8 @@ import { connect } from 'react-redux';
 import { isEmpty } from 'server/common';
 import { List } from 'immutable';
 import Entity from "redux/models/Entity";
+import saga from "redux/decorators/saga";
+import ProductEntity from "redux/models/Product";
 
 
 interface MyProps {
@@ -24,6 +26,7 @@ interface MyState {
     productId: string | string[];
 }
 
+@saga(ProductEntity)
 class ProductPage extends React.Component<MyProps, MyState> {
     constructor(props) {
         super(props)
@@ -215,5 +218,5 @@ const mapStateToProps = (state, props) => {
     };
 }
 
-const prodPage = connect(mapStateToProps, Entity.triggers())(ProductPage);
+const prodPage = connect(mapStateToProps, ProductEntity.triggers())(ProductPage);
 export default withRouter(prodPage);

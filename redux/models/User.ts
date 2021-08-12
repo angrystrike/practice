@@ -24,6 +24,7 @@ export class UserEntity extends Entity {
         yield call(this.xSave, 'auth/register', data);
     }
 
+    @action()
     public * login(data) {
         yield call(this.xSave, 'auth/login', data);
     }
