@@ -17,6 +17,14 @@ export interface SagaAction {
     saga: () => void;
     trigger: (data: any) => void;
 }
+export interface ISagaAction {
+    [entity: string]: {
+        [action: string]: {
+            saga?: () => void;
+            trigger: (data: any) => void;
+        },
+    };
+}
 
 export enum ENTITIES {
     USERS = 'users',

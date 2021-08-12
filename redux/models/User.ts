@@ -1,4 +1,5 @@
 import { call } from 'redux-saga/effects'
+import action from 'redux/decorators/action';
 import { ENTITIES } from 'server/common';
 import Entity from './Entity';
 
@@ -18,12 +19,17 @@ export class UserEntity extends Entity {
         super(ENTITIES.USERS, {});
     }
 
+    @action()
     public * register(data) {
         yield call(this.xSave, 'auth/register', data);
     }
 
     public * login(data) {
         yield call(this.xSave, 'auth/login', data);
+    }
+
+    public test() {
+        console.log('TEST');
     }
 }
 

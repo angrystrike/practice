@@ -59,6 +59,10 @@ class LoginForm extends React.Component<MyProps, MyState> {
 }
 
 const mapStateToProps = (state) => {
+    return {
+        email: '',
+        password: ''
+    }
 }
 
 export default connect(mapStateToProps, Entity.triggers())(LoginForm);

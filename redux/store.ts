@@ -17,10 +17,10 @@ declare global {
     }
 }
 
-console.log('watchers', Entity.getWatchers());
-
 const rootSaga = function* root() {
-    yield all(Entity.getSagaList());
+    const sagaList = Entity.getSagaList()
+    console.log('sagaList', sagaList);
+    yield all(sagaList);
 };
 
 export interface SagaStore extends Store {

@@ -84,6 +84,13 @@ class RegisterForm extends React.Component<MyProps, MyState> {
 }
 
 const mapStateToProps = (state) => {
+    return {
+        email: '',
+        password: '',
+        repeatPassword: '',
+        firstName: '',
+        lastName: ''
+    }
 }
 
 export default connect(mapStateToProps, Entity.triggers())(RegisterForm);

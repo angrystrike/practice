@@ -4,7 +4,8 @@ import { ProductItem } from './ProductItem';
 import { connect } from "react-redux";
 import { get, List, Map } from 'immutable';
 import { isEmpty } from "server/common";
-import Entity from "redux/models/Entity";
+import ProductEntity  from 'redux/models/Product';
+import saga from "redux/decorators/saga";
 
 interface MyProps {
     fetchFeaturedProducts: () => void;
@@ -14,6 +15,7 @@ interface MyProps {
 interface MyState {
 }
 
+@saga(ProductEntity)
 class ProductList extends React.Component<MyProps, MyState> {
     constructor(props) {
         super(props);
@@ -60,4 +62,4 @@ const mapStateToProps = (state) => {
 };
 
 
-export default connect(mapStateToProps, Entity.triggers())(ProductList);
+export default connect(mapStateToProps, ProductEntity.triggers())(ProductList);

@@ -1,9 +1,9 @@
 import nextConfig from 'next.config'
 import { normalize, schema } from 'normalizr';
-import { fork, call, put, take } from 'redux-saga/effects';
+import { fork, call, put, take, ForkEffect, TakeEffect } from 'redux-saga/effects';
 import { action } from 'redux/action';
 import { camelizeKeys } from 'humps';
-import { SagaAction } from 'server/common';
+import { ISagaAction, SagaAction } from 'server/common';
 
 
 export enum HTTP_METHOD {
@@ -18,70 +18,85 @@ export const requestResult = (entityName: string, data: any) => action(REQUEST_R
 export default class Entity {
     private schema;
     private entityName;
-    private static watchers: Function[] = [];
-    private static actions : { [key : string] : SagaAction } = {};
+    public static actions : ISagaAction = {};
 
     constructor(name: string, options: any = {}) {
         this.schema = new schema.Entity(name, options);
-
-        const instanceOnly = Object
-            .getOwnPropertyNames(Object.getPrototypeOf(this))
-            .filter(prop => prop != "constructor");
+        console.log('Entity constr = 1');
         
-        console.log(instanceOnly);
+        // const instanceOnly = Object
+        //     .getOwnPropertyNames(Object.getPrototypeOf(this))
+        //     .filter(prop => prop != "constructor");
+        
+        // console.log(instanceOnly);
             
-        instanceOnly.forEach((functionName, i) => { 
-            this[functionName] = this[functionName].bind(this);
+        // instanceOnly.forEach((functionName, i) => { 
+        //     this[functionName] = this[functionName].bind(this);
 
-            const func = this[functionName];
+        //     const func = this[functionName];
 
-            const sagaFunc = function * () {
-                while (true) {
-                    const data = yield take(functionName.toUpperCase());
-                    delete(data.type);
-                    yield fork(func, data);
-                }
-            };
+        //     const sagaFunc = function * () {
+        //         while (true) {
+        //             const data = yield take(functionName.toUpperCase());
+        //             delete(data.type);
+        //             yield fork(func, data);
+        //         }
+        //     };
 
-            Entity.actions[functionName] = { 
-                saga: sagaFunc,
-                trigger: (data: any) => action(functionName.toUpperCase(), data)
-            };
+        //     Entity.actions[functionName] = { 
+        //         saga: sagaFunc,
+        //         trigger: (data: any) => action(functionName.toUpperCase(), data)
+        //     };
 
-            console.log('actions', Entity.actions);
-        });
+        //     console.log('actions', Entity.actions);
+        // });
 
         this.entityName = name;
         this.xRead = this.xRead.bind(this);
         this.xSave = this.xSave.bind(this);
         this.xFetch = this.xFetch.bind(this);
-        this.xSave = this.xSave.bind(this);
+        this.actionRequest = this.actionRequest.bind(this);
     }
 
     public static getSagaList() {
-        return Object
-            .keys(Entity.actions)
-            .map(key => Entity.actions[key].saga());
-    }
-
-    public static triggers() {
-        const list = {};
+        const list = [];
+        console.log('getSagaList 11111111111111');
         Object
             .keys(Entity.actions)
-            .map(key => list[key] = Entity.actions[key].trigger);
+            .map(entity => 
+                Object.keys(Entity.actions[entity])
+                .filter(method => typeof Entity.actions[entity][method].saga == 'function')
+                .map(method => 
+                    list.push(Entity.actions[entity][method].saga())
+                    
+                )
+            )
         return list;
     }
 
-    public static getWatchers() {
-        return this.watchers;
-    }
+    // public static setAction(functionName, sagaFunc) {
+    //     console.log('setAction', functionName, sagaFunc);
+        
+    //    // Entity[functionName] = Entity[functionName].bind(Entity);
+    //     Entity.actions[functionName] = {
+    //         saga: sagaFunc,
+    //         trigger: (data: any) => action(functionName.toUpperCase(), data)
+    //     };
 
-    public static setWatchers(watchers: Array<Function>) {
-        this.watchers = watchers;
-    }
+    //     console.log('entity actions', Entity.actions);
+        
+    // }
 
-    public static addWatcher(watchers: Array<Function>) {
-        Entity.setWatchers(Entity.getWatchers().concat(watchers));
+    public triggers() {
+        const list = {};
+        const entityName = this.constructor.name;
+        if (entityName in Entity.actions) {
+            const methods = Entity.actions[entityName];
+            Object.keys(methods).map(method => {
+                list[method] =Entity.actions[entityName][method].trigger;
+            })
+        }
+        return list;
     }
 
     protected xFetch(endpoint: string, method: HTTP_METHOD, data = {}, token?: string) {
@@ -127,7 +142,7 @@ export default class Entity {
             );
     }
 
-    protected * actionRequest(endpoint: string, method: HTTP_METHOD, data: any, token?: string) {
+    public * actionRequest(endpoint: string, method: HTTP_METHOD, data: any, token?: string) {
         console.log('all info', endpoint, method, data);
 
         const { response } = yield call(this.xFetch, endpoint, method, data, token);

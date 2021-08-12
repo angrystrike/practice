@@ -5,6 +5,7 @@ import Category from './Category';
 import Entity from './Entity';
 import { schema } from 'normalizr';
 import { ENTITIES } from 'server/common';
+import action from 'redux/decorators/action';
 
 
 export interface Product {
@@ -30,14 +31,18 @@ export class ProductEntity extends Entity {
         });
     }
 
+    @action()
     public * fetchFeaturedProducts(data) {
+        console.log('data fetch', data);
         yield call(this.xRead, 'products/featured', data);
     }
 
+    @action()
     public * fetchProduct(data) {
         yield call(this.xRead, 'products/' + data.productId);
     }
 
+    @action()
     public * fetchSimilarProducts(data) {
         yield call(this.xRead, 'products/similar/' + data.productId);
     }

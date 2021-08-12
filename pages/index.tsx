@@ -2,10 +2,17 @@ import Image from 'next/image'
 import React from 'react'
 import ProductList from 'components/ProductList'
 import Layout from 'components/partials/Layout'
+import ProductEntity  from 'redux/models/Product';
+import saga from 'redux/decorators/saga';
 
-export default function Home() {
-  return (
-    <Layout>
+export interface IHomeProps {
+}
+
+
+export default class Home extends React.PureComponent<IHomeProps> {
+  public render() {
+    return (
+      <Layout>
       <div className="pb-3 max-w-5xl mx-auto">
         <section id="categories" className="mt-5 mx-6 pb-4 bg-white rounded-lg">
           <div className="flex flex-col py-3 my-3">
@@ -36,5 +43,7 @@ export default function Home() {
       </div>
 
     </Layout>
-  )
+    );
+  }
 }
+
