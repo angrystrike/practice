@@ -24,7 +24,8 @@ export default class Entity {
     constructor(name: string, options: any = {}) {
         this.schema = new schema.Entity(name, options);
 
-        const instanceOnly = Object.getOwnPropertyNames(Object.getPrototypeOf(this))
+        const instanceOnly = Object
+            .getOwnPropertyNames(Object.getPrototypeOf(this))
             .filter(prop => prop != "constructor");
         
         console.log(instanceOnly);
@@ -112,7 +113,8 @@ export default class Entity {
 
         console.log('Entity xfetch', data);
         console.log('METGHOD', method);
-
+        console.log('FULL url', fullUrl);
+        
 
         return fetch(fullUrl, params)
             .then((response) => {
@@ -146,6 +148,8 @@ export default class Entity {
     }
 
     public xSave(uri: string, data: any = {}) {
+        console.log('xSave', uri);
+        
         return this.actionRequest(uri, HTTP_METHOD.POST, data);
     }
 }

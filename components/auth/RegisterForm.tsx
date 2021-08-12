@@ -3,13 +3,12 @@ import Router, { withRouter } from "next/router";
 import React from "react";
 import { connect } from 'react-redux';
 import { action } from 'redux/action';
+import Entity from "redux/models/Entity";
 
 interface MyProps {
-    register: (data : any) => void;
+    register: (data: any) => void;
 }
 
-export const REGISTER = 'REGISTER';
-const register = (data : any) => action(REGISTER,data);
 interface MyState {
     email: string,
     password: string,
@@ -18,7 +17,7 @@ interface MyState {
     lastName: string
 }
 
-export class RegisterForm extends React.Component<MyProps, MyState> {
+class RegisterForm extends React.Component<MyProps, MyState> {
     constructor(props) {
         super(props);
         this.state = {
@@ -45,16 +44,9 @@ export class RegisterForm extends React.Component<MyProps, MyState> {
     }
 
     handleSubmit(event) {
+        const { register } = this.props;
         event.preventDefault();
-        console.log('REGISTER SUBMIt');
-        
-        // const { register } = this.props;
-        console.log('xto ti',register);
-        
-        register && register({data : 'sdg'});
-        // xSave('auth/register', this.state).then((res) => {
-        //     Router.push('/login')
-        // })
+        register(this.state);
     }
 
     render() {
@@ -90,13 +82,8 @@ export class RegisterForm extends React.Component<MyProps, MyState> {
         );
     }
 }
-const mapStateToProps = (state, props) => {
 
+const mapStateToProps = (state) => {
 }
 
-const mapDispatchToProps = {
-    register
-}
-
-const registerPage = connect(mapStateToProps,{register})(RegisterForm);
-export default withRouter(registerPage);
+export default connect(mapStateToProps, Entity.triggers())(RegisterForm);

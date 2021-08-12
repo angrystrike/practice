@@ -1,10 +1,10 @@
 import Link from "next/link";
-import { withRouter, NextRouter, Router } from 'next/router'
+import { withRouter, NextRouter } from 'next/router'
 import React from 'react'
 import Layout from 'components/partials/Layout';
 import { Comment } from '../../components/Comment';
 import { connect } from 'react-redux';
-import { isEmpty, ENTITIES } from 'server/common';
+import { isEmpty } from 'server/common';
 import { List } from 'immutable';
 import Entity from "redux/models/Entity";
 
@@ -35,6 +35,7 @@ class ProductPage extends React.Component<MyProps, MyState> {
     componentDidMount() {
         const { fetchProduct, fetchSimilarProducts, router: { query } } = this.props;
         console.log('ID', query.id);
+        console.log('props', this.props);
         
         fetchProduct({ productId: query.id });
         fetchSimilarProducts({ productId: query.id });

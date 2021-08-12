@@ -1,8 +1,10 @@
 import Router from "next/router";
 import React from "react";
+import { connect } from 'react-redux';
+import Entity from "redux/models/Entity";
 
 interface MyProps {
-
+    login: (data: any) => void;
 }
 
 interface MyState {
@@ -10,7 +12,7 @@ interface MyState {
     password: string
 }
 
-export class LoginForm extends React.Component<MyProps, MyState> {
+class LoginForm extends React.Component<MyProps, MyState> {
     constructor(props) {
         super(props);
         this.state = {
@@ -31,13 +33,10 @@ export class LoginForm extends React.Component<MyProps, MyState> {
         });
     }
 
-    handleSubmit(event) {      
+    handleSubmit(event) {
+        const { login } = this.props;      
         event.preventDefault();           
-    
-        
-        // xSave('auth/login').then((res) => {
-        //     Router.push('/')
-        // })
+        login(this.state);
     }
 
     render() {
@@ -58,3 +57,8 @@ export class LoginForm extends React.Component<MyProps, MyState> {
         );
     }
 }
+
+const mapStateToProps = (state) => {
+}
+
+export default connect(mapStateToProps, Entity.triggers())(LoginForm);

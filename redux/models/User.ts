@@ -1,12 +1,7 @@
-import { take, call } from 'redux-saga/effects'
-import { action } from "redux/action";
+import { call } from 'redux-saga/effects'
 import { ENTITIES } from 'server/common';
 import Entity from './Entity';
 
-
-export const REGISTER = 'REGISTER';
-
-export const register = (data : any) => action(REGISTER,data);
 
 export interface User {
     id: string;
@@ -23,10 +18,13 @@ export class UserEntity extends Entity {
         super(ENTITIES.USERS, {});
     }
 
-    public * watchRegister(data) {
-        yield call(this.xSave, 'users/save', data);
+    public * register(data) {
+        yield call(this.xSave, 'auth/register', data);
     }
 
+    public * login(data) {
+        yield call(this.xSave, 'auth/login', data);
+    }
 }
 
 const userEntity = new UserEntity();

@@ -1,6 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
-import { LoginForm } from '../components/auth/LoginForm'
+import LoginForm from '../components/auth/LoginForm'
 import AuthLayout from 'components/auth/AuthLayout'
 
 export default function Home() {
@@ -10,7 +10,7 @@ export default function Home() {
                 <h2 className="font-bold text-2xl">Login</h2>
                 <h4 className="text-gray-400 font-medium">
                     New Here? &nbsp;
-                    <Link href="/">
+                    <Link href="/register">
                         <a className="text-blue-500 font-bold">Create an Account</a>
                     </Link>
                 </h4>
