@@ -1,6 +1,6 @@
 import nextConfig from 'next.config'
 import { normalize, schema } from 'normalizr';
-import { call, put } from 'redux-saga/effects';
+import { fork, call, put, take } from 'redux-saga/effects';
 import { action } from 'redux/action';
 import { camelizeKeys } from 'humps';
 import { SagaAction } from 'server/common';
@@ -31,10 +31,19 @@ export default class Entity {
             
         instanceOnly.forEach((functionName, i) => { 
             this[functionName] = this[functionName].bind(this);
-            Entity.addWatcher([this[functionName]]);
+
+            const func = this[functionName];
+
+            const sagaFunc = function * () {
+                while (true) {
+                    const data = yield take(functionName.toUpperCase());
+                    delete(data.type);
+                    yield fork(func, data);
+                }
+            };
 
             Entity.actions[functionName] = { 
-                saga: this[functionName],
+                saga: sagaFunc,
                 trigger: (data: any) => action(functionName.toUpperCase(), data)
             };
 
@@ -46,6 +55,13 @@ export default class Entity {
         this.xSave = this.xSave.bind(this);
         this.xFetch = this.xFetch.bind(this);
         this.xSave = this.xSave.bind(this);
+    }
+
+    protected * fetchHelper(actionName: String) {
+        while (true) {
+            const data = yield take(actionName.toUpperCase());
+           // yield call(this.xRead, 'products/featured', data);
+        }
     }
 
     // public * superFunction() {
@@ -135,7 +151,6 @@ export default class Entity {
         const schema = (Array.isArray(response.data) ? [this.schema] : this.schema);
         console.log('response.data', response.data);
 
-        // const normalizedData = normalize(response.data, schema);
         const normalizedData = normalize(camelizeKeys(response.data), schema);
         console.log('normalizedData', normalizedData);
 

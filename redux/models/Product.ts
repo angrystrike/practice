@@ -44,31 +44,18 @@ export class ProductEntity extends Entity {
             //categories: [new schema.Entity(ENTITIES.CATEGORIES)]
         });
     }
-
-    public * fetchFeaturedProducts() {
-        while (true) {
-            const data = yield take('fetchFeaturedProducts'.toUpperCase());
-            console.log('data', data);
-            
-            yield call(this.xRead, 'products/featured', data);
-        }
+    public * fetchFeaturedProducts(data) {
+        yield call(this.xRead, 'products/featured', data);
     }
 
-    public * fetchProduct() {
-        while (true) {
-            const { productId } = yield take('fetchProduct'.toUpperCase());
-            console.log('PRODUCT DATA', productId);
-            
-            yield call(this.xRead, 'products/' + productId);
-        }
+    public * fetchProduct(data) {
+        const { productId } = data;
+        yield call(this.xRead, 'products/' + productId);
     }
 
-    public * fetchSimilarProducts() {
-        while (true) {
-            const { productId } = yield take('fetchSimilarProducts'.toUpperCase());
-        
-            yield call(this.xRead, 'products/similar/' + productId);
-        }
+    public * fetchSimilarProducts(data) {
+        const { productId } = data;
+        yield call(this.xRead, 'products/similar/' + productId);
     }
 }
 
