@@ -1,8 +1,7 @@
-import { take, call } from 'redux-saga/effects';
-import { action } from 'redux/action';
-import { Review } from './Review';
+import { call } from 'redux-saga/effects';
+import Review from './Review';
 import { User } from './User'
-import { Category } from './Category';
+import Category from './Category';
 import Entity from './Entity';
 import { schema } from 'normalizr';
 import { ENTITIES } from 'server/common';
@@ -22,40 +21,25 @@ export interface Product {
     image: string;
 }
 
-const categoryEntity = new schema.Entity('categories', {}, {
-    idAttribute: '_id'
-})
-
-const userEntity = new schema.Entity('users', {}, {
-    idAttribute: '_id'
-})
-
-const reviewEntity = new schema.Entity('reviews', {
-    user: userEntity,
-}, {
-    idAttribute: '_id'
-})
-
 export class ProductEntity extends Entity {
     constructor() {
         super(ENTITIES.PRODUCTS, {
             user: new schema.Entity(ENTITIES.USERS),
             reviews: [new schema.Entity(ENTITIES.REVIEWS)],
-            //categories: [new schema.Entity(ENTITIES.CATEGORIES)]
+            categories: [new schema.Entity(ENTITIES.CATEGORIES)]
         });
     }
+
     public * fetchFeaturedProducts(data) {
         yield call(this.xRead, 'products/featured', data);
     }
 
     public * fetchProduct(data) {
-        const { productId } = data;
-        yield call(this.xRead, 'products/' + productId);
+        yield call(this.xRead, 'products/' + data.productId);
     }
 
     public * fetchSimilarProducts(data) {
-        const { productId } = data;
-        yield call(this.xRead, 'products/similar/' + productId);
+        yield call(this.xRead, 'products/similar/' + data.productId);
     }
 }
 

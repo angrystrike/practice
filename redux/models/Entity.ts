@@ -57,25 +57,6 @@ export default class Entity {
         this.xSave = this.xSave.bind(this);
     }
 
-    protected * fetchHelper(actionName: String) {
-        while (true) {
-            const data = yield take(actionName.toUpperCase());
-           // yield call(this.xRead, 'products/featured', data);
-        }
-    }
-
-    // public * superFunction() {
-    //     while (true) {
-    //         const data = yield take(someName);
-    //         callback(data);
-    //     }
-    // }
-
-    // public * fetchFeaturedProducts_New() {
-    //     yield call(this.xRead, 'products/featured', data);
-    // }
-    
-
     public static getSagaList() {
         return Object
             .keys(Entity.actions)

@@ -8,9 +8,10 @@ import { isEmpty, ENTITIES } from 'server/common';
 import { List } from 'immutable';
 import Entity from "redux/models/Entity";
 
+
 interface MyProps {
-    fetchProduct: (productId: string | string[]) => void;
-    fetchSimilarProducts: (productId: string | string[]) => void;
+    fetchProduct: (data: any) => void;
+    fetchSimilarProducts: (data: any) => void;
     product: Map<string, any>;
     similarProducts: Map<string, any>;
     users: Map<string, any>;

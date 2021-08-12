@@ -1,6 +1,8 @@
 import { take, call } from 'redux-saga/effects'
 import { action } from "redux/action";
+import { ENTITIES } from 'server/common';
 import Entity from './Entity';
+
 
 export const REGISTER = 'REGISTER';
 
@@ -17,23 +19,14 @@ export interface User {
 }
 
 export class UserEntity extends Entity {
-
     constructor() {
-        super("users", {});
-
-        this.watchRegister = this.watchRegister.bind(this);
-
-        UserEntity.addWatcher([
-            this.watchRegister
-        ]);
+        super(ENTITIES.USERS, {});
     }
 
-    public * watchRegister() {
-        while (true) {
-            const data = yield take(REGISTER);
-            yield call(this.xSave, 'users/save/test', data);
-        }
+    public * watchRegister(data) {
+        yield call(this.xSave, 'users/save', data);
     }
+
 }
 
 const userEntity = new UserEntity();
