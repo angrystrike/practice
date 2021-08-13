@@ -1,12 +1,11 @@
-import { connect } from 'react-redux';
+import { withRouter, NextRouter } from 'next/router'
 import React from 'react'
 import Layout from 'components/partials/Layout';
-import ProductList from 'components/ProductList';
-import saga from 'redux/decorators/saga';
+import { connect } from 'react-redux';
+import saga from "redux/decorators/saga";
 import ProductEntity from "redux/models/Product";
-import { withRouter, NextRouter, useRouter } from 'next/router'
-import { List } from 'immutable';
 import { ProductItem } from 'components/ProductItem';
+
 
 interface MyProps {
     fetchSearch: (data: any) => void;
@@ -16,7 +15,6 @@ interface MyProps {
 
 interface MyState {
     input: string | string[];
-    // items: Array<Product>;
 }
 
 @saga(ProductEntity)
@@ -29,44 +27,19 @@ class SearchPage extends React.Component<MyProps, MyState> {
     }
 
 
-    componentDidMount() {
+    componentDidMount() {   
         const { fetchSearch, router: { query } } = this.props;
-        console.log('did mount', query.text);
-        
         fetchSearch({ input: query.text });
     }
 
-    // static async getInitialProps({req, query: { text }}) {
-    //     return {
-    //         input: text
-    //     }
-    // }
-    // componentDidMount() {
-    //     const { fetchSearch } = this.props;
-    //     fetchSearch({ input: this.props.input });
-    // }
-
-    // componentDidMount() {
-    //     console.log('searrch page');
-    //     const { fetchSearch, router: { query } } = this.props;
-        
-    //     // fetchProduct({ productId: query.id });
-        
-    //     console.log('input', query.text);
-        
-    //     // fetchSearch({ input: query.text });
-    // }
 
     render() {
-        console.log('TEXT', this.state.input);
-        console.log('PRODS', this.props.products);
-        
         return (
             <Layout>
                 <div className="pb-3 max-w-5xl mx-auto">
                 <section className="mt-6 flex justify-center flex-wrap px-3">
                 { 
-                    this.props.products.valueSeq().map((product: any, i: number) =>
+                    this.props.products && this.props.products.valueSeq().map((product: any, i: number) =>
                         <ProductItem key={'product_item_' + i} product={product} />
                     )
                 }
@@ -85,7 +58,7 @@ const mapStateToProps = (state, props) => {
     const input = props.router.query.text;
     console.log( props.router.query.text);
     
-    const searchProducts = allProducts.filter(element => {
+    const searchProducts = allProducts && allProducts.filter(element => {
         return (element.get('name').includes(input)) || (element.get('description').includes(input))
     })
 

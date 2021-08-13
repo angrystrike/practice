@@ -6,7 +6,6 @@ import { Comment } from '../../components/Comment';
 import { connect } from 'react-redux';
 import { isEmpty } from 'server/common';
 import { List } from 'immutable';
-import Entity from "redux/models/Entity";
 import saga from "redux/decorators/saga";
 import ProductEntity from "redux/models/Product";
 
@@ -43,13 +42,15 @@ class ProductPage extends React.Component<MyProps, MyState> {
     }
     
     componentDidUpdate(state, props) {
+        console.log('update');
+        
         if (this.props.router.query.id != this.state.productId) {
+            console.log('update IF');
             this.setState((state) => {
                 return { productId : this.props.router.query.id }
             });
             this.componentDidMount();            
-        }
-        
+        } 
     }
 
     render() {
