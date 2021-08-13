@@ -37,8 +37,6 @@ class ProductPage extends React.Component<MyProps, MyState> {
 
     componentDidMount() {
         const { fetchProduct, fetchSimilarProducts, router: { query } } = this.props;
-        console.log('ID', query.id);
-        console.log('props', this.props);
         
         fetchProduct({ productId: query.id });
         fetchSimilarProducts({ productId: query.id });
@@ -55,14 +53,8 @@ class ProductPage extends React.Component<MyProps, MyState> {
     }
 
     render() {
-
         const { product, users, reviews, owner, similarProducts } = this.props
-       // const { product, users, reviews, owner } = this.props
-        console.log('RENDER, RENDER, RENDER');
         
-        console.log('OWNER', owner);
-        
-
         const reviewsItems = reviews ? reviews.valueSeq().map(
             (item) => {
                 console.log('review', item);

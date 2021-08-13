@@ -28,10 +28,6 @@ export class UserEntity extends Entity {
     public * login(data) {
         yield call(this.xSave, 'auth/login', data);
     }
-
-    public test() {
-        console.log('TEST');
-    }
 }
 
 const userEntity = new UserEntity();

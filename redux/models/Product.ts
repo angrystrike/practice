@@ -46,6 +46,13 @@ export class ProductEntity extends Entity {
     public * fetchSimilarProducts(data) {
         yield call(this.xRead, 'products/similar/' + data.productId);
     }
+
+    @action()
+    public * fetchSearch(data) {
+        console.log('SEARCH', data);
+        
+        yield call(this.xRead, 'products/search/' + data.input);
+    }
 }
 
 const productEntity = new ProductEntity();

@@ -33,7 +33,14 @@ export default class ProductService extends BaseContext {
 
     public findFeatured() {
         const { ProductModel } = this.di;
-        return ProductModel.find({}).where('featured', true).sort({'price': -1}).populate('reviews.user').populate('user').populate("reviews").limit(4);
+        return ProductModel
+            .find({})
+            .where('featured', true)
+            .sort({'price': -1})
+            .populate('reviews.user')
+            .populate('user')
+            .populate("reviews")
+            .limit(4);
     }
 
     public findAll() {
