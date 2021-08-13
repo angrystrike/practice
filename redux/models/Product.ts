@@ -39,6 +39,7 @@ export class ProductEntity extends Entity {
 
     @action()
     public * fetchProduct(data) {
+        console.log('fetchProduct !!!!!!!!');
         yield call(this.xRead, 'products/' + data.productId);
     }
 

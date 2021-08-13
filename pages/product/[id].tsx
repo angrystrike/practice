@@ -8,6 +8,7 @@ import { isEmpty } from 'server/common';
 import { List } from 'immutable';
 import saga from "redux/decorators/saga";
 import ProductEntity from "redux/models/Product";
+import wrapper from '../../redux/store';
 
 
 interface MyProps {
@@ -34,12 +35,27 @@ class ProductPage extends React.Component<MyProps, MyState> {
         };
     }
 
-    componentDidMount() {
-        const { fetchProduct, fetchSimilarProducts, router: { query } } = this.props;
+    public static getInitialProps = wrapper.getInitialAppProps(store => ({ query }) => {
+        console.log('ProductPage.getInitialProps()');
+        store.dispatch(ProductEntity.triggers().fetchProduct({ productId: query?.id }));
+        store.dispatch(ProductEntity.triggers().fetchSimilarProducts({ productId: query?.id }));
+    });
+    
+    // componentDidMount() {
+    //     const { fetchProduct, fetchSimilarProducts, router: { query } } = this.props;
         
-        fetchProduct({ productId: query.id });
-        fetchSimilarProducts({ productId: query.id });
-    }
+    //     fetchProduct({ productId: query.id });
+    //     fetchSimilarProducts({ productId: query.id });
+    // }
+
+    // public static async getInitialProps(ctx) {
+    //     const { fetchProduct, fetchSimilarProducts, router: { query } } = ctx.;
+
+
+    // } 
+    // public static async getInitialProps(ctx) {
+        
+    // }
     
     componentDidUpdate(state, props) {
         console.log('update');

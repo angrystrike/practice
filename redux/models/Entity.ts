@@ -22,7 +22,6 @@ export default class Entity {
 
     constructor(name: string, options: any = {}) {
         this.schema = new schema.Entity(name, options);
-        console.log('Entity constr = 1');
         
         this.entityName = name;
         this.xRead = this.xRead.bind(this);
@@ -102,15 +101,9 @@ export default class Entity {
     }
 
     public * actionRequest(endpoint: string, method: HTTP_METHOD, data: any, token?: string) {
-        console.log('all info', endpoint, method, data);
-
         const { response } = yield call(this.xFetch, endpoint, method, data, token);
         const schema = (Array.isArray(response.data) ? [this.schema] : this.schema);
-        console.log('response.data', response.data);
-
         const normalizedData = normalize(camelizeKeys(response.data), schema);
-        console.log('normalizedData', normalizedData);
-
 
         yield put(requestResult(this.entityName, normalizedData));
         return { ...response };

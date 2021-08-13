@@ -8,15 +8,6 @@ export const HYDRATE_ACTION = 'HYDRATE_ACTION';
 
 export interface AppState {
     entities: Map<string, Map<string, any>>,
-    isHydrate: boolean;
-}
-
-function isHydrate(state = true, action: any) {
-    switch (action.type) {
-        case HYDRATE_ACTION:
-            return action.value;
-        }
-    return state;
 }
 
 const nextReducer = (
@@ -25,12 +16,10 @@ const nextReducer = (
 ) => {
     switch (action.type) {
     case HYDRATE:
-        if (action.payload.app === 'init') delete action.payload.app;
-        if (action.payload.page === 'init') delete action.payload.page;
-        if (!state.isHydrate) {
+        if (action.payload.entities.size <= 0) {
             return { ...state };
         }
-        return { ...state, ...action.payload, isHydrate: true  };
+        return { ...state, ...action.payload };
     case 'APP':
         return { ...state, app: action.payload };
     case 'PAGE':
@@ -64,7 +53,13 @@ function entities(state = initialEntities, action: any) {
 
 const appReducer = combineReducers({
     entities,
-    isHydrate
 });
 
-export default appReducer;
+function rootReducer(state, action) {
+    const intermediateState = appReducer(state, action);
+    const finalState = nextReducer(intermediateState, action);
+    return finalState;
+}
+
+
+export default rootReducer;

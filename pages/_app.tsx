@@ -2,18 +2,17 @@ import 'tailwindcss/tailwind.css'
 import '/styles.css'
 
 import React from 'react'
-import { AppProps, AppContext } from 'next/app';
+import { AppProps } from 'next/app';
 import wrapper, { SagaStore } from '../redux/store';
 import { END } from 'redux-saga';
-
 
 function MyApp({ Component, pageProps }: AppProps) {
     return (<Component {...pageProps} />);
 }
 
 MyApp.getInitialProps = wrapper.getInitialAppProps(store => async ({ Component, ctx }) => {
-    //async ({ Component, ctx }: AppContext) => {
 
+    //async ({ Component, ctx }: AppContext) => {
     (store as SagaStore).runSaga();
 
     console.log('props', Component.getInitialProps)
