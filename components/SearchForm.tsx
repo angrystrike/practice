@@ -1,6 +1,5 @@
 import React from "react";
 import Router from 'next/router';
-import saga from "redux/decorators/saga";
 import ProductEntity  from 'redux/models/Product';
 import { connect } from "react-redux";
 
@@ -34,11 +33,6 @@ class SearchForm extends React.Component<MyProps, MyState> {
     handleSubmit(event) {    
         event.preventDefault();
         Router.push('/search/' + this.state.search)        
-
-        // Router.push({
-        //     pathname: '/search',
-        //     query: { text: this.state.search },
-        // })
     }
 
     render() {

@@ -25,8 +25,6 @@ class ProductList extends React.Component<MyProps, MyState> {
     }
 
     componentDidMount() {
-        console.log('OUTSIDE', this.props.products);
-        
         const { fetchFeaturedProducts } = this.props;
         fetchFeaturedProducts();
     }

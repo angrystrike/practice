@@ -33,13 +33,11 @@ export class ProductEntity extends Entity {
 
     @action()
     public * fetchFeaturedProducts(data) {
-        console.log('data fetch', data);
         yield call(this.xRead, 'products/featured', data);
     }
 
     @action()
     public * fetchProduct(data) {
-        console.log('fetchProduct !!!!!!!!');
         yield call(this.xRead, 'products/' + data.productId);
     }
 
@@ -50,8 +48,6 @@ export class ProductEntity extends Entity {
 
     @action()
     public * fetchSearch(data) {
-        console.log('SEARCH', data);
-        
         yield call(this.xRead, 'products/search/' + data.input);
     }
 }

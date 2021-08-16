@@ -36,38 +36,9 @@ class ProductPage extends React.Component<MyProps, MyState> {
     }
 
     public static getInitialProps = wrapper.getInitialAppProps(store => ({ query }) => {
-        console.log('ProductPage.getInitialProps()');
         store.dispatch(ProductEntity.triggers().fetchProduct({ productId: query?.id }));
         store.dispatch(ProductEntity.triggers().fetchSimilarProducts({ productId: query?.id }));
     });
-    
-    // componentDidMount() {
-    //     const { fetchProduct, fetchSimilarProducts, router: { query } } = this.props;
-        
-    //     fetchProduct({ productId: query.id });
-    //     fetchSimilarProducts({ productId: query.id });
-    // }
-
-    // public static async getInitialProps(ctx) {
-    //     const { fetchProduct, fetchSimilarProducts, router: { query } } = ctx.;
-
-
-    // } 
-    // public static async getInitialProps(ctx) {
-        
-    // }
-    
-    componentDidUpdate(state, props) {
-        console.log('update');
-        
-        if (this.props.router.query.id != this.state.productId) {
-            console.log('update IF');
-            this.setState((state) => {
-                return { productId : this.props.router.query.id }
-            });
-            this.componentDidMount();            
-        } 
-    }
 
     render() {
         const { product, users, reviews, owner, similarProducts } = this.props

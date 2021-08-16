@@ -1,3 +1,4 @@
+import wrapper from '../../redux/store';
 import { withRouter, NextRouter } from 'next/router'
 import React from 'react'
 import Layout from 'components/partials/Layout';
@@ -26,24 +27,21 @@ class SearchPage extends React.Component<MyProps, MyState> {
         };
     }
 
-
-    componentDidMount() {   
-        const { fetchSearch, router: { query } } = this.props;
-        fetchSearch({ input: query.text });
-    }
-
+    public static getInitialProps = wrapper.getInitialAppProps(store => ({ query }) => {
+        store.dispatch(ProductEntity.triggers().fetchSearch({ input: query?.text }));
+    });
 
     render() {
         return (
             <Layout>
                 <div className="pb-3 max-w-5xl mx-auto">
-                <section className="mt-6 flex justify-center flex-wrap px-3">
-                { 
-                    this.props.products && this.props.products.valueSeq().map((product: any, i: number) =>
-                        <ProductItem key={'product_item_' + i} product={product} />
-                    )
-                }
-            </section>
+                    <section className="mt-6 flex justify-center flex-wrap px-3">
+                        { 
+                            this.props.products && this.props.products.valueSeq().map((product: any, i: number) =>
+                                <ProductItem key={'product_item_' + i} product={product} />
+                            )
+                        }
+                    </section>
                 </div>
             </Layout>
         );
