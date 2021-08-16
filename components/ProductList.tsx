@@ -31,7 +31,6 @@ class ProductList extends React.Component<MyProps, MyState> {
 
     render() {
         const { products } = this.props;
-        console.log('products', products);
         
         let featuredProducts = products && products
             .filter(t => t.get('featured') == true)

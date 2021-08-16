@@ -58,10 +58,7 @@ export default class Entity {
     }
 
     protected xFetch(endpoint: string, method: HTTP_METHOD, data = {}, token?: string) {
-        console.log('endpoint', endpoint);
-
         let fullUrl = nextConfig.public.BASE_URL + '/' + endpoint;
-        console.log('fullUrl', fullUrl);
 
         const params: any = {
             method,
@@ -70,8 +67,6 @@ export default class Entity {
                 Authorization: 'bearer ' + token,
             },
         };
-        console.log('ENDPOINT', endpoint);
-        console.log('FULL URL', fullUrl);
 
         const opts = Object.entries(data).map(([key, val]) => key + '=' + val).join('&');
         fullUrl += (opts.length > 0 ? '?' + opts : '');
@@ -83,11 +78,6 @@ export default class Entity {
             const opts = Object.entries(data).map(([key, val]) => key + '=' + val).join('&');
             fullUrl += (opts.length > 0 ? '?' + opts : '');
         }
-
-        console.log('Entity xfetch', data);
-        console.log('METGHOD', method);
-        console.log('FULL url', fullUrl);
-        
 
         return fetch(fullUrl, params)
             .then((response) => {

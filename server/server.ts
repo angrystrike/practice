@@ -23,8 +23,6 @@ const dev = process.env.NODE_ENV !== 'production'
 const app = next({ dev })
 const handle = app.getRequestHandler()
 
-console.log('config', config);
-
 const startDatabase = async () => {
 
   connectToMongoDb(config.db.uri, config.db.options)
@@ -108,6 +106,8 @@ export const IGNORS = [
 ];
 
 const responses = (req: Request, res: Response, next: NextFunction) => {
+
+
   res.answer = (
     data: any,
     message: any = null,
@@ -118,6 +118,20 @@ const responses = (req: Request, res: Response, next: NextFunction) => {
       message
     });
   };
+
+  res.print = (
+    pathName: string,
+    ssrData: any
+  ) => {
+    console.log('PRINT FUNC');
+
+    req.ssrData = ssrData;
+    //@ts-ignore
+    app.render(req, res, pathName, req.query);
+    //this.nextApp.render(req, res, pathName, req.query);
+  };
+
+
   next()
 }
 

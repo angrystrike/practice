@@ -1,9 +1,7 @@
-import mongoose from 'mongoose'
-import Product from '../models/Product'
 import BaseContext from '../BaseContext';
 
 import { Request, Response } from 'express';
-import { route, GET, POST, DELETE, PUT, before } from 'awilix-express';
+import { route, GET, POST, DELETE } from 'awilix-express';
 import statusCode from '../../http-status'
 
 @route('/products')

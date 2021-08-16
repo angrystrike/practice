@@ -45,13 +45,7 @@ class ProductPage extends React.Component<MyProps, MyState> {
         
         const reviewsItems = reviews ? reviews.valueSeq().map(
             (item) => {
-                console.log('review', item);
-                console.log('item get user', );
-                console.log(users);
-                
                 const reviewUser = users.get(item.get('user').get('id').toString())
-                console.log('reviewUser', reviewUser);
-                
                 const reviewMark = new List([item]);
 
                 return (
@@ -166,16 +160,9 @@ const mapStateToProps = (state, props) => {
 
         
         const u = entities.get('users');
-        console.log('USERS', u);
-
         owner = u?.get(product.get('user'))
-
-        console.log('reviews', reviews.first());
-
         users = u
 
-        console.log('users', users);
-        
         const allProducts = entities.get('products');   
 
         similarProducts = allProducts
