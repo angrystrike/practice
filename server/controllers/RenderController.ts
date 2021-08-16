@@ -8,7 +8,18 @@ export default class RenderController extends BaseContext {
     @route('/')
     home(req: Request, res: Response) {
         console.log('RenderController');
-        // const code = req.ssrData;
         return res.print('/');
+    }
+
+    @GET()
+    @route('/search/:text')
+    search(req: Request, res: Response) {
+        return res.print('/search/' + req.params.text);
+    }
+
+    @GET()
+    @route('/product/:id')
+    product(req: Request, res: Response) {
+        return res.print('/product/' + req.params.id);
     }
 }

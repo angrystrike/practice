@@ -15,7 +15,6 @@ MyApp.getInitialProps = wrapper.getInitialAppProps(store => async ({ Component, 
     //async ({ Component, ctx }: AppContext) => {
     (store as SagaStore).runSaga();
 
-    console.log('props', Component.getInitialProps)
     // 1. Wait for all page actions to dispatch
     const pageProps = {
         ...(Component.getInitialProps ? await Component.getInitialProps(ctx) : {}),

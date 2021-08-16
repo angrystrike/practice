@@ -54,7 +54,6 @@ const mapStateToProps = (state, props) => {
     const { entities } = state;
     const allProducts = entities.get('products');   
     const input = props.router.query.text;
-    console.log( props.router.query.text);
     
     const searchProducts = allProducts && allProducts.filter(element => {
         return (element.get('name').toLowerCase().includes(input)) || 
