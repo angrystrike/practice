@@ -5,6 +5,8 @@ import React from 'react'
 import { AppProps } from 'next/app';
 import wrapper, { SagaStore } from '../redux/store';
 import { END } from 'redux-saga';
+import { isEmpty } from 'server/common';
+import { action, setSSRData } from 'redux/action';
 
 function MyApp({ Component, pageProps }: AppProps) {
     return (<Component {...pageProps} />);
@@ -12,8 +14,17 @@ function MyApp({ Component, pageProps }: AppProps) {
 
 MyApp.getInitialProps = wrapper.getInitialAppProps(store => async ({ Component, ctx }) => {
 
-    //async ({ Component, ctx }: AppContext) => {
+    // console.log('context', ctx);
+    // console.log('context.store', ctx.store);
+    // console.log('context.ssrData', ctx.req.ssrData);
+    
+    if (ctx.req && ctx.req['ssrData'] !== undefined && !isEmpty(ctx.req['ssrData'])) {
+        store.dispatch(setSSRData({ data: ctx.req['ssrData']}));
+    }
+
     (store as SagaStore).runSaga();
+
+    
 
     // 1. Wait for all page actions to dispatch
     const pageProps = {

@@ -1,9 +1,9 @@
 import nextConfig from 'next.config'
 import { normalize, schema } from 'normalizr';
-import { fork, call, put, take, ForkEffect, TakeEffect } from 'redux-saga/effects';
-import { action } from 'redux/action';
+import { fork, call, put, take, ForkEffect, TakeEffect, select } from 'redux-saga/effects';
+import { action, clearSSRData } from 'redux/action';
 import { camelizeKeys } from 'humps';
-import { ISagaAction, SagaAction } from 'server/common';
+import { ISagaAction, isEmpty, SagaAction } from 'server/common';
 
 
 export enum HTTP_METHOD {
@@ -78,7 +78,7 @@ export default class Entity {
             const opts = Object.entries(data).map(([key, val]) => key + '=' + val).join('&');
             fullUrl += (opts.length > 0 ? '?' + opts : '');
         }
-
+        console.log(method ,fullUrl);
         return fetch(fullUrl, params)
             .then((response) => {
                 return response.json().then((json) => ({ json, response }));
@@ -91,12 +91,25 @@ export default class Entity {
     }
 
     public * actionRequest(endpoint: string, method: HTTP_METHOD, data: any, token?: string) {
-        const { response } = yield call(this.xFetch, endpoint, method, data, token);
-        const schema = (Array.isArray(response.data) ? [this.schema] : this.schema);
-        const normalizedData = normalize(camelizeKeys(response.data), schema);
-
-        yield put(requestResult(this.entityName, normalizedData));
-        return { ...response };
+        let query = yield select((state: any) => state.ssrReducer && state.ssrReducer[this.entityName]);
+        
+        if (query && !isEmpty(query)) {
+            yield put(clearSSRData({ name: this.entityName }));
+        } 
+        
+        const isServer = typeof window === 'undefined';
+        if (!isServer) {
+            const { response } = yield call(this.xFetch, endpoint, method, data, token);
+            query = response.data;
+        }
+        
+        if (query) {
+            const schema = (Array.isArray(query) ? [this.schema] : this.schema);
+            const normalizedData = normalize(camelizeKeys(JSON.parse(JSON.stringify(query))), schema);
+            yield put(requestResult(this.entityName, normalizedData));
+            return { ...query };
+        }
+        return null;
     }
 
     public xRead(uri: string, data: any = {}, method: HTTP_METHOD = HTTP_METHOD.GET) {

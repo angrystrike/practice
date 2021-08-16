@@ -36,6 +36,8 @@ class ProductPage extends React.Component<MyProps, MyState> {
     }
 
     public static getInitialProps = wrapper.getInitialAppProps(store => ({ query }) => {
+        console.log('id props initial');
+        
         store.dispatch(ProductEntity.triggers().fetchProduct({ productId: query?.id }));
         store.dispatch(ProductEntity.triggers().fetchSimilarProducts({ productId: query?.id }));
     });
