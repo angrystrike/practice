@@ -28,8 +28,7 @@ export class Identity extends Entity {
 
     @action()
     public * register(data: any) {
-        // yield call(this.xSave, 'auth/register', data);
-        const { response } = yield call(this.xFetch, 'auth/register', HTTP_METHOD.POST, data);
+        yield call(this.xFetch, 'auth/register', HTTP_METHOD.POST, data);
     }
 }
 
