@@ -8,15 +8,6 @@ export default class ProductService extends BaseContext {
         return ProductModel.find({}).populate('categories').where('categories._id', id);
     }
 
-    /* 
-        const savedForecast = await newForecast.save();
-        return await savedForecast
-        .populate({ path: 'location', options: { lean: true }})
-        .execPopulate()
-        .then(populatedForecast => populatedForecast.toObject());
-    */
-
-
     public findOneByID(id) {
         const { ProductModel } = this.di;
         return ProductModel
@@ -26,9 +17,9 @@ export default class ProductService extends BaseContext {
             .lean()
     }
 
-    public  findSimilar(id) {
+    public findSimilar(id) {
         const { ProductModel } = this.di;
-        
+
         return ProductModel.findById(id)
             .then(product => 
                 ProductModel.find({ _id : {$ne : id }})
@@ -39,15 +30,6 @@ export default class ProductService extends BaseContext {
                     .limit(3)
                     .lean()
             )
-            
-        
-        // const products = await ProductModel.find({_id : {$ne : id}})
-            // .where('engine', product.engine)
-            // .where('transmission', product.transmission)
-            // .populate('user')
-            // .populate('reviews.user');
-
-            // return products;
     }
 
     public findByNameOrDescription(text) {
@@ -70,7 +52,8 @@ export default class ProductService extends BaseContext {
             .populate('reviews.user')
             .populate('user')
             .populate("reviews")
-            .limit(4);
+            .limit(4)
+            .lean();
     }
 
     public findAll() {
