@@ -47,6 +47,7 @@ export default class SignInStrategy extends BaseContext {
                 firstName: user.firstName,
                 lastName: user.lastName,
                 email: user.email,
+                image: user.image,
                 token: token,
                 role: user.role
             };

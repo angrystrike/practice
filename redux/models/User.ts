@@ -18,16 +18,6 @@ export class UserEntity extends Entity {
     constructor() {
         super(ENTITIES.USERS, {});
     }
-
-    @action()
-    public * register(data) {
-        yield call(this.xSave, 'auth/register', data);
-    }
-
-    @action()
-    public * login(data) {
-        yield call(this.xSave, 'auth/login', data);
-    }
 }
 
 const userEntity = new UserEntity();

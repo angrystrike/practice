@@ -80,7 +80,10 @@ const acl = (req: Request, res: Response, next: NextFunction) => {
 
       if (!isLogged) {
         //identity = clearIdentity()
-        req.session.identity = identity
+        console.log('acl identity', identity);
+        
+        req.identity = identity;
+        req.session.identity = identity;
       }
 
       const isAllow = undefined
@@ -123,12 +126,9 @@ const responses = (req: Request, res: Response, next: NextFunction) => {
     pathName: string,
     ssrData: any
   ) => {
-    console.log('PRINT FUNC');
-
     req.ssrData = ssrData;
     //@ts-ignore
     app.render(req, res, pathName, req.query);
-    //this.nextApp.render(req, res, pathName, req.query);
   };
 
 

@@ -7,8 +7,6 @@ export default class UserService extends BaseContext {
     }
 
     public async save(body, id) {
-        console.log('USER SERVICE', body);
-        
         const { UserModel } = this.di;
         let user = await UserModel.findById(id);
         if (user) {

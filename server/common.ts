@@ -6,9 +6,10 @@ export enum ROLE {
 
 export interface IIdentity {
     id: any;
-    firstName: string,
-    lastName: string,
+    firstName: string;
+    lastName: string;
     email: string;
+    image: string;
     token?: string;
     role: ROLE;
 }

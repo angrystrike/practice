@@ -2,11 +2,10 @@ import Router from "next/router";
 import React from "react";
 import { connect } from 'react-redux';
 import saga from "redux/decorators/saga";
-import Entity from "redux/models/Entity";
-import UserEntity from "redux/models/User";
+import Identity from "redux/models/Identity";
 
 interface MyProps {
-    login: (data: any) => void;
+    loginUser: (data: any) => void;
 }
 
 interface MyState {
@@ -14,7 +13,7 @@ interface MyState {
     password: string
 }
 
-@saga(UserEntity)
+@saga(Identity)
 class LoginForm extends React.Component<MyProps, MyState> {
     constructor(props) {
         super(props);
@@ -37,9 +36,10 @@ class LoginForm extends React.Component<MyProps, MyState> {
     }
 
     handleSubmit(event) {
-        const { login } = this.props;      
+        const { loginUser } = this.props;      
         event.preventDefault();           
-        login(this.state);
+        loginUser(this.state);
+        Router.push('/');
     }
 
     render() {
@@ -68,4 +68,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, UserEntity.triggers())(LoginForm);
+export default connect(mapStateToProps, Identity.triggers())(LoginForm);

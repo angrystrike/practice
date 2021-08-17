@@ -32,7 +32,7 @@ class SearchForm extends React.Component<MyProps, MyState> {
 
     handleSubmit(event) {    
         event.preventDefault();
-        Router.push('/search/' + this.state.search)        
+        Router.push('/search/' + this.state.search);
     }
 
     render() {

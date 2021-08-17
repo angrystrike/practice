@@ -29,12 +29,15 @@ export default class AuthController extends BaseContext {
     @POST()
     @route('/login')
     public login(req: Request, res: Response, next: NextFunction) {
+        console.log('login controller');
+        
         const { passport } = this.di;
         const JST_EXPIRE = 3;
         const REMEMBER_ME_EXPIRE = 30;
 
         // tslint:disable-next-line: no-shadowed-variable
         return passport.authenticate('local-login', (err, identity: IIdentity) => {
+            console.log('login controller passport', identity);
             if (err) {
                 return res.answer(null, err, statusCode.BAD_REQUEST);
             }

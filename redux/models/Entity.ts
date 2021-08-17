@@ -1,7 +1,7 @@
 import nextConfig from 'next.config'
 import { normalize, schema } from 'normalizr';
 import { fork, call, put, take, ForkEffect, TakeEffect, select } from 'redux-saga/effects';
-import { action, clearSSRData } from 'redux/action';
+import { action, clearSSRData, getIdentity } from 'redux/action';
 import { camelizeKeys } from 'humps';
 import { ISagaAction, isEmpty, SagaAction } from 'server/common';
 
@@ -91,6 +91,8 @@ export default class Entity {
     }
 
     public * actionRequest(endpoint: string, method: HTTP_METHOD, data: any, token?: string) {
+        console.log('actioRequest', data);
+        
         let query = yield select((state: any) => state.ssrReducer && state.ssrReducer[this.entityName]);
         
         if (query && !isEmpty(query)) {
@@ -100,14 +102,27 @@ export default class Entity {
         const isServer = typeof window === 'undefined';
         if (!isServer) {
             const { response } = yield call(this.xFetch, endpoint, method, data, token);
+            
             query = response.data;
+
+
         }
         
         if (query) {
-            const schema = (Array.isArray(query) ? [this.schema] : this.schema);
-            const normalizedData = normalize(camelizeKeys(JSON.parse(JSON.stringify(query))), schema);
-            yield put(requestResult(this.entityName, normalizedData));
-            return { ...query };
+
+            //if(query.token) {
+            //     yield put(getIdentity(query))
+            //     return {...query}
+            // }
+            // else {
+                const schema = (Array.isArray(query) ? [this.schema] : this.schema);
+                const normalizedData = normalize(camelizeKeys(JSON.parse(JSON.stringify(query))), schema);
+                yield put(requestResult(this.entityName, normalizedData));
+                console.log('normalizedData', normalizedData);
+            
+                return { ...query };
+            //}
+            
         }
         return null;
     }

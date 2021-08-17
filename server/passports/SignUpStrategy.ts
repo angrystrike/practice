@@ -39,8 +39,8 @@ export default class SignUpStrategy extends BaseContext {
             firstName: firstName && firstName.trim(),
             lastName: lastName && lastName.trim(),
             password: password && password.trim(),
-            role: "user",
-            image: image && image.trim()
+            role: 'user',
+            image: 'https://robohash.org/' + email.trim()
         };
 
         const newUser = new UserModel(userData);
