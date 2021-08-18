@@ -90,17 +90,19 @@ export default class Entity {
             );
     }
 
-    public * actionRequest(endpoint: string, method: HTTP_METHOD, data: any, token?: string) {
+    public * actionRequest(endpoint: string, method: HTTP_METHOD, data: any) {
         console.log('actioRequest', data);
         
         let query = yield select((state: any) => state.ssrReducer && state.ssrReducer[this.entityName]);
         
+
         if (query && !isEmpty(query)) {
             yield put(clearSSRData({ name: this.entityName }));
         } 
         
         const isServer = typeof window === 'undefined';
         if (!isServer) {
+            const token = yield select((state: any) => state?.identity?.token);
             const { response } = yield call(this.xFetch, endpoint, method, data, token);
             
             query = response.data;

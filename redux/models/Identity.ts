@@ -1,5 +1,5 @@
 import { call, put } from "redux-saga/effects";
-import { setIdentity } from "redux/action";
+import { clearIdentity, setIdentity } from "redux/action";
 import action from "redux/decorators/action";
 import Entity, { HTTP_METHOD } from "./Entity";
 
@@ -14,10 +14,7 @@ export class Identity extends Entity {
 
     @action()
     public * loginUser(data: any) {
-        console.log('loginUser data', data);
-        // const { response } = yield call(Entity.fetch, '/auth/login', data, HTTP_METHOD.POST);
         const { response } = yield call(this.xFetch, 'auth/login', HTTP_METHOD.POST, data);
-        console.log('loginUser resp', response.data);
         
         yield put(setIdentity(response.data));
 
@@ -29,6 +26,13 @@ export class Identity extends Entity {
     @action()
     public * register(data: any) {
         yield call(this.xFetch, 'auth/register', HTTP_METHOD.POST, data);
+    }
+
+    @action()
+    public * logout() {
+        console.log('logout');
+        
+        yield put(clearIdentity());
     }
 }
 

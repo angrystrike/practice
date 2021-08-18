@@ -1,14 +1,17 @@
 import mongoose from 'mongoose'
 
 import { loadControllers, scopePerRequest } from 'awilix-express';
-import container from './container';
+import container, { passportFunc } from './container';
 import { PassportStatic } from 'passport';
+import cookieParser from 'cookie-parser';
+import compression from 'compression';
 
 import { Request, Response, NextFunction } from 'express';
 import httpStatus from '../http-status';
 import cookieSession from 'cookie-session';
 import { IIdentity, ROLE } from './common';
 import statusCode from '../http-status'
+import JwtStrategy from './passports/JwtStrategy';
 
 
 const path = require('path')
@@ -16,7 +19,7 @@ const config = require('../config');
 const express = require('express')
 const bodyParser = require('body-parser')
 const next = require('next')
-const passport = require('passport');
+const passport = container.resolve<PassportStatic>("passport");
 
 const port = parseInt(process.env.PORT, 10) || 3000
 const dev = process.env.NODE_ENV !== 'production'
@@ -33,9 +36,6 @@ app.prepare().then(() => {
   startDatabase()
   const server = express()
 
-  server.use(passport.initialize());
-  server.use(passport.session());
-
   server.use(bodyParser.json({ limit: '10mb' }));
   server.use(bodyParser.urlencoded({ extended: true }));
   server.use(bodyParser.json())
@@ -44,6 +44,10 @@ app.prepare().then(() => {
     keys: [config.jwtSecret],
     maxAge: 312460601000,
   }));
+  server.use(cookieParser());
+  server.use(compression());
+  server.use(passport.initialize());
+  server.use(passport.session());
   server.use(responses);
   server.use(acl);
 
@@ -64,8 +68,6 @@ app.prepare().then(() => {
 })
 
 const acl = (req: Request, res: Response, next: NextFunction) => {
-  const passport = container.resolve<PassportStatic>("passport")
-
   let useAcl = true
   const url = req.url
   for (const item of IGNORS) {
@@ -75,24 +77,23 @@ const acl = (req: Request, res: Response, next: NextFunction) => {
   }
 
   if (useAcl) {
-    passport.authenticate('jwt', (err, identity: IIdentity) => {
-      const isLogged = identity && identity.id && identity.role !== ROLE.GUEST
+    const jwt = passport.authenticate('local-jwt', (err, identity: IIdentity) => {
+      const isLogged = identity && identity.id && identity.role !== ROLE.GUEST;
+      req.identity = identity;
 
+      
       if (!isLogged) {
         //identity = clearIdentity()
-        console.log('acl identity', identity);
-        
-        req.identity = identity;
-        req.session.identity = identity;
       }
 
       const isAllow = undefined
-
-      if (!isAllow) {
+      if (isAllow) {
         return res.answer(null, statusCode['404_MESSAGE'], statusCode.NOT_FOUND)
       }
-    })
+    });
+    jwt(req, res, next);
   }
+
   next()
 }
 

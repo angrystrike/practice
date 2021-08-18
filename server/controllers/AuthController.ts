@@ -30,7 +30,7 @@ export default class AuthController extends BaseContext {
     @route('/login')
     public login(req: Request, res: Response, next: NextFunction) {
         console.log('login controller');
-        
+
         const { passport } = this.di;
         const JST_EXPIRE = 3;
         const REMEMBER_ME_EXPIRE = 30;
@@ -49,5 +49,25 @@ export default class AuthController extends BaseContext {
             res.cookie('token', identity.token, { maxAge: 1000606024 });
             return res.answer(identity);
         })(req, res, next);
+    }
+
+    @POST()
+    @route('/')
+    public jwt(req: Request, res: Response, next: NextFunction) {
+        return passport.authenticate('jwt', (err, identity: IIdentity) => {
+            const isLogged = identity && identity.id ;
+            console.log('acl identity', identity);
+            req.identity = identity;
+            if (!isLogged) {
+                //identity = clearIdentity()
+
+                req.session.identity = identity;
+            }
+
+            const isAllow = undefined
+            if (!isAllow) {
+                return res.answer(null, statusCode['404_MESSAGE'], statusCode.NOT_FOUND)
+            }
+        })
     }
 }

@@ -29,6 +29,7 @@ export default class SignInStrategy extends BaseContext {
     }
 
     public async verifyRequestUser(req: Request, email: string, password: string, done: any) {
+        
         const { UserModel } = this.di;
         const user = await UserModel.findOne({
             email: email,
@@ -40,17 +41,17 @@ export default class SignInStrategy extends BaseContext {
 
         const match = bcrypt.compareSync(password, user.password);
         if (match) {
-            const token = jwt.sign(user.toJSON(), config.jwtSecret);
-
             const identity: IIdentity = {
-                id: user._id,
+                id: user._id.toString(),
                 firstName: user.firstName,
                 lastName: user.lastName,
                 email: user.email,
                 image: user.image,
-                token: token,
                 role: user.role
             };
+            const token = jwt.sign(identity, config.jwtSecret);
+            identity['token'] = token;
+    
     
             req.session.identity = identity;
                 

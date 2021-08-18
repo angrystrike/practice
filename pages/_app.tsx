@@ -6,8 +6,7 @@ import { AppProps } from 'next/app';
 import wrapper, { SagaStore } from '../redux/store';
 import { END } from 'redux-saga';
 import { isEmpty } from 'server/common';
-import { setSSRData } from 'redux/action';
-import { getIdentity } from 'redux/models/Identity';
+import { setIdentity, setSSRData } from 'redux/action';
 
 function MyApp({ Component, pageProps }: AppProps) {
     return (<Component {...pageProps} />);
@@ -17,10 +16,10 @@ MyApp.getInitialProps = wrapper.getInitialAppProps(store => async ({ Component, 
 
     if (ctx.req && ctx.req['ssrData'] !== undefined && !isEmpty(ctx.req['ssrData'])) {
         store.dispatch(setSSRData({ data: ctx.req['ssrData']}));
-    }
+    } 
 
     if (ctx.req && ctx.req['identity'] !== undefined && !isEmpty(ctx.req['identity'])) {
-        store.dispatch(getIdentity({ user: ctx.req['identity']}));
+        store.dispatch(setIdentity({ user: ctx.req['identity']}));
     }
 
     (store as SagaStore).runSaga();

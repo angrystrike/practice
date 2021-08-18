@@ -2,8 +2,9 @@ import { HYDRATE } from "next-redux-wrapper";
 import { AnyAction, combineReducers } from "redux";
 import { fromJS, Map } from 'immutable';
 import { REQUEST_RESULT } from "./models/Entity";
-import { CLEAR_SSR_DATA, GET_IDENTITY, SET_IDENTITY, SET_SSR_DATA } from "./action";
-import { ROLE } from "server/common";
+import { CLEAR_IDENTITY, CLEAR_SSR_DATA, GET_IDENTITY, SET_IDENTITY, SET_SSR_DATA } from "./action";
+import { IIdentity, ROLE } from "server/common";
+import { Identity } from "./models/Identity";
 
 
 
@@ -48,32 +49,39 @@ const ssrReducer = (state = queryInitialState, action: any) => {
     }
 };
 
-const initialIdentity = {
-    firstName: 'guest123',
+const initialIdentity : IIdentity = {
+    firstName: 'guest',
     lastName: 'guest',
     role: ROLE.GUEST,
+    id: 'guest',
+    image: 'guest',
+    email: 'guest',
+    token: null
 };
 
 const identity = (state = initialIdentity, action: any) => {
-    console.log('identity reducer');
-
     switch (action.type) {
         case GET_IDENTITY: {
-            console.log('reducer identity', action);
-
             if (action.user) {
                 return { ...state, user: { ...action.user } };
             }
+
+            return { ...state };
             break;
         }
         case SET_IDENTITY: {
-            console.log('SET action', action);
-            console.log('SET user', action.user);
+            
+            
             delete(action.type);
+            console.log('set identity', action);
             if (action) {
-                return { ...state, ...action };
+                return { ...state, ...action.user };
             }
+            return { ...state };
             break;
+        }
+        case CLEAR_IDENTITY: {
+            return { ...state, ...initialIdentity };
         }
         default:
             return state;

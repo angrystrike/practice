@@ -4,36 +4,45 @@ import SearchForm from 'components/SearchForm'
 import React from "react";
 import { connect } from "react-redux";
 import { IIdentity } from 'server/common';
+import saga from 'redux/decorators/saga';
+import Identity from 'redux/models/Identity';
 
 interface MyProps {
+    logout: () => void;
     currentUser: IIdentity;
 }
 
 interface MyState {
     currentUser: IIdentity;
 }
+@saga(Identity)
 class Header extends React.Component<MyProps, MyState> {
     constructor(props) {
         super(props);
         this.state = {
             currentUser: this.props.currentUser,
         };
+        this.onLogout = this.onLogout.bind(this);
     }
 
     componentDidMount() {
         
     }
 
-    // componentDidUpdate() {
-    //     console.log('currentUserUPDAte', this.state.currentUser);
-    // }
+    onLogout() {
+        const { logout } = this.props;
+        logout();
+        const { currentUser } = this.props;
+        this.setState({
+            currentUser: currentUser
+        });
+    }
+    
 
     render() {
-        console.log('test ghed');
-        console.log('currentUser', this.props);
         let helloUser = null;
         if (this.props.currentUser.token) {
-            helloUser = <div className="ml-8 flex items-center text-white font-semibold">
+            helloUser = <div onClick={this.onLogout} className="ml-8 flex items-center text-white font-semibold">
                             <div>Hello, {this.props.currentUser.firstName} {this.props.currentUser.lastName} </div>
                             <img className="rounded-full" width="50" height="50" src={this.props.currentUser.image} />
                         </div>
@@ -95,4 +104,4 @@ const mapStateToProps = (state) => {
     }
 };
 
-export default connect(mapStateToProps)(Header);
+export default connect(mapStateToProps, Identity.triggers())(Header);
