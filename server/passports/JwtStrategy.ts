@@ -34,7 +34,7 @@ export default class JwtStrategy extends BaseContext {
         console.log('jwt: verifyRequest', jwtPayload);
         const user = this.di.UserService.findOneByID(jwtPayload.id);
         if (user) {
-            return  done(null, jwtPayload);
+            return done(null, jwtPayload);
         } 
         return done('Incorrect identity');
     }

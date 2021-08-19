@@ -8,25 +8,18 @@ import ProductEntity  from 'redux/models/Product';
 import saga from "redux/decorators/saga";
 
 interface MyProps {
-    fetchFeaturedProducts: () => void;
     products: Map<string, Product>;
 }
 
 interface MyState {
 }
 
-@saga(ProductEntity)
 class ProductList extends React.Component<MyProps, MyState> {
     constructor(props) {
         super(props);
         this.state = {
             items: [],
         };
-    }
-
-    componentDidMount() {
-        const { fetchFeaturedProducts } = this.props;
-        fetchFeaturedProducts();
     }
 
     render() {
@@ -52,7 +45,7 @@ class ProductList extends React.Component<MyProps, MyState> {
 const mapStateToProps = (state) => {
     const { entities } = state;
     const allProducts = !isEmpty(entities) && entities.get('products');
-
+    
     return {
         products: allProducts
     };

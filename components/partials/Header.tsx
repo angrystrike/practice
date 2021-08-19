@@ -15,6 +15,7 @@ interface MyProps {
 interface MyState {
     currentUser: IIdentity;
 }
+
 @saga(Identity)
 class Header extends React.Component<MyProps, MyState> {
     constructor(props) {
@@ -23,10 +24,6 @@ class Header extends React.Component<MyProps, MyState> {
             currentUser: this.props.currentUser,
         };
         this.onLogout = this.onLogout.bind(this);
-    }
-
-    componentDidMount() {
-        
     }
 
     onLogout() {
@@ -41,7 +38,7 @@ class Header extends React.Component<MyProps, MyState> {
 
     render() {
         let helloUser = null;
-        if (this.props.currentUser.token) {
+        if (this.props.currentUser.id != 'guest') {
             helloUser = <div onClick={this.onLogout} className="ml-8 flex items-center text-white font-semibold">
                             <div>Hello, {this.props.currentUser.firstName} {this.props.currentUser.lastName} </div>
                             <img className="rounded-full" width="50" height="50" src={this.props.currentUser.image} />

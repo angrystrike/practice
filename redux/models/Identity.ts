@@ -30,8 +30,6 @@ export class Identity extends Entity {
 
     @action()
     public * logout() {
-        console.log('logout');
-        
         yield put(clearIdentity());
     }
 }

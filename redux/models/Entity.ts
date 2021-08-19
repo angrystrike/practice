@@ -94,6 +94,7 @@ export default class Entity {
         console.log('actioRequest', data);
         
         let query = yield select((state: any) => state.ssrReducer && state.ssrReducer[this.entityName]);
+        console.log('query', query);
         
 
         if (query && !isEmpty(query)) {
@@ -111,7 +112,7 @@ export default class Entity {
         }
         
         if (query) {
-
+            
             //if(query.token) {
             //     yield put(getIdentity(query))
             //     return {...query}

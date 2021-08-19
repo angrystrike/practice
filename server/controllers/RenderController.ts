@@ -11,8 +11,10 @@ export default class RenderController extends BaseContext {
         const { ProductService } = this.di;
         return ProductService.findFeatured()
             .then(products => {
+                console.log('render products', products);
+                
                 return res.print('/', {
-                    [ENTITIES.PRODUCTS]: products[0],
+                    [ENTITIES.PRODUCTS]: products,
                 });                
             })
             .catch((err: any) => {

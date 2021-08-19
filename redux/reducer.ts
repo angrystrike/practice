@@ -67,28 +67,20 @@ const identity = (state = initialIdentity, action: any) => {
             }
 
             return { ...state };
-            break;
         }
         case SET_IDENTITY: {
-            
-            
-            delete(action.type);
-            console.log('set identity', action);
-            if (action) {
-                return { ...state, ...action.user };
-            }
-            return { ...state };
-            break;
+            console.log('set set');
+                    
+            return { ...state, ...action.user };
         }
         case CLEAR_IDENTITY: {
             return { ...state, ...initialIdentity };
         }
-        default:
+        default: {
             return state;
+        }
     }
 }
-
-
 
 const initialEntities = fromJS({});
 
