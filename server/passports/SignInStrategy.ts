@@ -49,9 +49,10 @@ export default class SignInStrategy extends BaseContext {
                 image: user.image,
                 role: user.role
             };
+            console.log('identity', identity);
+            
             const token = jwt.sign(identity, config.jwtSecret);
             identity['token'] = token;
-    
     
             req.session.identity = identity;
                 

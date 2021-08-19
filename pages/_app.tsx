@@ -19,8 +19,6 @@ MyApp.getInitialProps = wrapper.getInitialAppProps(store => async ({ Component, 
     } 
 
     if (ctx.req && ctx.req['identity'] !== undefined && !isEmpty(ctx.req['identity'])) {
-        console.log('ctx.identity', ctx.req['identity']);
-        
         store.dispatch(setIdentity({ user: ctx.req['identity']}));
     }
 

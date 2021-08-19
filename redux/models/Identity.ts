@@ -8,19 +8,11 @@ export class Identity extends Entity {
     constructor() {
         super('Identity');
     }
-    // public firstName: string = 'guest';
-    // public lastName: string = 'guest';
-    // public role: ROLE = ROLE.GUEST;
 
     @action()
     public * loginUser(data: any) {
-        const { response } = yield call(this.xFetch, 'auth/login', HTTP_METHOD.POST, data);
-        
+        const { response } = yield call(this.xFetch, 'auth/login', HTTP_METHOD.POST, data);      
         yield put(setIdentity(response.data));
-
-        // // 
-        // if (response && response.user && response.user.userId && response.user.token && response.user.token.length > 0) {
-        // }
     }
 
     @action()
@@ -30,6 +22,7 @@ export class Identity extends Entity {
 
     @action()
     public * logout() {
+        document.cookie = 'token=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;'
         yield put(clearIdentity());
     }
 }

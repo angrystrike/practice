@@ -33,6 +33,8 @@ export default class JwtStrategy extends BaseContext {
     public verifyRequest(jwtPayload: IIdentity, done: VerifiedCallback) {
         console.log('jwt: verifyRequest', jwtPayload);
         const user = this.di.UserService.findOneByID(jwtPayload.id);
+        console.log('verify request user', user);
+        
         if (user) {
             return done(null, jwtPayload);
         } 
@@ -40,7 +42,6 @@ export default class JwtStrategy extends BaseContext {
     }
 
     public getJwtFromRequest(req: Request) {
-        console.log('jwt: get jwt from request', req.cookies);
         this.request = req;
         const getToken = ExtractJwt.fromAuthHeaderAsBearerToken();
         console.log('getToken', getToken(req));

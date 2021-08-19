@@ -18,11 +18,11 @@ export const requestResult = (entityName: string, data: any) => action(REQUEST_R
 export default class Entity {
     private schema;
     private entityName;
-    public static actions : ISagaAction = {};
+    public static actions: ISagaAction = {};
 
     constructor(name: string, options: any = {}) {
         this.schema = new schema.Entity(name, options);
-        
+
         this.entityName = name;
         this.xRead = this.xRead.bind(this);
         this.xSave = this.xSave.bind(this);
@@ -34,13 +34,13 @@ export default class Entity {
         const list = [];
         Object
             .keys(Entity.actions)
-            .map(entity => 
+            .map(entity =>
                 Object.keys(Entity.actions[entity])
-                .filter(method => typeof Entity.actions[entity][method].saga == 'function')
-                .map(method => 
-                    list.push(Entity.actions[entity][method].saga())
-                    
-                )
+                    .filter(method => typeof Entity.actions[entity][method].saga == 'function')
+                    .map(method =>
+                        list.push(Entity.actions[entity][method].saga())
+
+                    )
             )
         return list;
     }
@@ -51,7 +51,7 @@ export default class Entity {
         if (entityName in Entity.actions) {
             const methods = Entity.actions[entityName];
             Object.keys(methods).map(method => {
-                list[method] =Entity.actions[entityName][method].trigger;
+                list[method] = Entity.actions[entityName][method].trigger;
             })
         }
         return list;
@@ -78,7 +78,7 @@ export default class Entity {
             const opts = Object.entries(data).map(([key, val]) => key + '=' + val).join('&');
             fullUrl += (opts.length > 0 ? '?' + opts : '');
         }
-        console.log(method ,fullUrl);
+        console.log(method, fullUrl);
         return fetch(fullUrl, params)
             .then((response) => {
                 return response.json().then((json) => ({ json, response }));
@@ -91,41 +91,26 @@ export default class Entity {
     }
 
     public * actionRequest(endpoint: string, method: HTTP_METHOD, data: any) {
-        console.log('actioRequest', data);
-        
         let query = yield select((state: any) => state.ssrReducer && state.ssrReducer[this.entityName]);
-        console.log('query', query);
-        
 
         if (query && !isEmpty(query)) {
             yield put(clearSSRData({ name: this.entityName }));
-        } 
-        
+        }
+
         const isServer = typeof window === 'undefined';
         if (!isServer) {
             const token = yield select((state: any) => state?.identity?.token);
             const { response } = yield call(this.xFetch, endpoint, method, data, token);
-            
+
             query = response.data;
-
-
         }
-        
+
         if (query) {
-            
-            //if(query.token) {
-            //     yield put(getIdentity(query))
-            //     return {...query}
-            // }
-            // else {
-                const schema = (Array.isArray(query) ? [this.schema] : this.schema);
-                const normalizedData = normalize(camelizeKeys(JSON.parse(JSON.stringify(query))), schema);
-                yield put(requestResult(this.entityName, normalizedData));
-                console.log('normalizedData', normalizedData);
-            
-                return { ...query };
-            //}
-            
+            const schema = (Array.isArray(query) ? [this.schema] : this.schema);
+            const normalizedData = normalize(camelizeKeys(JSON.parse(JSON.stringify(query))), schema);
+            yield put(requestResult(this.entityName, normalizedData));
+
+            return { ...query };
         }
         return null;
     }

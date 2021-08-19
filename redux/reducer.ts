@@ -69,9 +69,11 @@ const identity = (state = initialIdentity, action: any) => {
             return { ...state };
         }
         case SET_IDENTITY: {
-            console.log('set set');
-                    
-            return { ...state, ...action.user };
+            if (action.user) {
+                return { ...state, ...action.user };
+            }
+            delete(action.type);
+            return { ...state, ...action };
         }
         case CLEAR_IDENTITY: {
             return { ...state, ...initialIdentity };
@@ -88,7 +90,6 @@ function entities(state = initialEntities, action: any) {
     switch (action.type) {
         case REQUEST_RESULT:
             const { data } = action;
-            console.log('request data', action);
 
             if (data.entities) {
                 Object.keys(data.entities).map((entityName) => {

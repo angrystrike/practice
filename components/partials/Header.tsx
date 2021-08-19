@@ -39,15 +39,16 @@ class Header extends React.Component<MyProps, MyState> {
     render() {
         let helloUser = null;
         if (this.props.currentUser.id != 'guest') {
-            helloUser = <div onClick={this.onLogout} className="ml-8 flex items-center text-white font-semibold">
-                            <div>Hello, {this.props.currentUser.firstName} {this.props.currentUser.lastName} </div>
-                            <img className="rounded-full" width="50" height="50" src={this.props.currentUser.image} />
-                        </div>
+            helloUser = 
+                <div onClick={this.onLogout} className="ml-8 flex items-center text-white font-semibold">
+                    <div>Hello, {this.props.currentUser.firstName} {this.props.currentUser.lastName} </div>
+                    <img className="rounded-full" width="50" height="50" src={this.props.currentUser.image} />
+                </div>
         } else {
             helloUser = 
-            <Link href="/login">
-                <a className="sm:ml-5 px-7 font-medium py-1 text-white bg-pink-600 focus:outline-none focus:bg-pink-800 rounded-md focus:rounded-xl shadow-lg">Login</a>
-            </Link>
+                <Link href="/login">
+                    <a className="sm:ml-5 px-7 font-medium py-1 text-white bg-pink-600 focus:outline-none focus:bg-pink-800 rounded-md focus:rounded-xl shadow-lg">Login</a>
+                </Link>
         }
         return (
             <header className="bg-header">

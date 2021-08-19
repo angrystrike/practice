@@ -39,8 +39,7 @@ class LoginForm extends React.Component<MyProps, MyState> {
         const { loginUser } = this.props;      
         event.preventDefault();           
         loginUser(this.state);
-        Router.replace('/');
-        
+        Router.push('/');
     }
 
     render() {

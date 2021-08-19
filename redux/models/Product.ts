@@ -33,8 +33,6 @@ export class ProductEntity extends Entity {
 
     @action()
     public * fetchFeaturedProducts(data) {
-        console.log('test');
-        
         yield call(this.xRead, 'products/featured', data);
     }
 

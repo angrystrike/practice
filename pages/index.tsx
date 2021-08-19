@@ -19,8 +19,6 @@ interface MyState {
 class Home extends React.Component<MyProps, MyState> {
 
 	public static getInitialProps = wrapper.getInitialAppProps(store => ({ query }) => {
-		console.log('home initial props');
-		
 		store.dispatch(ProductEntity.triggers().fetchFeaturedProducts());
 	});
 

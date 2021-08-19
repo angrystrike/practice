@@ -56,11 +56,8 @@ export default class AuthController extends BaseContext {
     public jwt(req: Request, res: Response, next: NextFunction) {
         return passport.authenticate('jwt', (err, identity: IIdentity) => {
             const isLogged = identity && identity.id ;
-            console.log('acl identity', identity);
             req.identity = identity;
             if (!isLogged) {
-                //identity = clearIdentity()
-
                 req.session.identity = identity;
             }
 
